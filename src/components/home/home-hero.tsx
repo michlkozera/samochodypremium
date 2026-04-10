@@ -1,0 +1,58 @@
+'use client';
+
+import Link from 'next/link';
+import { assets } from '@/data/assets';
+import { HeroBackground, useHeroScroll } from '@/components/home/hero-background';
+import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
+
+export function HomeHero() {
+  const { textRef, bgRef } = useHeroScroll();
+
+  return (
+    <section className="relative isolate h-[100svh] min-h-[600px] overflow-hidden bg-black text-white">
+      {/* Background image with scroll-linked zoom */}
+      <div className="absolute inset-0 overflow-hidden">
+        <HeroBackground src={assets.realizacje01} alt="" bgRef={bgRef} />
+      </div>
+
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.30)_0%,rgba(0,0,0,0.65)_100%)]" />
+
+      {/* Text content with scroll-linked parallax fade */}
+      <div
+        ref={textRef}
+        className="site-shell relative z-10 flex h-full w-full flex-col justify-end pb-10 pt-[calc(var(--site-header-h)+1.5rem)] sm:pb-14 lg:pb-16"
+        style={{ willChange: 'transform, opacity' }}
+      >
+        <MotionReveal
+          className="grid w-full gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(14rem,0.3fr)] lg:items-end lg:gap-12 xl:gap-16"
+          stagger={0.12}
+          amount={0.15}
+        >
+          <div className="grid max-w-4xl gap-5 sm:gap-6">
+            <MotionRevealItem>
+              <p className="eyebrow text-[0.78rem] text-zinc-400 sm:text-[0.7rem]">
+                Warszawa / surowy detal / bezkompromisowa jakość
+              </p>
+            </MotionRevealItem>
+
+            <MotionRevealItem>
+              <h1 className="max-w-[18ch] text-[clamp(2.9rem,9vw,5.2rem)] font-semibold uppercase leading-[1.03] tracking-[-0.03em] [text-wrap:balance] sm:leading-[1.05]">
+                Meble, które definiują przestrzeń.
+              </h1>
+            </MotionRevealItem>
+          </div>
+
+          <MotionRevealItem className="flex justify-end">
+            <Link
+              className="btn-premium-ghost min-h-14 w-full border-white/20 px-10 text-[0.75rem] text-white/80 hover:border-white/50 hover:bg-white hover:text-zinc-950 sm:w-fit"
+              href="/kontakt"
+            >
+              Skontaktuj się
+            </Link>
+          </MotionRevealItem>
+        </MotionReveal>
+      </div>
+    </section>
+  );
+}
