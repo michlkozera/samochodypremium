@@ -1,0 +1,145 @@
+// --------------------------------------------------------------------------
+// Prisma Schema — Samochody Premium
+// --------------------------------------------------------------------------
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// --------------------------------------------------------------------------
+// Status ogłoszenia
+// --------------------------------------------------------------------------
+
+enum VehicleStatus {
+  AVAILABLE // Dostępny
+  RESERVED  // Zarezerwowany
+  SOLD      // Sprzedany
+}
+
+// --------------------------------------------------------------------------
+// Rodzaj paliwa
+// --------------------------------------------------------------------------
+
+enum FuelType {
+  PETROL   // Benzyna
+  DIESEL   // Diesel
+  HYBRID   // Hybryda (plug-in / mild)
+  ELECTRIC // Elektryk
+  LPG      // LPG
+}
+
+// --------------------------------------------------------------------------
+// Skrzynia biegów
+// --------------------------------------------------------------------------
+
+enum Transmission {
+  AUTOMATIC // Automatyczna
+  MANUAL    // Manualna
+}
+
+// --------------------------------------------------------------------------
+// Typ napędu
+// --------------------------------------------------------------------------
+
+enum DriveTrain {
+  FWD // Przód
+  RWD // Tył
+  AWD // 4x4 / Wszystkie koła
+}
+
+// --------------------------------------------------------------------------
+// Typ nadwozia
+// --------------------------------------------------------------------------
+
+enum BodyType {
+  SEDAN       // Sedan
+  SUV         // SUV
+  COUPE       // Coupé
+  CONVERTIBLE // Kabriolet
+  HATCHBACK   // Hatchback
+  ESTATE      // Kombi
+  LIFTBACK    // Liftback
+  PICKUP      // Pickup
+  VAN         // Van
+}
+
+// --------------------------------------------------------------------------
+// Rodzaj faktury VAT
+// --------------------------------------------------------------------------
+
+enum VatType {
+  VAT_23    // Faktura VAT 23%
+  VAT_MARGIN // VAT Marża
+  NONE       // Bez faktury (osoba prywatna)
+}
+
+// --------------------------------------------------------------------------
+// Model pojazdu — główna tabela ogłoszeń
+// --------------------------------------------------------------------------
+
+model Vehicle {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // --- Główne dane ---
+  make       String // Marka (np. Porsche, BMW, Mercedes-Benz)
+  model      String // Model (np. 911, M5, AMG GT)
+  generation String? // Generacja / wersja (np. 992, G30)
+  year       Int // Rok produkcji
+
+  // --- Wygląd i nadwozie ---
+  bodyType   BodyType? // Typ nadwozia
+  color      String?   // Kolor zewnętrzny
+  upholstery String?   // Tapicerka (np. Skóra Merino, Alcantara)
+  doors      Int?      // Liczba drzwi
+  seats      Int?      // Liczba miejsc
+
+  // --- Dane techniczne ---
+  mileage        Int // Przebieg w km
+  engineCapacity Int? // Pojemność silnika w cm³ (null dla elektryków)
+  power          Int // Moc w KM
+  powerUnit      String   @default("KM") // Jednostka mocy (KM / kW)
+  fuelType       FuelType // Rodzaj paliwa
+  transmission   Transmission // Skrzynia biegów
+  driveTrain     DriveTrain // Typ napędu
+
+  // --- Pochodzenie i historia ---
+  originCountry     String?   // Kraj pochodzenia
+  firstRegistration DateTime? // Data pierwszej rejestracji
+  accidentFree      Boolean   @default(false) // Bezwypadkowy
+  serviceHistory    Boolean   @default(false) // Serwisowany w ASO
+
+  // --- Identyfikacja ---
+  vin String @unique // Numer VIN (17 znaków, unikalny)
+
+  // --- Finanse ---
+  price          Decimal        @db.Decimal(12, 2) // Cena
+  currency       String         @default("PLN") // Waluta
+  vatReclaimable Boolean        @default(false) // Faktura VAT 23%
+  vatType        VatType        @default(NONE) // Rodzaj faktury
+
+  // --- Media i opis ---
+  description String? @db.Text // Długi opis ogłoszenia
+  images      String[] // URL-e zdjęć (zewnętrzny hosting)
+
+  // --- Wyposażenie ---
+  features String[] // Lista elementów wyposażenia
+
+  // --- Status ---
+  status VehicleStatus @default(AVAILABLE)
+
+  // --- SEO / URL ---
+  slug String @unique // Przyjazny URL (np. "porsche-911-carrera-s-2024")
+
+  // --- Indeksy ---
+  @@index([status])
+  @@index([make, model])
+  @@index([year])
+  @@index([price])
+  @@index([bodyType])
+}
