@@ -12,7 +12,7 @@ export function HomeHero() {
     <section className="relative isolate h-[100svh] min-h-[600px] overflow-hidden bg-black text-white">
       {/* Background image with scroll-linked zoom */}
       <div className="absolute inset-0 overflow-hidden">
-        <HeroBackground src={assets.realizacje01} alt="" bgRef={bgRef} />
+        <HeroBackground src={assets.heroMain} alt="" bgRef={bgRef} />
       </div>
 
       {/* Gradient overlay */}
@@ -32,24 +32,32 @@ export function HomeHero() {
           <div className="grid max-w-4xl gap-5 sm:gap-6">
             <MotionRevealItem>
               <p className="eyebrow text-[0.78rem] text-zinc-400 sm:text-[0.7rem]">
-                Warszawa / surowy detal / bezkompromisowa jakość
+                Warszawa / wyselekcjonowane egzemplarze / bezkompromisowa jakość
               </p>
             </MotionRevealItem>
 
             <MotionRevealItem>
               <h1 className="max-w-[18ch] text-[clamp(2.9rem,9vw,5.2rem)] font-semibold uppercase leading-[1.03] tracking-[-0.03em] [text-wrap:balance] sm:leading-[1.05]">
-                Meble, które definiują przestrzeń.
+                Wyselekcjonowane Samochody Klasy Premium.
               </h1>
             </MotionRevealItem>
           </div>
 
           <MotionRevealItem className="flex justify-end">
-            <Link
-              className="btn-premium-ghost min-h-14 w-full border-white/20 px-10 text-[0.75rem] text-white/80 hover:border-white/50 hover:bg-white hover:text-zinc-950 sm:w-fit"
-              href="/kontakt"
-            >
-              Skontaktuj się
-            </Link>
+            <div className="flex w-full flex-col gap-3 sm:w-fit sm:flex-row">
+              <Link
+                className="btn-premium-ghost min-h-14 w-full border-white/20 px-10 text-[0.75rem] text-white/80 hover:border-white/50 hover:bg-white hover:text-zinc-950 sm:w-fit"
+                href="/oferta"
+              >
+                Zobacz Ofertę
+              </Link>
+              <Link
+                className="btn-premium-ghost min-h-14 w-full border-white/20 px-10 text-[0.75rem] text-white/80 hover:border-white/50 hover:bg-white hover:text-zinc-950 sm:w-fit"
+                href="/kontakt"
+              >
+                Skontaktuj się
+              </Link>
+            </div>
           </MotionRevealItem>
         </MotionReveal>
       </div>

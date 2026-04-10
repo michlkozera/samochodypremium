@@ -6,9 +6,9 @@ import { ContactForm } from '@/components/kontakt/contact-form';
 import { ContactMap } from '@/components/kontakt/contact-map';
 
 export const metadata: Metadata = {
-  title: 'Kontakt | Meble Premium',
+  title: 'Kontakt | Samochody Premium',
   description:
-    'Kontakt z Meble Premium. Przeslij rzuty, wymiary lub inspiracje, a przygotujemy wstepny kosztorys, technologie i harmonogram prac.',
+    'Kontakt z Samochody Premium. Napisz do nas w sprawie zakupu, odkupu lub finansowania — przygotujemy spersonalizowaną ofertę.',
 };
 
 export default function KontaktPage() {

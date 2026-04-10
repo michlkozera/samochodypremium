@@ -7,9 +7,9 @@ import { ShowcaseSlider } from '@/components/ui/showcase-slider';
 
 const filters = [
   { key: 'all', label: 'Wszystkie' },
-  { key: 'kuchnie', label: 'Kuchnie' },
-  { key: 'garderoby', label: 'Garderoby' },
-  { key: 'salon', label: 'Salon i biuro' },
+  { key: 'sedany', label: 'Sedany' },
+  { key: 'suv', label: 'SUV' },
+  { key: 'sportowe', label: 'Sportowe' },
 ] as const;
 
 type FilterKey = (typeof filters)[number]['key'];

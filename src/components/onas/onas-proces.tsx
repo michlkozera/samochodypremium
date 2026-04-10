@@ -1,9 +1,9 @@
 'use client';
 
+import type { StaticImageData } from 'next/image';
 import { assets } from '@/data/assets';
 import { AppImage } from '@/components/ui/app-image';
 import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
-import type { StaticImageData } from 'next/image';
 
 type Step = {
   index: string;
@@ -15,42 +15,42 @@ type Step = {
 const steps: Step[] = [
   {
     index: '01',
-    title: 'Rozmowa i weryfikacja potrzeb',
+    title: 'Rozmowa i weryfikacja preferencji',
     description:
-      'Analizujemy rzuty, zdjęcia i wytyczne. Określamy zakres, budżet ramowy oraz harmonogram, zanim przejdziemy do projektowania.',
+      'Analizujemy Twoje oczekiwania — markę, budżet, przeznaczenie. Określamy kryteria wyszukiwania, zanim rozpoczniemy selekcję.',
   },
   {
     index: '02',
-    title: 'Pomiar i dokumentacja techniczna',
+    title: 'Selekcja i inspekcja pojazdu',
     description:
-      'Nasz technolog wykonuje pomiar laserowy na miejscu. Dokumentacja trafia do działu projektowego jako punkt zero dla całej realizacji.',
-    image: assets.wycena01,
+      'Każdy samochód przechodzi ponad 150 punktów kontroli technicznej. Weryfikujemy historię serwisową, bazę VIN i stan lakieru.',
+    image: assets.service,
   },
   {
     index: '03',
-    title: 'Projekt koncepcyjny i dobór materiałów',
+    title: 'Detailing i przygotowanie',
     description:
-      'Przygotowujemy wizualizacje i specyfikację materiałową. Każdy fornir, okucie i profil jest konsultowany przed zatwierdzeniem.',
+      'Pojazd przechodzi profesjonalny detailing, korektę lakieru i czyszczenie wnętrza. Prezentujemy auto w stanie showroomowym.',
   },
   {
     index: '04',
-    title: 'Produkcja w manufakturze',
+    title: 'Jazda testowa i prezentacja',
     description:
-      'Elementy powstają na maszynach CNC i przechodzą ręczne wykończenie. Kontrola jakości na każdym etapie — od rozkroju po lakierowanie.',
-    image: assets.materialy01,
+      'Organizujemy indywidualną jazdę testową. Omawiamy szczegóły techniczne, historię i stan pojazdu — bez pośpiechu.',
+    image: assets.sport01,
   },
   {
     index: '05',
-    title: 'Logistyka i transport',
+    title: 'Finansowanie i formalności',
     description:
-      'Gotowe elementy pakujemy w dedykowane zabezpieczenia. Koordynujemy dostawę z harmonogramem budowy — bez przestojów.',
+      'Pomagamy dobrać najlepsze finansowanie — gotówka, leasing, kredyt. Załatwiamy ubezpieczenie i rejestrację w jednym miejscu.',
   },
   {
     index: '06',
-    title: 'Montaż i odbiór końcowy',
+    title: 'Wydanie pojazdu',
     description:
-      'Montaż prowadzi ten sam zespół, który projektował i produkował. Odbiór kończymy wspólną inspekcją i protokołem jakości.',
-    image: assets.realizacje03,
+      'Auto przekazujemy z pełną dokumentacją, gwarancją i pakietem powitalnym. Relacja nie kończy się na sprzedaży.',
+    image: assets.handover,
   },
 ];
 
@@ -64,7 +64,7 @@ export function OnasProces() {
             <div className="grid gap-4">
               <p className="eyebrow">Proces</p>
               <h2 className="section-title">
-                Jak prowadzimy realizację od A do Z.
+                Jak prowadzimy zakup od A do Z.
               </h2>
             </div>
           </MotionRevealItem>

@@ -11,7 +11,7 @@ export function OnasHero() {
   return (
     <section className="relative isolate h-[100svh] min-h-[600px] overflow-hidden bg-black text-white">
       <div className="absolute inset-0 overflow-hidden">
-        <HeroBackground src={assets.realizacje01} alt="" bgRef={bgRef} />
+        <HeroBackground src={assets.heroOnas} alt="" bgRef={bgRef} />
       </div>
 
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.30)_0%,rgba(0,0,0,0.65)_100%)]" />
@@ -37,13 +37,13 @@ export function OnasHero() {
 
             <MotionRevealItem>
               <h1 className="max-w-[18ch] text-[clamp(2.9rem,9vw,5.2rem)] font-semibold uppercase leading-[1.03] tracking-[-0.03em] [text-wrap:balance] sm:leading-[1.05]">
-                Monolit zbudowany z precyzji.
+                Salon zbudowany na zaufaniu.
               </h1>
             </MotionRevealItem>
 
             <MotionRevealItem>
               <p className="max-w-xl text-base leading-[1.85] text-zinc-300 sm:text-base sm:leading-[1.85]">
-                Interdyscyplinarny zespół, który łączy projektowanie, technologię i rzemiosło w jeden niepodzielny standard realizacji.
+                Zespół ekspertów motoryzacji, który łączy pasję, doświadczenie i transparentność w jeden niepodzielny standard obsługi.
               </p>
             </MotionRevealItem>
           </div>

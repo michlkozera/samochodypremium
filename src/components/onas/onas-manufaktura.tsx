@@ -17,19 +17,19 @@ export function OnasManufaktura() {
           {/* Text column */}
           <div className="flex flex-col justify-center gap-8 py-4 pr-0 lg:py-10 lg:pr-14 xl:pr-20">
             <MotionRevealItem preset="slide-left">
-              <p className="eyebrow text-zinc-500">Manufaktura</p>
+              <p className="eyebrow text-zinc-500">Salon</p>
             </MotionRevealItem>
 
             <MotionRevealItem preset="blur-fade" duration={1}>
               <h2 className="max-w-[16ch] text-[clamp(1.85rem,5vw,3.4rem)] font-semibold uppercase leading-[1.05] tracking-[-0.02em] [text-wrap:balance]">
-                Warsztat zamknięty w jednym standardzie produkcji.
+                Salon zbudowany wokół jednego standardu obsługi.
               </h2>
             </MotionRevealItem>
 
             <MotionRevealItem preset="fade-up">
               <p className="body-copy max-w-lg">
-                Każdy element powstaje w naszej manufakturze pod Warszawą. Kontrolujemy cały łańcuch — od doboru
-                surowca, przez obróbkę CNC i ręczne wykończenie, po logistykę i montaż na miejscu. Żaden etap nie
+                Każdy samochód w naszej ofercie przechodzi pełną weryfikację w naszym centrum w Warszawie. Kontrolujemy cały łańcuch — od historii
+                pojazdu, przez inspekcję techniczną i detailing, po przygotowanie dokumentacji. Żaden etap nie
                 wychodzi poza nasz nadzór.
               </p>
             </MotionRevealItem>
@@ -37,9 +37,9 @@ export function OnasManufaktura() {
             <MotionRevealItem preset="slide-left">
               <div className="grid gap-px sm:grid-cols-3">
                 {[
-                  { value: '800 m²', label: 'powierzchni produkcyjnej' },
-                  { value: 'CNC', label: 'precyzja obróbki' },
-                  { value: '100%', label: 'kontroli jakości' },
+                  { value: '1500 m²', label: 'powierzchni ekspozycyjnej' },
+                  { value: '150+', label: 'punktów inspekcji' },
+                  { value: '100%', label: 'weryfikowanych pojazdów' },
                 ].map((stat) => (
                   <div
                     className="grid gap-2 border-t border-zinc-200/60 py-5 pr-5 sm:first:border-t"
@@ -58,7 +58,7 @@ export function OnasManufaktura() {
 
             <MotionRevealItem>
               <Link className="btn-premium w-full sm:w-fit" href="/kontakt">
-                Umów wizytę w warsztacie
+                Umów wizytę w salonie
               </Link>
             </MotionRevealItem>
           </div>
@@ -66,11 +66,11 @@ export function OnasManufaktura() {
           {/* Image column */}
           <MotionRevealItem className="relative min-h-[50vw] overflow-hidden lg:min-h-[540px]" preset="clip-up" duration={1.2}>
             <AppImage
-              alt="Wnętrze manufaktury Meble Premium"
+              alt="Wnętrze salonu Samochody Premium"
               className="h-full w-full object-cover"
               loading="lazy"
               sizes="(max-width: 1024px) 100vw, 50vw"
-              src={assets.warsztat}
+              src={assets.showroom}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
           </MotionRevealItem>

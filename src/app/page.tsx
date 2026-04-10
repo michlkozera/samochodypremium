@@ -10,9 +10,9 @@ import { AppImage } from '@/components/ui/app-image';
 import { HomeHero } from '@/components/home/home-hero';
 
 export const metadata: Metadata = {
-  title: 'Meble Premium | Architektoniczne meble na wymiar w Warszawie',
+  title: 'Samochody Premium | Wyselekcjonowane auta klasy premium w Warszawie',
   description:
-    'Projektujemy, produkujemy i montujemy surowe, precyzyjne meble na wymiar. Kuchnie, garderoby, zabudowy salonowe i realizacje B2B w architektonicznym standardzie.',
+    'Oferujemy starannie wyselekcjonowane samochody klasy premium. Każdy egzemplarz z pełną historią serwisową, gwarancją pochodzenia i bezkompromisową jakością.',
 };
 
 export default function HomePage() {
@@ -30,10 +30,10 @@ export default function HomePage() {
           <div className="site-shell grid gap-8 lg:gap-10">
             <div className="grid gap-4">
               <p className="eyebrow" data-reveal="up">
-                Realizacje
+                Nasze realizacje
               </p>
               <h2 className="section-title" data-reveal="up">
-                Wybrane projekty zbudowane na ostrych podziałach.
+                Wyselekcjonowane egzemplarze z naszego portfolio.
               </h2>
             </div>
 
@@ -46,10 +46,10 @@ export default function HomePage() {
           <div className="site-shell grid gap-8 xl:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] xl:items-center xl:gap-10">
             <div className="grid max-w-xl gap-5" data-reveal="up">
               <p className="eyebrow">Oferta</p>
-              <h2 className="section-title max-w-[8ch]">Oferta rozpisana jak czysty system zabudów.</h2>
+              <h2 className="section-title max-w-[8ch]">Cztery kategorie aut premium w jednym salonie.</h2>
               <p className="body-copy max-w-lg">
-                Każdy zakres prowadzimy tym samym reżimem: mocny podział, cienka linia, surowy detal i jedna odpowiedzialność
-                od pomiaru po montaż. Po lewej szybki start, po prawej główne obszary realizacji.
+                Sedany, SUV-y, sportowe i elektryczne — każdy pojazd przechodzi naszą wielopunktową inspekcję,
+                ma potwierdzoną historię i jest objęty gwarancją dealerską.
               </p>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <a className="btn-premium w-full sm:w-fit" href="/kontakt">
@@ -61,12 +61,12 @@ export default function HomePage() {
               </div>
               <div className="grid gap-px sm:grid-cols-2">
                 <div className="grid gap-2 py-4 sm:py-5 sm:pr-5">
-                  <span className="eyebrow text-zinc-400">Zakres</span>
-                  <p className="text-sm leading-7 text-zinc-600">Cztery główne obszary realizacji ustawione w jednym rytmie decyzji.</p>
+                  <span className="eyebrow text-zinc-400">Kategorie</span>
+                  <p className="text-sm leading-7 text-zinc-600">Sedany, SUV-y, sportowe, elektryczne — cztery główne segmenty naszej oferty.</p>
                 </div>
                 <div className="grid gap-2 border-t border-zinc-200/60 py-4 sm:border-l sm:border-t-0 sm:py-5 sm:pl-5">
-                  <span className="eyebrow text-zinc-400">Tryb pracy</span>
-                  <p className="text-sm leading-7 text-zinc-600">Bez zdjęć i ozdobników. Tylko czysty układ, tekst i szybkie przejście dalej.</p>
+                  <span className="eyebrow text-zinc-400">Standard</span>
+                  <p className="text-sm leading-7 text-zinc-600">Każdy pojazd z pełną historią, gwarancją i profesjonalnym przygotowaniem.</p>
                 </div>
               </div>
             </div>
@@ -81,14 +81,14 @@ export default function HomePage() {
 
             <figure className="onas-image-wrap group relative hidden overflow-hidden lg:block lg:min-h-0" data-reveal="up">
               <AppImage
-                alt="Wnętrze z zabudową o surowym, architektonicznym charakterze"
+                alt="Salon samochodowy Samochody Premium w Warszawie"
                 className="onas-image h-full w-full object-cover"
                 loading="lazy"
-                src={assets.salon}
+                src={assets.showroom}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/5 to-transparent" />
               <figcaption className="absolute inset-x-0 bottom-0 hidden p-5 sm:block sm:p-6 lg:p-8">
-                <span className="eyebrow text-zinc-400">O manufakturze</span>
+                <span className="eyebrow text-zinc-400">O salonie</span>
               </figcaption>
             </figure>
 
@@ -96,11 +96,11 @@ export default function HomePage() {
               <div className="grid gap-5 pt-2">
                 <p className="eyebrow" data-reveal="up" style={{ transitionDelay: '100ms' }}>O nas</p>
                 <h2 className="section-title tracking-tight" data-reveal="up" style={{ transitionDelay: '200ms' }}>
-                  Manufaktura zamknięta w jednym reżimie jakości.
+                  Dealer premium zamknięty w jednym standardzie jakości.
                 </h2>
                 <p className="body-copy max-w-2xl" data-reveal="up" style={{ transitionDelay: '300ms' }}>
-                  Własny, zamknięty proces pozwala nam utrzymać bezwzględną linię podziałów, najwyższą jakość materiału i
-                  pełną odpowiedzialność za efekt końcowy.
+                  Ponad dekada doświadczenia w obrocie samochodami premium pozwala nam utrzymać najwyższy standard
+                  selekcji, pełną transparentność historii i bezkompromisową jakość obsługi.
                 </p>
               </div>
 
@@ -113,10 +113,10 @@ export default function HomePage() {
                     {index === 0 ? (
                       <figure className="relative overflow-hidden lg:hidden">
                         <AppImage
-                          alt="Wnętrze z zabudową o surowym, architektonicznym charakterze"
+                          alt="Salon samochodowy Samochody Premium"
                           className="aspect-[16/10] w-full object-cover"
                           loading="lazy"
-                          src={assets.salon}
+                          src={assets.showroom}
                         />
                       </figure>
                     ) : null}
@@ -133,9 +133,9 @@ export default function HomePage() {
                 <div className="border-t border-zinc-200/60 pt-5" />
                 <div className="grid grid-cols-2 gap-x-4 gap-y-5 sm:grid-cols-3 sm:gap-6">
                   {[
-                    ['15', 'lat praktyki'],
-                    ['450+', 'realizacji'],
-                    ['100%', 'odpowiedzialności'],
+                    ['12', 'lat na rynku'],
+                    ['800+', 'sprzedanych aut'],
+                    ['100%', 'zweryfikowanych'],
                   ].map(([num, label]) => (
                     <div key={label} className="grid min-w-0 gap-1">
                       <span className="text-[clamp(1.6rem,3vw,2.4rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-950">
@@ -146,7 +146,7 @@ export default function HomePage() {
                   ))}
                 </div>
                 <a className="btn-premium w-full sm:w-fit" href="/onas">
-                  Poznaj manufakturę
+                  Poznaj nasz salon
                 </a>
               </div>
             </div>
@@ -159,10 +159,10 @@ export default function HomePage() {
             <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
               <div className="grid gap-4">
                 <p className="eyebrow text-zinc-500" data-reveal="up">
-                  Wycena
+                  Finansowanie
                 </p>
                 <h2 className="section-title text-white" data-reveal="up">
-                  Cztery kroki do decyzji o realizacji.
+                  Cztery kroki do Twojego nowego auta.
                 </h2>
               </div>
               <a
@@ -170,7 +170,7 @@ export default function HomePage() {
                 data-reveal="up"
                 href="/wycena"
               >
-                Pełna podstrona wyceny
+                Sprzedaj swoje auto
               </a>
             </div>
 

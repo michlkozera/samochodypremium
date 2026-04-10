@@ -11,39 +11,39 @@ const DEFAULT_OPEN_INDEX = 1;
 const offerCards = [
   {
     detail:
-      'Prowadzimy uklad roboczy, material i detal tak, aby kuchnia pracowala jak stala architektura wnetrza, a nie osobny obiekt.',
+      'Klasa, komfort i prestiż w każdym detalu. Sedany premium wyselekcjonowane pod kątem stanu technicznego, historii i wyposażenia.',
     href: '/oferta',
-    hrefLabel: 'Zobacz zakres kuchni',
-    meta: '01 / Strefa dzienna',
-    note: 'Wyspy, wysokie piony i spokojna elewacja frontow.',
-    title: 'Kuchnie na wymiar',
+    hrefLabel: 'Zobacz sedany',
+    meta: '01 / Sedany',
+    note: 'Mercedes, BMW, Audi i inne marki premium.',
+    title: 'Sedany premium',
   },
   {
     detail:
-      'Kazdy modul porzadkujemy pod rytm codzienny: od wysokosci frontow i wewnetrznej organizacji po ukryte oswietlenie i cichy detal.',
+      'Przestronność, moc i wszechstronność. SUV-y i crossovery z segmentu premium, gotowe na każdą drogę i każdy styl życia.',
     href: '/oferta',
-    hrefLabel: 'Poznaj garderoby',
-    meta: '02 / Przechowywanie',
-    note: 'Walk-in, zabudowy wnekowe i precyzyjny porzadek.',
-    title: 'Garderoby i szafy',
+    hrefLabel: 'Poznaj SUV-y',
+    meta: '02 / SUV',
+    note: 'Range Rover, Porsche Cayenne, Mercedes GLE.',
+    title: 'SUV-y i crossovery',
   },
   {
     detail:
-      'Projektujemy biblioteki, moduly RTV i sciany meblowe tak, aby sprzet, przechowywanie i ekspozycja pracowaly w jednym rytmie podzialow.',
+      'Emocje za kierownicą na najwyższym poziomie. Samochody sportowe z potwierdzoną historią i bezkompromisowymi osiągami.',
     href: '/oferta',
-    hrefLabel: 'Sprawdz zabudowy dzienne',
-    meta: '03 / Salon',
-    note: 'RTV, biblioteki i zabudowy domykajace caly uklad.',
-    title: 'Salon i biblioteki',
+    hrefLabel: 'Sprawdź sportowe',
+    meta: '03 / Sportowe',
+    note: 'Porsche 911, BMW M, Mercedes AMG.',
+    title: 'Samochody sportowe',
   },
   {
     detail:
-      'W realizacjach mokrych i komercyjnych liczy sie odpornosc, powtarzalnosc i technologia gotowa na intensywna eksploatacje oraz wieksza skale.',
+      'Przyszłość motoryzacji dostępna już dziś. Pojazdy elektryczne i hybrydowe od najlepszych producentów, z gwarancją baterii.',
     href: '/oferta',
-    hrefLabel: 'Otworz pelna oferte',
-    meta: '04 / Wieksze zakresy',
-    note: 'Lazienki, recepcje i wdrozenia B2B w jednym standardzie.',
-    title: 'Lazienki i B2B',
+    hrefLabel: 'Otwórz pełną ofertę',
+    meta: '04 / Elektryczne',
+    note: 'Tesla, Porsche Taycan, Mercedes EQ, BMW i.',
+    title: 'Elektryczne i hybrydy',
   },
 ] as const;
 

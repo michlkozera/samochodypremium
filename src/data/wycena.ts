@@ -1,67 +1,67 @@
 export const quoteFaqItems = [
   {
-    question: 'Czy ta wycena jest ostateczna?',
+    question: 'Jak szybko otrzymam wycenę mojego samochodu?',
     answer:
-      'Nie. To scenariusz orientacyjny, który porządkuje zakres. Finalna wycena jest domykana po decyzjach materiałowych i wykonawczych.',
+      'Wstępną wycenę przygotowujemy w ciągu 24 godzin od otrzymania zdjęć i danych pojazdu. Wycena finalna następuje po oględzinach na miejscu.',
   },
   {
-    question: 'Czy mogę zacząć bez kompletnego projektu architekta?',
-    answer: 'Tak. Wystarczy orientacyjny metraż i opis funkcji. Braki doprecyzujemy podczas rozmowy roboczej.',
+    question: 'Czy mogę zamienić swój samochód na inny z oferty?',
+    answer: 'Tak. Oferujemy pełny trade-in — wyceniamy Twój samochód i rozliczamy go na poczet zakupu nowego egzemplarza z naszej oferty.',
   },
   {
-    question: 'Co najbardziej zmienia koszt realizacji?',
+    question: 'Co wpływa na wartość mojego samochodu?',
     answer:
-      'Najmocniej działa poziom detalu, rodzaj frontów, systemy wewnętrzne i stopień personalizacji całej zabudowy.',
+      'Kluczowe czynniki to marka, model, rocznik, przebieg, stan techniczny i wizualny, historia serwisowa oraz kompletność dokumentacji.',
   },
   {
-    question: 'Jak szybko mogę dostać odpowiedź?',
-    answer: 'Zwykle wracamy z odpowiedzią roboczą do 48h od momentu otrzymania konkretnych danych projektowych.',
+    question: 'Jak przebiega proces odkupu?',
+    answer: 'Wysyłasz zdjęcia i dane → otrzymujesz wstępną ofertę → umawiamy oględziny → finalna wycena → podpisanie umowy i płatność w dniu transakcji.',
   },
 ] as const;
 
 export const quoteFlowSteps = [
   {
     step: '01',
-    label: 'Brief i zakres',
+    label: 'Zgłoszenie',
     eyebrow: 'Etap 01 / wejście',
-    title: 'Brief i zakres',
+    title: 'Wyślij dane pojazdu',
     summary:
-      'W tym momencie porządkujemy funkcje, metraż, styl i poziom detalu, aby uniknąć chaosu na kolejnych etapach.',
-    deliverable: 'checklista projektu + scenariusz kosztu',
-    control: 'zakres / priorytety / budżet',
-    time: '1-2 dni',
+      'Wypełnij formularz lub wyślij zdjęcia i podstawowe dane samochodu. Na tej podstawie przygotujemy wstępną wycenę.',
+    deliverable: 'wstępna oferta cenowa w 24h',
+    control: 'marka / model / rocznik / przebieg / stan',
+    time: '24 godziny',
   },
   {
     step: '02',
-    label: 'Rysunek i materiał',
-    eyebrow: 'Etap 02 / decyzje',
-    title: 'Rysunek i materiał',
+    label: 'Oględziny',
+    eyebrow: 'Etap 02 / weryfikacja',
+    title: 'Inspekcja na miejscu',
     summary:
-      'Po akceptacji kierunku zamykamy logikę podziałów, materiał i detale, które bezpośrednio wpływają na koszt i termin.',
-    deliverable: 'rysunek wykonawczy + konfiguracja materiałowa',
-    control: 'linie / okucia / wykończenie',
-    time: '3-5 dni',
+      'Umawiamy wygodny termin oględzin. Nasz ekspert sprawdza stan techniczny, lakier, wnętrze i dokumentację pojazdu.',
+    deliverable: 'raport techniczny + finalna wycena',
+    control: 'lakier / mechanika / dokumenty / VIN',
+    time: '1 wizyta / 45 min',
   },
   {
     step: '03',
-    label: 'Produkcja',
-    eyebrow: 'Etap 03 / warsztat',
-    title: 'Produkcja',
+    label: 'Oferta',
+    eyebrow: 'Etap 03 / decyzja',
+    title: 'Finalna wycena i warunki',
     summary:
-      'Elementy są przygotowywane w kolejności montażowej, z kontrolą spasowania przed transportem na inwestycję.',
-    deliverable: 'komplet elementów gotowych do montażu',
-    control: 'powtarzalność / tolerancje / jakość',
-    time: '4-7 tygodni',
+      'Przedstawiamy ostateczną ofertę odkupu. Możesz zdecydować o sprzedaży za gotówkę lub zamianie na inny egzemplarz z naszej oferty.',
+    deliverable: 'umowa + forma płatności',
+    control: 'gotówka / przelew / trade-in',
+    time: 'decyzja w Twoim tempie',
   },
   {
     step: '04',
-    label: 'Montaż i odbiór',
+    label: 'Realizacja',
     eyebrow: 'Etap 04 / finał',
-    title: 'Montaż i odbiór',
+    title: 'Płatność i formalności',
     summary:
-      'Finalny etap domyka geometrię, regulacje i odbiór techniczny. Tu weryfikujemy, czy projekt działa tak, jak został zaplanowany.',
-    deliverable: 'montaż finalny + odbiór',
-    control: 'spasowanie / piony / regulacje',
-    time: '1-3 dni',
+      'Podpisujemy umowę, realizujemy płatność i załatwiamy wszystkie formalności — przerejestrowanie, wyrejestrowanie i dokumenty.',
+    deliverable: 'płatność w dniu podpisania umowy',
+    control: 'umowa / płatność / dokumenty / rejestracja',
+    time: '1 dzień roboczy',
   },
 ] as const;

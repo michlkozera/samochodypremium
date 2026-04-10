@@ -3,9 +3,9 @@ import { SitePage } from '@/components/layout/site-page';
 import { WycenaHero } from '@/components/wycena/wycena-hero';
 
 export const metadata: Metadata = {
-  title: 'Wycena | Meble Premium',
+  title: 'Odkup | Samochody Premium',
   description:
-    'Interaktywna podstrona wyceny mebli na wymiar. Sprawdz scenariusze kosztowe, poznaj etapy wdrozenia i przejdz do kontaktu.',
+    'Sprzedaj swój samochód premium. Interaktywny kalkulator odkupu, transparentna wycena i szybka realizacja w ciągu 48 godzin.',
 };
 
 export default function WycenaPage() {

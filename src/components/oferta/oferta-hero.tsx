@@ -12,7 +12,7 @@ export function OfertaHero() {
     <section className="relative isolate h-[100svh] min-h-[600px] overflow-hidden bg-black text-white">
       {/* Background image with scroll-linked zoom */}
       <div className="absolute inset-0 overflow-hidden">
-        <HeroBackground src={assets.realizacje01} alt="" bgRef={bgRef} />
+        <HeroBackground src={assets.heroOferta} alt="" bgRef={bgRef} />
       </div>
 
       {/* Gradient overlay */}
@@ -40,13 +40,13 @@ export function OfertaHero() {
 
             <MotionRevealItem>
               <h1 className="max-w-[18ch] text-[clamp(2.9rem,9vw,5.2rem)] font-semibold uppercase leading-[1.03] tracking-[-0.03em] [text-wrap:balance] sm:leading-[1.05]">
-                Oferta zbudowana w rygorze architektury.
+                Samochody wyselekcjonowane z precyzją.
               </h1>
             </MotionRevealItem>
 
             <MotionRevealItem>
               <p className="max-w-xl text-base leading-[1.85] text-zinc-300 sm:text-base sm:leading-[1.85]">
-                Kuchnie, garderoby, zabudowy salonowe i realizacje B2B — każdy zakres prowadzimy tym samym standardem od pomiaru po montaż.
+                Sedany, SUV-y, sportowe i elektryczne — każdy pojazd przechodzi wieloetapową weryfikację, zanim trafi do naszej oferty.
               </p>
             </MotionRevealItem>
           </div>

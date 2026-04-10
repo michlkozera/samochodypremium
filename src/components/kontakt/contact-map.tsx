@@ -24,7 +24,7 @@ export function ContactMap() {
             </div>
             <MotionRevealItem>
               <p className="body-copy max-w-md lg:ml-auto">
-                Nasz warsztat i biuro projektowe znajdziesz pod adresem{' '}
+                Nasz salon i centrum serwisowe znajdziesz pod adresem{' '}
                 <span className="font-semibold text-zinc-950">{contactAddress}</span>.
                 Zapraszamy po wcześniejszym umówieniu wizyty.
               </p>
@@ -41,7 +41,7 @@ export function ContactMap() {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${query}&zoom=15`}
-              title="Lokalizacja Meble Premium"
+              title="Lokalizacja Samochody Premium"
             />
           </div>
         </MotionRevealItem>

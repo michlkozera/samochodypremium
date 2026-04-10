@@ -11,7 +11,7 @@ export function WycenaHero() {
   return (
     <section className="relative isolate h-[100svh] min-h-[600px] overflow-hidden bg-black text-white">
       <div className="absolute inset-0 overflow-hidden">
-        <HeroBackground src={assets.realizacje01} alt="" bgRef={bgRef} />
+        <HeroBackground src={assets.heroOdkup} alt="" bgRef={bgRef} />
       </div>
 
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.30)_0%,rgba(0,0,0,0.65)_100%)]" />
@@ -31,19 +31,19 @@ export function WycenaHero() {
               <p className="eyebrow text-[0.78rem] text-zinc-400 sm:text-[0.7rem]">
                 <Link href="/" className="transition-colors duration-200 hover:text-white">Start</Link>
                 {' '}/{' '}
-                Wycena
+                Odkup
               </p>
             </MotionRevealItem>
 
             <MotionRevealItem>
               <h1 className="max-w-[18ch] text-[clamp(2.9rem,9vw,5.2rem)] font-semibold uppercase leading-[1.03] tracking-[-0.03em] [text-wrap:balance] sm:leading-[1.05]">
-                Wycena w trybie decyzji, nie domysłów.
+                Odkup w trybie decyzji, nie domysłów.
               </h1>
             </MotionRevealItem>
 
             <MotionRevealItem>
               <p className="max-w-xl text-base leading-[1.85] text-zinc-300 sm:text-base sm:leading-[1.85]">
-                Scenariusz techniczny, mapa procesu i czytelny kosztorys — wszystko w ciągu 48 godzin od pierwszego kontaktu.
+                Wycena Twojego auta, transparentna oferta i szybka realizacja — wszystko w ciągu 48 godzin od pierwszego kontaktu.
               </p>
             </MotionRevealItem>
           </div>

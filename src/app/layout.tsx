@@ -10,9 +10,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Meble Premium',
+  title: 'Samochody Premium',
   description:
-    'Projektujemy, produkujemy i montujemy surowe, precyzyjne meble na wymiar w architektonicznym standardzie.',
+    'Wyselekcjonowane samochody klasy premium w Warszawie. Pełna historia serwisowa, gwarancja pochodzenia i bezkompromisowa jakość obsługi.',
 };
 
 export const viewport: Viewport = {

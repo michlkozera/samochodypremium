@@ -91,7 +91,7 @@ export function ContactForm() {
               Formularz / 02
             </p>
             <h2 className="max-w-[14ch] text-[clamp(2rem,5.5vw,3.8rem)] font-semibold uppercase leading-[0.95] tracking-[-0.04em] text-white">
-              Twój projekt zaczyna się tutaj.
+            Twój samochód zaczyna się tutaj.
             </h2>
           </div>
           <div
@@ -99,7 +99,7 @@ export function ContactForm() {
             style={getDelay(1)}
           >
             <p className="max-w-md text-[0.94rem] leading-[1.8] text-zinc-400">
-              Skontaktuj się w sprawie inwestycji — napisz do nas,
+              Skontaktuj się w sprawie zakupu lub odkupu — napisz do nas,
               a odpowiemy z konkretnym planem rozmowy i dalszego procesu.
             </p>
             <div className="flex flex-wrap gap-8">
@@ -107,18 +107,18 @@ export function ContactForm() {
                 <span className="text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-zinc-500">Telefon</span>
                 <a
                   className="text-sm font-semibold tracking-[-0.02em] text-white transition-colors duration-200 hover:text-zinc-300"
-                  href="tel:+48123456789"
+                  href="tel:+48221002000"
                 >
-                  +48 123 456 789
+                  +48 22 100 20 00
                 </a>
               </div>
               <div className="grid gap-1">
                 <span className="text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-zinc-500">Email</span>
                 <a
                   className="text-sm font-semibold tracking-[-0.02em] text-white transition-colors duration-200 hover:text-zinc-300"
-                  href="mailto:kontakt@meblepremium.pl"
+                  href="mailto:kontakt@samochodypremium.pl"
                 >
-                  kontakt@meblepremium.pl
+                  kontakt@samochodypremium.pl
                 </a>
               </div>
             </div>
@@ -170,9 +170,9 @@ export function ContactForm() {
               />
             </FormField>
 
-            <FormField id="cf-scope" index="04" label="Zakres projektu" visible={visible} delay={getDelay(4)}>
+            <FormField id="cf-scope" index="04" label="Zainteresowanie" visible={visible} delay={getDelay(4)}>
               <div className="grid grid-cols-3 gap-2.5 py-2 sm:gap-3">
-                {['Kuchnia', 'Garderoba', 'Salon', 'Lazienka', 'Biuro', 'Inne'].map((scope) => (
+                {['Sedan', 'SUV', 'Sportowy', 'Elektryczny', 'Odkup', 'Inne'].map((scope) => (
                   <label className="contact-chip" key={scope}>
                     <input className="peer sr-only" name="scope" type="checkbox" value={scope.toLowerCase()} />
                     <span className="contact-chip-label contact-chip-label--lg">{scope}</span>
@@ -183,12 +183,12 @@ export function ContactForm() {
           </div>
 
           {/* Full-width textarea */}
-          <FormField id="cf-details" index="05" label="Szczegoly projektu" visible={visible} delay={getDelay(5)}>
+          <FormField id="cf-details" index="05" label="Szczegoly" visible={visible} delay={getDelay(5)}>
             <textarea
               className="contact-input contact-input--lg min-h-44 py-3 sm:min-h-52"
               id="cf-details"
               name="details"
-              placeholder="Orientacyjne wymiary, materialy, termin realizacji, styl, linki do referencji — im wiecej szczegolow, tym szybciej przygotujemy roboczy plan."
+              placeholder="Marka, model, rocznik, budżet, forma finansowania — im więcej szczegółów, tym szybciej przygotujemy propozycję."
               required
             />
           </FormField>
@@ -205,7 +205,7 @@ export function ContactForm() {
               <button className="button-primary min-h-14 w-full px-10 sm:w-fit" type="submit">
                 Wyslij zapytanie
               </button>
-              <a className="button-secondary min-h-14 w-full px-10 sm:w-fit" href="tel:+48123456789">
+              <a className="button-secondary min-h-14 w-full px-10 sm:w-fit" href="tel:+48221002000">
                 Zadzwon teraz
               </a>
             </div>

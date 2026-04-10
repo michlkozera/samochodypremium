@@ -5,7 +5,7 @@ import type { StaticImageData } from 'next/image';
 import { AppImage } from '@/components/ui/app-image';
 
 type HeroBackgroundProps = {
-  src: StaticImageData;
+  src: string | StaticImageData;
   alt: string;
 };
 

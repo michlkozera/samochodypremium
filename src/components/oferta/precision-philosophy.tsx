@@ -65,11 +65,11 @@ export function PrecisionPhilosophy() {
                 style={{ transform: 'scale(1)' }}
               >
                 <AppImage
-                  alt="Precyzja wykończenia — detal zabudowy"
+                  alt="Inspekcja techniczna pojazdu premium"
                   className="h-full w-full object-cover"
                   loading="lazy"
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  src={assets.realizacje04}
+                  src={assets.detail01}
                 />
               </div>
             </div>
@@ -84,7 +84,7 @@ export function PrecisionPhilosophy() {
 
             <MotionRevealItem preset="blur-fade" duration={1}>
               <h2 className="max-w-[18ch] text-[clamp(1.85rem,5vw,3.4rem)] font-semibold uppercase leading-[1.05] tracking-[-0.02em] [text-wrap:balance]">
-                Trzy zasady, które definiują każdą realizację.
+                Trzy zasady, które definiują każdy samochód w ofercie.
               </h2>
             </MotionRevealItem>
 

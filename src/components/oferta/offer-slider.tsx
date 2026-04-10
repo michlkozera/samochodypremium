@@ -50,8 +50,8 @@ const itemVariants: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.38, ease: softEase } },
 };
 
-const TAB_LABELS = ['Kuchnie', 'Garderoby', 'Salon i biblioteki', 'B2B'] as const;
-const TAB_SHORT = ['Kuch.', 'Gard.', 'Salon', 'B2B'] as const;
+const TAB_LABELS = ['Sedany', 'SUV-y', 'Sportowe', 'Elektryczne'] as const;
+const TAB_SHORT = ['Sed.', 'SUV', 'Sport', 'Elek.'] as const;
 
 export function OfferSlider() {
   const [index, setIndex] = useState(0);

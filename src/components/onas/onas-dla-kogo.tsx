@@ -5,33 +5,33 @@ import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
 const reasons = [
   {
     index: '01',
-    title: 'Potrzebujesz mebli, które idealnie wpasują się w architekturę wnętrza',
+    title: 'Szukasz samochodu premium z gwarancją stanu technicznego',
     description:
-      'Standardowe rozwiązania nie oddają charakteru Twojej przestrzeni. Projektujemy zabudowy milimetrowo dopasowane do każdego kąta i niszy.',
+      'Każdy pojazd w naszej ofercie przechodzi wieloetapową inspekcję. Nie sprzedajemy aut — sprzedajemy pewność.',
   },
   {
     index: '02',
-    title: 'Zależy Ci na materiałach najwyższej klasy i trwałości na lata',
+    title: 'Zależy Ci na transparentnej historii pojazdu',
     description:
-      'Pracujemy wyłącznie z certyfikowanymi dostawcami. Fornir, lite drewno, kamień — każdy surowiec przechodzi naszą wewnętrzną kontrolę jakości.',
+      'Pełna dokumentacja serwisowa, raport z bazy VIN i niezależna weryfikacja — bez ukrytych niespodzianek po zakupie.',
   },
   {
     index: '03',
-    title: 'Cenisz jeden punkt odpowiedzialności za cały proces',
+    title: 'Cenisz kompleksową obsługę od A do Z',
     description:
-      'Od pomiaru, przez projekt i produkcję, po montaż — prowadzisz rozmowę z jednym zespołem, który odpowiada za efekt końcowy.',
+      'Od doboru auta, przez finansowanie i ubezpieczenie, po rejestrację — cały proces zamykamy w jednym punkcie kontaktu.',
   },
   {
     index: '04',
-    title: 'Realizujesz inwestycję deweloperską lub obiekt komercyjny',
+    title: 'Prowadzisz firmę i potrzebujesz floty premium',
     description:
-      'Obsługujemy kontrakty B2B z harmonogramem i dokumentacją techniczną. Skala projektu nie zmienia naszego standardu wykonania.',
+      'Obsługujemy klientów biznesowych z dedykowanym opiekunem. Leasing, wynajem długoterminowy, obsługa flotowa.',
   },
   {
     index: '05',
-    title: 'Oczekujesz surowej, bezkompromisowej estetyki bez zbędnych ozdobników',
+    title: 'Chcesz sprzedać swoje auto szybko i uczciwie',
     description:
-      'Czyste podziały, ostre krawędzie, zero szumu wizualnego. Tworzymy meble, które definiują przestrzeń, a nie ją dekorują.',
+      'Nasz program odkupu to wycena w 24h, uczciwa oferta i błyskawiczna realizacja. Bez targowania, bez stresu.',
   },
 ];
 
@@ -46,14 +46,14 @@ export function OnasDlaKogo() {
               <div className="grid gap-4">
                 <p className="eyebrow">Dla kogo</p>
                 <h2 className="text-[clamp(1.85rem,5vw,3.4rem)] font-semibold uppercase leading-[1.05] tracking-[-0.02em] [text-wrap:balance]">
-                  Manufaktura dla wymagających inwestorów.
+                  Salon dla wymagających kierowców.
                 </h2>
               </div>
             </MotionRevealItem>
             <MotionRevealItem preset="slide-right">
               <p className="body-copy max-w-xl lg:text-right">
-                Nie pracujemy dla wszystkich. Pracujemy dla tych, którzy traktują wnętrze
-                jak długoterminową inwestycję w jakość i precyzję.
+                Nie pracujemy dla wszystkich. Pracujemy dla tych, którzy traktują samochód
+                jak długoterminową inwestycję w jakość i komfort.
               </p>
             </MotionRevealItem>
           </div>

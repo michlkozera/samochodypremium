@@ -93,14 +93,14 @@ export function SiteHeader({ page }: SiteHeaderProps) {
         <div className="site-shell">
           <div className="grid h-14 grid-cols-[auto_1fr_auto] items-center gap-3 sm:h-16">
             <Link
-              aria-label="Meble Premium — strona główna"
-              className={[
+            aria-label="Samochody Premium — strona główna"
+                className={[
                 'inline-flex items-center text-[0.82rem] font-semibold uppercase tracking-[0.28em] transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2',
                 isTransparent || isMenuOpen ? 'text-white hover:text-white/70' : 'text-zinc-950 hover:text-zinc-500',
               ].join(' ')}
               href="/"
             >
-              Meble Premium
+              Samochody Premium
             </Link>
 
             <nav aria-label="Nawigacja glowna" className="hidden justify-self-end md:flex md:flex-wrap md:justify-end md:gap-2">
@@ -185,7 +185,7 @@ export function SiteHeader({ page }: SiteHeaderProps) {
 
           <div className="mt-auto grid gap-3 border-t border-white/10 pt-6">
             <span className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-white/40">
-              Meble Premium — Warszawa
+              Samochody Premium — Warszawa
             </span>
           </div>
         </div>
