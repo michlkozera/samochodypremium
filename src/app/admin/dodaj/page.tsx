@@ -1,7 +1,12 @@
+import { redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import Link from 'next/link';
 import VehicleForm from '@/app/admin/_components/vehicle-form';
 
-export default function AddVehiclePage() {
+export default async function AddVehiclePage() {
+  const session = await getServerSession(authOptions);
+  if (!session) redirect('/ukryty-dostep');
   return (
     <div className="min-h-dvh bg-graphite-950 text-white">
       <header className="border-b border-white/[0.06] bg-white/[0.02] backdrop-blur-md">

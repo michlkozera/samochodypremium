@@ -112,7 +112,15 @@ function parseFormData(formData: FormData) {
     vatType: str('vatType'),
     status: str('status'),
     description: str('description'),
-    images: csv('images'),
+    images: (() => {
+      const raw = formData.get('images')?.toString().trim() || '[]';
+      try {
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? (parsed as string[]).filter(Boolean) : [];
+      } catch {
+        return raw.split(',').map((s: string) => s.trim()).filter(Boolean);
+      }
+    })(),
     features: csv('features'),
   };
 }
