@@ -89,7 +89,16 @@ type RangeFieldProps = {
   onChangeTo: (value: string) => void;
 };
 
-function RangeField({ id, label, minPlaceholder, maxPlaceholder, valueFrom, valueTo, onChangeFrom, onChangeTo }: RangeFieldProps) {
+function RangeField({
+  id,
+  label,
+  minPlaceholder,
+  maxPlaceholder,
+  valueFrom,
+  valueTo,
+  onChangeFrom,
+  onChangeTo,
+}: RangeFieldProps) {
   return (
     <div className="grid gap-2">
       <span className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-zinc-500">
@@ -156,6 +165,10 @@ export function CatalogClient({ vehicles, filterOptions }: CatalogClientProps) {
     });
   }, [vehicles, filters]);
 
+  // Key changes when filtered set changes — forces MotionReveal remount
+  // so newly revealed items animate correctly after filter reset
+  const gridKey = filteredVehicles.map((v) => v.id).join(',');
+
   return (
     <>
       {/* ── Filters ── */}
@@ -166,14 +179,14 @@ export function CatalogClient({ vehicles, filterOptions }: CatalogClientProps) {
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div className="grid gap-3">
                 <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center gap-2 border border-zinc-200 bg-white px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-zinc-700">
+                  <span className="inline-flex items-center border border-zinc-200 bg-white px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-zinc-700">
                     Selekcja premium
                   </span>
-                  <span className="inline-flex items-center gap-2 border border-zinc-200 bg-white px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-zinc-700">
+                  <span className="inline-flex items-center border border-zinc-200 bg-white px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-zinc-700">
                     {filteredVehicles.length} z {vehicles.length} aktywnych ofert
                   </span>
                   {hasActiveFilters && (
-                    <span className="inline-flex items-center gap-2 border border-zinc-950 bg-zinc-950 px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white">
+                    <span className="inline-flex items-center border border-zinc-950 bg-zinc-950 px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white">
                       Filtry aktywne
                     </span>
                   )}
@@ -294,7 +307,7 @@ export function CatalogClient({ vehicles, filterOptions }: CatalogClientProps) {
               <p className="max-w-2xl leading-[1.75]">
                 Filtry działają w czasie rzeczywistym — wyniki aktualizują się natychmiast po zmianie parametrów.
               </p>
-              <span className="font-semibold uppercase tracking-[0.18em] text-zinc-400 whitespace-nowrap">
+              <span className="whitespace-nowrap font-semibold uppercase tracking-[0.18em] text-zinc-400">
                 {filteredVehicles.length} / {vehicles.length} pojazdów
               </span>
             </div>
@@ -322,6 +335,7 @@ export function CatalogClient({ vehicles, filterOptions }: CatalogClientProps) {
 
           {filteredVehicles.length > 0 ? (
             <MotionReveal
+              key={gridKey}
               amount={0.08}
               className="grid gap-px bg-zinc-200 sm:grid-cols-2"
               stagger={0.08}

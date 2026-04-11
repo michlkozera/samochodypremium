@@ -35,13 +35,8 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0.06)_28%,rgba(0,0,0,0.48)_100%)]" />
 
         {/* Status badge */}
-        <div className="absolute left-0 top-0 flex">
-          {vehicle.featured && (
-            <span className="border-b border-r border-white/20 bg-white/90 px-2.5 py-1.5 text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-zinc-950">
-              Wyróżnione
-            </span>
-          )}
-          <span className="border-b border-r border-white/20 bg-black/50 px-2.5 py-1.5 text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-sm">
+        <div className="absolute left-0 top-0">
+          <span className="inline-block border-b border-r border-white/20 bg-black/50 px-2.5 py-1.5 text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-sm">
             {vehicle.statusLabel}
           </span>
         </div>
@@ -85,7 +80,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
               {vehicle.make} {vehicle.model}
             </h3>
           </Link>
-          <p className="text-[0.82rem] leading-[1.7] text-zinc-500 line-clamp-2">
+          <p className="line-clamp-2 text-[0.82rem] leading-[1.7] text-zinc-500">
             {vehicle.shortDescription}
           </p>
         </div>
@@ -97,10 +92,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
             ['Przebieg', `${formatMileage(vehicle.mileage)} km`],
             ['Moc', `${vehicle.power} KM`],
           ].map(([label, value]) => (
-            <div
-              className="bg-white px-2.5 py-2.5"
-              key={label}
-            >
+            <div className="bg-white px-2.5 py-2.5" key={label}>
               <span className="block text-[0.56rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">
                 {label}
               </span>

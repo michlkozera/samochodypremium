@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import { SitePage } from '@/components/layout/site-page';
 import { VehicleGallery } from '@/components/katalog/vehicle-gallery';
 import { VehicleInfo } from '@/components/katalog/vehicle-info';
@@ -38,34 +39,59 @@ export default async function VehicleDetailPage({ params }: PageProps) {
   return (
     <SitePage headerMode="solid" page="oferta" pageClass="page-oferta-detail">
       <main className="flex flex-col">
-        <section className="border-b border-zinc-200/60 bg-[radial-gradient(circle_at_top_left,rgba(244,244,245,0.95),rgba(255,255,255,0.98)_48%,rgba(250,250,250,0.95)_100%)] pt-[calc(var(--site-header-h)+1.25rem)]">
-          <div className="site-shell py-6 sm:py-8 lg:py-10">
+
+        {/* ── Hero: gallery + info ── */}
+        <section className="border-b border-zinc-200/60 bg-white pt-[calc(var(--site-header-h)+1.5rem)]">
+          <div className="site-shell py-8 sm:py-10 lg:py-12">
             <MotionReveal
-              amount={0.15}
+              amount={0.12}
               className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-10 xl:gap-14"
-              stagger={0.12}
+              stagger={0.14}
             >
-              <MotionRevealItem preset="slide-left">
+              <MotionRevealItem preset="slide-left" duration={0.9}>
                 <VehicleGallery
                   alt={`${vehicle.make} ${vehicle.model}`}
                   images={vehicle.images}
                 />
               </MotionRevealItem>
-              <MotionRevealItem preset="slide-right">
+
+              <MotionRevealItem preset="slide-right" duration={0.9}>
                 <VehicleInfo vehicle={vehicle} />
               </MotionRevealItem>
             </MotionReveal>
           </div>
         </section>
 
+        {/* ── Specs ── */}
         <VehicleSpecs specs={vehicle.specs} />
 
+        {/* ── Equipment ── */}
         <VehicleEquipment
           description={vehicle.description}
           features={vehicle.features}
         />
 
+        {/* ── Contact form ── */}
         <VehicleContact vehicle={vehicle} />
+
+        {/* ── Back to catalog ── */}
+        <section className="border-b border-zinc-200/60 bg-zinc-950 py-10 sm:py-12">
+          <div className="site-shell flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="grid gap-2">
+              <p className="eyebrow text-zinc-500">Przeglądaj dalej</p>
+              <p className="text-[0.94rem] font-semibold uppercase tracking-[-0.02em] text-white">
+                Wróć do katalogu i odkryj więcej pojazdów.
+              </p>
+            </div>
+            <Link
+              className="btn-premium-light w-full sm:w-fit"
+              href="/oferta"
+            >
+              Cały katalog
+            </Link>
+          </div>
+        </section>
+
       </main>
     </SitePage>
   );
