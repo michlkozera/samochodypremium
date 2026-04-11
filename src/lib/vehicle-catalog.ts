@@ -27,6 +27,7 @@ export type CatalogVehicle = {
   engineCapacity: number | null;
   fuelTypeLabel: string;
   transmissionLabel: string;
+  bodyTypeLabel: string;
   price: number;
   image: string | null;
   shortDescription: string;
@@ -158,6 +159,7 @@ function buildCatalogVehicle(vehicle: Vehicle): CatalogVehicle {
     engineCapacity: vehicle.engineCapacity,
     fuelTypeLabel: fuelTypeLabel(vehicle.fuelType),
     transmissionLabel: transmissionLabel(vehicle.transmission),
+    bodyTypeLabel: bodyTypeLabel(vehicle.bodyType as BodyType | null),
     price: Number(vehicle.price),
     image: coverImage,
     shortDescription: buildShortDescription(vehicle),

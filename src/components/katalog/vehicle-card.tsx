@@ -12,9 +12,10 @@ type VehicleCardProps = {
 
 export function VehicleCard({ vehicle }: VehicleCardProps) {
   return (
-    <article className="offer-surface group flex h-full flex-col" data-interactive="true">
+    <article className="group flex h-full flex-col border border-zinc-200 bg-white transition-colors duration-300 hover:border-zinc-400">
+      {/* Image */}
       <Link
-        className="relative m-3 block aspect-[16/10] overflow-hidden rounded-[1.35rem] bg-zinc-100"
+        className="relative block aspect-[16/10] overflow-hidden bg-zinc-100"
         href={`/oferta/${vehicle.slug}`}
       >
         {vehicle.image ? (
@@ -22,94 +23,101 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
             alt={`${vehicle.make} ${vehicle.model}`}
             className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes="(max-width: 640px) 100vw, 50vw"
             src={vehicle.image}
           />
         ) : (
           <div className="flex h-full items-center justify-center text-sm text-zinc-400">
-            Brak zdjecia
+            Brak zdjęcia
           </div>
         )}
 
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.08)_0%,rgba(15,23,42,0.08)_28%,rgba(15,23,42,0.54)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0.06)_28%,rgba(0,0,0,0.48)_100%)]" />
 
-        <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-          {vehicle.featured ? (
-            <span className="offer-chip border-white/20 bg-white/88 text-zinc-950">
-              Wyróznione
+        {/* Status badge */}
+        <div className="absolute left-0 top-0 flex">
+          {vehicle.featured && (
+            <span className="border-b border-r border-white/20 bg-white/90 px-2.5 py-1.5 text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-zinc-950">
+              Wyróżnione
             </span>
-          ) : null}
-          <span className="offer-chip border-white/16 bg-black/45 text-white">
+          )}
+          <span className="border-b border-r border-white/20 bg-black/50 px-2.5 py-1.5 text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-sm">
             {vehicle.statusLabel}
           </span>
         </div>
 
-        <div className="absolute inset-x-4 bottom-4">
-          <div className="flex items-end justify-between gap-3 rounded-[1.15rem] border border-white/14 bg-black/28 px-4 py-3 text-white backdrop-blur-md">
-            <div className="grid gap-1">
-              <span className="text-[0.62rem] font-medium uppercase tracking-[0.18em] text-white/60">
-                Cena brutto
-              </span>
-              <span className="text-lg font-semibold tracking-[-0.03em] sm:text-[1.3rem]">
-                {formatPrice(vehicle.price)} PLN
-              </span>
-            </div>
-            <span className="text-right text-[0.68rem] font-medium uppercase tracking-[0.16em] text-white/70">
-              {vehicle.year}
+        {/* Price overlay */}
+        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between px-4 pb-4">
+          <div className="border border-white/20 bg-black/45 px-3 py-2 backdrop-blur-sm">
+            <span className="block text-[0.56rem] font-medium uppercase tracking-[0.18em] text-white/60">
+              Cena brutto
+            </span>
+            <span className="block text-base font-semibold tracking-[-0.02em] text-white sm:text-[1.15rem]">
+              {formatPrice(vehicle.price)} PLN
             </span>
           </div>
+          <span className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-white/70">
+            {vehicle.year}
+          </span>
         </div>
       </Link>
 
-      <div className="flex flex-1 flex-col gap-5 px-5 pb-5 pt-1 sm:px-6 sm:pb-6">
-        <div className="flex flex-wrap gap-2">
-          <span className="offer-chip">{vehicle.fuelTypeLabel}</span>
-          <span className="offer-chip">{vehicle.transmissionLabel}</span>
+      {/* Content */}
+      <div className="flex flex-1 flex-col gap-4 p-4 sm:p-5">
+        {/* Tags */}
+        <div className="flex flex-wrap gap-1.5">
+          {[vehicle.fuelTypeLabel, vehicle.transmissionLabel, vehicle.bodyTypeLabel !== 'Nie podano' ? vehicle.bodyTypeLabel : null]
+            .filter(Boolean)
+            .map((tag) => (
+              <span
+                key={tag}
+                className="border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-zinc-600"
+              >
+                {tag}
+              </span>
+            ))}
         </div>
 
-        <div className="grid gap-2.5">
-          <Link className="group/link inline-flex w-fit" href={`/oferta/${vehicle.slug}`}>
-            <h3 className="text-[1.02rem] font-semibold leading-tight tracking-[-0.02em] text-zinc-950 transition-colors duration-300 group-hover/link:text-zinc-600 sm:text-[1.08rem]">
+        {/* Title */}
+        <div className="grid gap-2">
+          <Link href={`/oferta/${vehicle.slug}`}>
+            <h3 className="text-[0.95rem] font-semibold uppercase leading-tight tracking-[-0.01em] text-zinc-950 transition-colors duration-200 hover:text-zinc-500 sm:text-[1rem]">
               {vehicle.make} {vehicle.model}
             </h3>
           </Link>
-          <p className="text-[0.85rem] leading-[1.75] text-zinc-500">
+          <p className="text-[0.82rem] leading-[1.7] text-zinc-500 line-clamp-2">
             {vehicle.shortDescription}
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-2.5">
+        {/* Specs grid */}
+        <div className="grid grid-cols-3 gap-px bg-zinc-200">
           {[
             ['Rocznik', String(vehicle.year)],
             ['Przebieg', `${formatMileage(vehicle.mileage)} km`],
             ['Moc', `${vehicle.power} KM`],
-            [
-              'Silnik',
-              vehicle.engineCapacity ? `${(vehicle.engineCapacity / 1000).toFixed(1)} l` : 'EV',
-            ],
-            ['Paliwo', vehicle.fuelTypeLabel],
-            ['Skrzynia', vehicle.transmissionLabel],
           ].map(([label, value]) => (
             <div
-              className="rounded-[1.1rem] border border-zinc-100 bg-white/75 px-3 py-3"
+              className="bg-white px-2.5 py-2.5"
               key={label}
             >
-              <span className="block text-[0.58rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">
+              <span className="block text-[0.56rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">
                 {label}
               </span>
-              <span className="mt-1 block text-[0.8rem] font-semibold leading-tight text-zinc-900">
+              <span className="mt-1 block text-[0.78rem] font-semibold leading-tight text-zinc-900">
                 {value}
               </span>
             </div>
           ))}
         </div>
 
-        <div className="mt-auto pt-1">
+        {/* CTA */}
+        <div className="mt-auto">
           <Link
-            className="btn-premium h-11 min-h-0 w-full justify-center px-5 text-[0.64rem]"
+            className="inline-flex h-10 w-full items-center justify-center border border-zinc-950 bg-zinc-950 px-5 text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-white transition-colors duration-200 hover:bg-white hover:text-zinc-950"
             href={`/oferta/${vehicle.slug}`}
           >
-            Zobacz szczegoly
+            Zobacz szczegóły
           </Link>
         </div>
       </div>
