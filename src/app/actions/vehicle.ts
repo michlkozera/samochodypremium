@@ -1,28 +1,29 @@
 'use server';
 
+import { Prisma, VehicleStatus } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
+import { deleteCloudinaryImages } from '@/lib/cloudinary';
+import { requireAdminSession } from '@/lib/admin-session';
 import {
-  FuelType,
-  Transmission,
-  DriveTrain,
-  VehicleStatus,
-  BodyType,
-  VatType,
-  VehicleCondition,
-} from '@prisma/client';
-import type { Vehicle } from '@prisma/client';
-
-/* ------------------------------------------------------------------ */
-/*  Types                                                              */
-/* ------------------------------------------------------------------ */
+  buildVehiclePersistenceData,
+  flattenVehicleFieldErrors,
+  getPrimaryImageUrl,
+  serializeVehicle,
+  validateVehicleForm,
+  type SerializedVehicle,
+  type VehicleFieldErrors,
+} from '@/lib/vehicle-form';
 
 export interface ActionState {
   success: boolean;
   message?: string;
   error?: string;
+  fieldErrors?: VehicleFieldErrors;
 }
+
+export type AdminVehicleStatusFilter = 'ALL' | VehicleStatus;
 
 export type VehicleRow = {
   id: string;
@@ -30,204 +31,169 @@ export type VehicleRow = {
   model: string;
   year: number;
   price: number;
-  status: string;
-  images: string[];
+  status: VehicleStatus;
+  primaryImageUrl: string | null;
   slug: string;
   mileage: number;
-};
-
-export type SerializedVehicle = Omit<Vehicle, 'price' | 'createdAt' | 'updatedAt' | 'firstRegistration'> & {
-  price: number;
-  createdAt: string;
+  vinSuffix: string;
   updatedAt: string;
-  firstRegistration: string | null;
+  imageCount: number;
 };
 
-/* ------------------------------------------------------------------ */
-/*  Helpers                                                            */
-/* ------------------------------------------------------------------ */
+export type AdminVehicleListResult = {
+  vehicles: VehicleRow[];
+  totalItems: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  query: string;
+  status: AdminVehicleStatusFilter;
+  counts: {
+    all: number;
+    available: number;
+    reserved: number;
+    sold: number;
+  };
+};
 
-function slugify(make: string, model: string, year: number): string {
+type AdminVehicleListParams = {
+  page?: number;
+  pageSize?: number;
+  query?: string;
+  status?: AdminVehicleStatusFilter;
+};
+
+function slugify(make: string, model: string, year: number) {
   return `${make}-${model}-${year}`
     .toLowerCase()
-    .replace(/[ąàáâã]/g, 'a')
-    .replace(/[ćčç]/g, 'c')
-    .replace(/[ęèéêë]/g, 'e')
-    .replace(/[łľ]/g, 'l')
-    .replace(/[ńñ]/g, 'n')
-    .replace(/[óòôõö]/g, 'o')
-    .replace(/[śšş]/g, 's')
-    .replace(/[úùûü]/g, 'u')
-    .replace(/[żźž]/g, 'z')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 }
 
-function toEnum<T extends Record<string, string>>(
-  value: string | null,
-  enumObj: T,
-): T[keyof T] | undefined {
-  if (!value) return undefined;
-  return Object.values(enumObj).includes(value)
-    ? (value as T[keyof T])
-    : undefined;
-}
-
-function parseFormData(formData: FormData) {
-  const str = (key: string) => formData.get(key)?.toString().trim() || null;
-  const req = (key: string) => formData.get(key)?.toString().trim();
-  const num = (key: string) => {
-    const v = formData.get(key)?.toString().trim();
-    return v ? Number(v) : null;
-  };
-  const bool = (key: string) => formData.get(key) === 'on';
-  const csv = (key: string) =>
-    (formData.get(key)?.toString().trim() || '')
-      .split(',')
-      .map((s) => s.trim())
-      .filter(Boolean);
-
-  return {
-    make: req('make'),
-    model: req('model'),
-    generation: str('generation'),
-    year: num('year'),
-    vin: req('vin'),
-    mileage: num('mileage'),
-    engineCapacity: num('engineCapacity'),
-    power: num('power'),
-    fuelType: str('fuelType'),
-    transmission: str('transmission'),
-    driveTrain: str('driveTrain'),
-    bodyType: str('bodyType'),
-    color: str('color'),
-    upholstery: str('upholstery'),
-    doors: num('doors'),
-    seats: num('seats'),
-    originCountry: str('originCountry'),
-    firstRegistration: str('firstRegistration'),
-    firstOwner: bool('firstOwner'),
-    registeredInPoland: bool('registeredInPoland'),
-    registrationNumber: str('registrationNumber'),
-    condition: str('condition'),
-    accidentFree: bool('accidentFree'),
-    serviceHistory: bool('serviceHistory'),
-    price: num('price'),
-    vatReclaimable: bool('vatReclaimable'),
-    vatType: str('vatType'),
-    status: str('status'),
-    description: str('description'),
-    images: (() => {
-      const raw = formData.get('images')?.toString().trim() || '[]';
-      try {
-        const parsed = JSON.parse(raw);
-        return Array.isArray(parsed) ? (parsed as string[]).filter(Boolean) : [];
-      } catch {
-        return raw.split(',').map((s: string) => s.trim()).filter(Boolean);
-      }
-    })(),
-    features: csv('features'),
-  };
-}
-
-function validateAndBuild(raw: ReturnType<typeof parseFormData>) {
-  if (!raw.make || !raw.model || !raw.year || !raw.mileage || !raw.power || !raw.vin || !raw.price) {
-    return { error: 'Wypełnij wszystkie wymagane pola.' };
-  }
-
-  if ([raw.year, raw.mileage, raw.power, raw.price].some((v) => v === null || Number.isNaN(v))) {
-    return { error: 'Pola numeryczne muszą zawierać poprawne liczby.' };
-  }
-
-  const fuelType = toEnum(raw.fuelType, FuelType);
-  const transmission = toEnum(raw.transmission, Transmission);
-  const driveTrain = toEnum(raw.driveTrain, DriveTrain);
-  const status = toEnum(raw.status, VehicleStatus) ?? VehicleStatus.AVAILABLE;
-  const bodyType = toEnum(raw.bodyType, BodyType) ?? null;
-  const vatType = toEnum(raw.vatType, VatType) ?? VatType.NONE;
-  const condition = toEnum(raw.condition, VehicleCondition) ?? VehicleCondition.USED;
-
-  if (!fuelType || !transmission || !driveTrain) {
-    return { error: 'Wybierz poprawne wartości paliwa, skrzyni biegów i napędu.' };
-  }
-
-  if (raw.vin.length !== 17) {
-    return { error: 'Numer VIN musi mieć dokładnie 17 znaków.' };
-  }
-
-  const firstRegistration = raw.firstRegistration ? new Date(raw.firstRegistration) : null;
-
-  return {
-    data: {
-      make: raw.make,
-      model: raw.model,
-      generation: raw.generation,
-      year: raw.year!,
-      mileage: raw.mileage!,
-      engineCapacity: raw.engineCapacity,
-      power: raw.power!,
-      fuelType,
-      transmission,
-      driveTrain,
-      bodyType,
-      color: raw.color,
-      upholstery: raw.upholstery,
-      doors: raw.doors,
-      seats: raw.seats,
-      originCountry: raw.originCountry,
-      firstRegistration,
-      firstOwner: raw.firstOwner,
-      registeredInPoland: raw.registeredInPoland,
-      registrationNumber: raw.registrationNumber,
-      condition,
-      accidentFree: raw.accidentFree,
-      serviceHistory: raw.serviceHistory,
-      vin: raw.vin,
-      price: raw.price!,
-      vatReclaimable: raw.vatReclaimable,
-      vatType,
-      status,
-      description: raw.description,
-      images: raw.images,
-      features: raw.features,
-    },
-  };
-}
-
-function serializeVehicle(v: Vehicle): SerializedVehicle {
-  return {
-    ...v,
-    firstOwner: Boolean(v.firstOwner),
-    registeredInPoland: Boolean(v.registeredInPoland),
-    registrationNumber: v.registrationNumber ?? null,
-    condition: v.condition as SerializedVehicle['condition'],
-    price: Number(v.price),
-    createdAt: v.createdAt.toISOString(),
-    updatedAt: v.updatedAt.toISOString(),
-    firstRegistration: v.firstRegistration?.toISOString() ?? null,
-  };
-}
-
-function serializeRow(v: Pick<Vehicle, 'id' | 'make' | 'model' | 'year' | 'price' | 'status' | 'images' | 'slug' | 'mileage'>): VehicleRow {
-  return { ...v, price: Number(v.price) };
-}
-
-async function resolveSlug(make: string, model: string, year: number, excludeId?: string) {
+async function resolveUniqueSlug(make: string, model: string, year: number, excludeId?: string) {
   const baseSlug = slugify(make, model, year);
-  const existing = await prisma.vehicle.findUnique({
-    where: { slug: baseSlug },
-    select: { id: true },
-  });
-  if (!existing || existing.id === excludeId) return baseSlug;
-  return `${baseSlug}-${Math.random().toString(36).slice(2, 7)}`;
+
+  for (let attempt = 0; attempt < 50; attempt += 1) {
+    const candidate = attempt === 0 ? baseSlug : `${baseSlug}-${attempt + 1}`;
+    const existing = await prisma.vehicle.findUnique({
+      where: { slug: candidate },
+      select: { id: true },
+    });
+
+    if (!existing || existing.id === excludeId) {
+      return candidate;
+    }
+  }
+
+  return `${baseSlug}-${crypto.randomUUID().slice(0, 8)}`;
 }
 
-/* ------------------------------------------------------------------ */
-/*  CRUD Actions                                                       */
-/* ------------------------------------------------------------------ */
+function buildAdminVehicleWhere({
+  query,
+  status,
+}: Pick<AdminVehicleListParams, 'query' | 'status'>): Prisma.VehicleWhereInput {
+  const trimmedQuery = query?.trim() ?? '';
+  const filters: Prisma.VehicleWhereInput[] = [];
 
-export async function getVehicles(): Promise<VehicleRow[]> {
+  if (status && status !== 'ALL') {
+    filters.push({ status });
+  }
+
+  if (trimmedQuery) {
+    filters.push({
+      OR: [
+        { make: { contains: trimmedQuery, mode: 'insensitive' } },
+        { model: { contains: trimmedQuery, mode: 'insensitive' } },
+        { vin: { contains: trimmedQuery.toUpperCase(), mode: 'insensitive' } },
+      ],
+    });
+  }
+
+  return filters.length > 0 ? { AND: filters } : {};
+}
+
+function toActionError(error: unknown): ActionState {
+  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    if (error.code === 'P2002') {
+      const targets = Array.isArray(error.meta?.target)
+        ? error.meta.target.map(String)
+        : [String(error.meta?.target ?? '')];
+
+      if (targets.includes('vin')) {
+        return {
+          success: false,
+          error: 'Pojazd o tym numerze VIN juz istnieje.',
+          fieldErrors: {
+            vin: ['Pojazd o tym numerze VIN juz istnieje.'],
+          },
+        };
+      }
+
+      if (targets.includes('slug')) {
+        return {
+          success: false,
+          error: 'Wystal konflikt adresu URL oferty. Sprobuj zapisac ponownie.',
+        };
+      }
+    }
+
+    if (error.code === 'P2025') {
+      return {
+        success: false,
+        error: 'Nie znaleziono wskazanego pojazdu.',
+      };
+    }
+  }
+
+  if (error instanceof Error) {
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+
+  return {
+    success: false,
+    error: 'Wystapil nieznany blad.',
+  };
+}
+
+function revalidateVehiclePaths(currentSlug?: string, previousSlug?: string) {
+  revalidatePath('/admin');
+  revalidatePath('/oferta');
+
+  if (previousSlug) {
+    revalidatePath(`/oferta/${previousSlug}`);
+  }
+
+  if (currentSlug) {
+    revalidatePath(`/oferta/${currentSlug}`);
+  }
+}
+
+export async function getVehicles(params: AdminVehicleListParams = {}): Promise<AdminVehicleListResult> {
+  await requireAdminSession();
+
+  const pageSize = Math.min(Math.max(params.pageSize ?? 12, 1), 50);
+  const requestedPage = Math.max(params.page ?? 1, 1);
+  const query = params.query?.trim() ?? '';
+  const status = params.status ?? 'ALL';
+  const where = buildAdminVehicleWhere({ query, status });
+
+  const [totalItems, availableCount, reservedCount, soldCount] = await prisma.$transaction([
+    prisma.vehicle.count({ where }),
+    prisma.vehicle.count({ where: { status: VehicleStatus.AVAILABLE } }),
+    prisma.vehicle.count({ where: { status: VehicleStatus.RESERVED } }),
+    prisma.vehicle.count({ where: { status: VehicleStatus.SOLD } }),
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+  const page = Math.min(requestedPage, totalPages);
+
   const rows = await prisma.vehicle.findMany({
+    where,
     select: {
       id: true,
       make: true,
@@ -236,15 +202,50 @@ export async function getVehicles(): Promise<VehicleRow[]> {
       price: true,
       status: true,
       images: true,
+      primaryImageIndex: true,
       slug: true,
       mileage: true,
+      vin: true,
+      updatedAt: true,
     },
-    orderBy: { createdAt: 'desc' },
+    orderBy: [{ status: 'asc' }, { updatedAt: 'desc' }],
+    skip: (page - 1) * pageSize,
+    take: pageSize,
   });
-  return rows.map(serializeRow);
+
+  return {
+    vehicles: rows.map((vehicle) => ({
+      id: vehicle.id,
+      make: vehicle.make,
+      model: vehicle.model,
+      year: vehicle.year,
+      price: Number(vehicle.price),
+      status: vehicle.status,
+      primaryImageUrl: getPrimaryImageUrl(vehicle.images, vehicle.primaryImageIndex),
+      slug: vehicle.slug,
+      mileage: vehicle.mileage,
+      vinSuffix: vehicle.vin.slice(-5),
+      updatedAt: vehicle.updatedAt.toISOString(),
+      imageCount: vehicle.images.length,
+    })),
+    totalItems,
+    page,
+    pageSize,
+    totalPages,
+    query,
+    status,
+    counts: {
+      all: availableCount + reservedCount + soldCount,
+      available: availableCount,
+      reserved: reservedCount,
+      sold: soldCount,
+    },
+  };
 }
 
 export async function getVehicleById(id: string): Promise<SerializedVehicle | null> {
+  await requireAdminSession();
+
   const vehicle = await prisma.vehicle.findUnique({ where: { id } });
   return vehicle ? serializeVehicle(vehicle) : null;
 }
@@ -253,65 +254,141 @@ export async function addVehicle(
   _prevState: ActionState | null,
   formData: FormData,
 ): Promise<ActionState> {
-  const raw = parseFormData(formData);
-  const result = validateAndBuild(raw);
+  await requireAdminSession();
 
-  if ('error' in result) return { success: false, error: result.error };
+  const validation = validateVehicleForm(formData);
 
-  const { data } = result;
-
-  try {
-    const slug = await resolveSlug(data.make, data.model, data.year);
-    await prisma.vehicle.create({ data: { ...data, slug } });
-  } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : 'Nieznany błąd bazy danych.';
-    if (msg.includes('Unique constraint') && msg.includes('vin')) {
-      return { success: false, error: 'Pojazd o tym numerze VIN już istnieje.' };
-    }
-    return { success: false, error: msg };
+  if (!validation.success) {
+    return {
+      success: false,
+      error: 'Popraw oznaczone pola i sprobuj ponownie.',
+      fieldErrors: flattenVehicleFieldErrors(validation.error),
+    };
   }
 
-  revalidatePath('/admin');
-  redirect('/admin');
+  const data = buildVehiclePersistenceData(validation.data);
+
+  try {
+    const slug = await resolveUniqueSlug(data.make, data.model, data.year);
+    const createdVehicle = await prisma.vehicle.create({
+      data: { ...data, slug },
+      select: { slug: true },
+    });
+
+    revalidateVehiclePaths(createdVehicle.slug);
+  } catch (error) {
+    return toActionError(error);
+  }
+
+  redirect('/admin?saved=1');
 }
 
 export async function updateVehicle(
   _prevState: ActionState | null,
   formData: FormData,
 ): Promise<ActionState> {
+  await requireAdminSession();
+
   const id = formData.get('id')?.toString();
-  if (!id) return { success: false, error: 'Brak identyfikatora pojazdu.' };
 
-  const raw = parseFormData(formData);
-  const result = validateAndBuild(raw);
-
-  if ('error' in result) return { success: false, error: result.error };
-
-  const { data } = result;
-
-  try {
-    const slug = await resolveSlug(data.make, data.model, data.year, id);
-    await prisma.vehicle.update({ where: { id }, data: { ...data, slug } });
-  } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : 'Nieznany błąd bazy danych.';
-    if (msg.includes('Unique constraint') && msg.includes('vin')) {
-      return { success: false, error: 'Pojazd o tym numerze VIN już istnieje.' };
-    }
-    return { success: false, error: msg };
+  if (!id) {
+    return { success: false, error: 'Brak identyfikatora pojazdu.' };
   }
 
-  revalidatePath('/admin');
-  redirect('/admin');
+  const validation = validateVehicleForm(formData);
+
+  if (!validation.success) {
+    return {
+      success: false,
+      error: 'Popraw oznaczone pola i sprobuj ponownie.',
+      fieldErrors: flattenVehicleFieldErrors(validation.error),
+    };
+  }
+
+  const existingVehicle = await prisma.vehicle.findUnique({
+    where: { id },
+    select: {
+      slug: true,
+      imagePublicIds: true,
+    },
+  });
+
+  if (!existingVehicle) {
+    return { success: false, error: 'Nie znaleziono pojazdu do edycji.' };
+  }
+
+  const data = buildVehiclePersistenceData(validation.data);
+  const removedImagePublicIds = existingVehicle.imagePublicIds.filter(
+    (publicId) => !data.imagePublicIds.includes(publicId),
+  );
+
+  try {
+    const slug = await resolveUniqueSlug(data.make, data.model, data.year, id);
+    const updatedVehicle = await prisma.vehicle.update({
+      where: { id },
+      data: { ...data, slug },
+      select: { slug: true },
+    });
+
+    await deleteCloudinaryImages(removedImagePublicIds);
+    revalidateVehiclePaths(updatedVehicle.slug, existingVehicle.slug);
+  } catch (error) {
+    return toActionError(error);
+  }
+
+  redirect('/admin?saved=1');
 }
 
 export async function deleteVehicle(id: string): Promise<ActionState> {
-  try {
-    await prisma.vehicle.delete({ where: { id } });
-  } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : 'Nieznany błąd.';
-    return { success: false, error: msg };
+  await requireAdminSession();
+
+  const existingVehicle = await prisma.vehicle.findUnique({
+    where: { id },
+    select: {
+      slug: true,
+      imagePublicIds: true,
+    },
+  });
+
+  if (!existingVehicle) {
+    return { success: false, error: 'Nie znaleziono pojazdu do usuniecia.' };
   }
 
-  revalidatePath('/admin');
-  return { success: true, message: 'Pojazd usunięty.' };
+  try {
+    await prisma.vehicle.delete({ where: { id } });
+    const cleanupResult = await deleteCloudinaryImages(existingVehicle.imagePublicIds);
+    revalidateVehiclePaths(undefined, existingVehicle.slug);
+
+    return {
+      success: true,
+      message:
+        cleanupResult.skipped.length > 0
+          ? 'Pojazd usuniety, ale czesc zdjec wymaga recznego sprawdzenia w Cloudinary.'
+          : 'Pojazd usuniety.',
+    };
+  } catch (error) {
+    return toActionError(error);
+  }
+}
+
+export async function deleteTemporaryVehicleImage(publicId: string): Promise<ActionState> {
+  await requireAdminSession();
+
+  if (!publicId.trim()) {
+    return { success: false, error: 'Brak identyfikatora zdjecia.' };
+  }
+
+  const cleanupResult = await deleteCloudinaryImages([publicId]);
+
+  if (cleanupResult.deleted.length === 0 && cleanupResult.skipped.length > 0) {
+    return {
+      success: false,
+      error: 'Nie udalo sie usunac tymczasowego zdjecia z Cloudinary.',
+    };
+  }
+
+  return {
+    success: true,
+    message: 'Zdjecie tymczasowe usuniete.',
+  };
 }

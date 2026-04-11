@@ -1,17 +1,17 @@
 'use client';
 
-import { type Vehicle } from '@/data/vehicles';
+import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
+import { type CatalogVehicleDetail } from '@/lib/vehicle-catalog';
 
 type VehicleContactProps = {
-  vehicle: Vehicle;
+  vehicle: CatalogVehicleDetail;
 };
 
 export function VehicleContact({ vehicle }: VehicleContactProps) {
   const { advisor } = vehicle;
 
   return (
-    <section className="bg-white" id="kontakt-oferta">
-      {/* ── Dark header ── */}
+    <section className="bg-[linear-gradient(180deg,rgba(250,250,250,1)_0%,rgba(244,244,245,0.82)_100%)]" id="kontakt-oferta">
       <div className="border-b border-zinc-200/60 bg-zinc-950 text-white">
         <div className="site-shell grid gap-8 py-14 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end lg:gap-16 lg:py-20 xl:py-24">
           <div className="grid gap-5">
@@ -24,14 +24,15 @@ export function VehicleContact({ vehicle }: VehicleContactProps) {
           </div>
           <div className="grid gap-6">
             <p className="max-w-md text-[0.94rem] leading-[1.8] text-zinc-400">
-              Napisz do nas lub zadzwoń — odpowiemy w ciągu godziny w godzinach
-              pracy salonu. Umówimy prezentację i jazdę próbną.
+              Napisz do nas lub zadzwonimy do Ciebie z pelna oferta, historia serwisowa i
+              mozliwosciami finansowania dla tego egzemplarza.
             </p>
-            {/* Advisor card */}
             <div className="flex flex-wrap items-center gap-6 border-t border-white/10 pt-6">
-              {/* Advisor avatar placeholder */}
-              <div className="flex h-14 w-14 items-center justify-center bg-zinc-800 text-[0.8rem] font-bold text-zinc-400">
-                {advisor.name.split(' ').map((n) => n[0]).join('')}
+              <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/6 text-[0.8rem] font-bold text-zinc-300">
+                {advisor.name
+                  .split(' ')
+                  .map((part) => part[0])
+                  .join('')}
               </div>
               <div className="grid gap-1">
                 <span className="text-sm font-semibold text-white">{advisor.name}</span>
@@ -39,14 +40,24 @@ export function VehicleContact({ vehicle }: VehicleContactProps) {
               </div>
               <div className="flex flex-wrap gap-5 sm:ml-auto">
                 <div className="grid gap-0.5">
-                  <span className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-zinc-600">Telefon</span>
-                  <a className="text-sm font-semibold text-white transition-colors duration-200 hover:text-zinc-300" href={advisor.phoneHref}>
+                  <span className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-zinc-600">
+                    Telefon
+                  </span>
+                  <a
+                    className="text-sm font-semibold text-white transition-colors duration-200 hover:text-zinc-300"
+                    href={advisor.phoneHref}
+                  >
                     {advisor.phone}
                   </a>
                 </div>
                 <div className="grid gap-0.5">
-                  <span className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-zinc-600">Email</span>
-                  <a className="text-sm font-semibold text-white transition-colors duration-200 hover:text-zinc-300" href={advisor.emailHref}>
+                  <span className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-zinc-600">
+                    Email
+                  </span>
+                  <a
+                    className="text-sm font-semibold text-white transition-colors duration-200 hover:text-zinc-300"
+                    href={advisor.emailHref}
+                  >
                     {advisor.email}
                   </a>
                 </div>
@@ -56,117 +67,141 @@ export function VehicleContact({ vehicle }: VehicleContactProps) {
         </div>
       </div>
 
-      {/* ── Contact form ── */}
       <div className="site-shell py-12 sm:py-16 lg:py-20 xl:py-24">
-        <form className="mx-auto grid max-w-4xl gap-0">
-          {/* Hidden: vehicle info for backend */}
-          <input name="vehicle_slug" type="hidden" value={vehicle.slug} />
-          <input name="vehicle_name" type="hidden" value={`${vehicle.brand} ${vehicle.model}`} />
-
-          {/* Name + Email */}
-          <div className="grid gap-0 lg:grid-cols-2 lg:gap-x-12">
-            <div className="group border-b border-zinc-200 py-5 sm:py-6">
-              <div className="flex items-baseline gap-3 pb-3">
-                <span className="text-[0.65rem] font-semibold tabular-nums tracking-[0.24em] text-zinc-300 transition-colors duration-300 group-focus-within:text-zinc-950">01</span>
-                <label className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-zinc-400 transition-colors duration-300 group-focus-within:text-zinc-950" htmlFor="vf-name">
-                  Imię i nazwisko
-                </label>
-              </div>
-              <input
-                autoComplete="name"
-                className="w-full border-0 bg-transparent px-0 text-[0.95rem] font-medium text-zinc-950 outline-none placeholder:text-zinc-400"
-                id="vf-name"
-                name="name"
-                placeholder="Jan Kowalski"
-                required
-                type="text"
-              />
+        <MotionReveal
+          amount={0.12}
+          className="offer-surface mx-auto grid max-w-5xl gap-8 p-6 sm:p-8 lg:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)] lg:p-10"
+          stagger={0.08}
+        >
+          <MotionRevealItem className="grid gap-5 self-start">
+            <div className="flex flex-wrap gap-2">
+              <span className="offer-chip">Dedykowana obsluga</span>
+              <span className="offer-chip">{vehicle.make} {vehicle.model}</span>
             </div>
-
-            <div className="group border-b border-zinc-200 py-5 sm:py-6">
-              <div className="flex items-baseline gap-3 pb-3">
-                <span className="text-[0.65rem] font-semibold tabular-nums tracking-[0.24em] text-zinc-300 transition-colors duration-300 group-focus-within:text-zinc-950">02</span>
-                <label className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-zinc-400 transition-colors duration-300 group-focus-within:text-zinc-950" htmlFor="vf-email">
-                  Adres e-mail
-                </label>
-              </div>
-              <input
-                autoComplete="email"
-                className="w-full border-0 bg-transparent px-0 text-[0.95rem] font-medium text-zinc-950 outline-none placeholder:text-zinc-400"
-                id="vf-email"
-                name="email"
-                placeholder="adres@firma.pl"
-                required
-                type="email"
-              />
+            <div className="grid gap-3">
+              <p className="eyebrow">Formularz kontaktowy</p>
+              <h3 className="text-[clamp(1.6rem,4vw,2.5rem)] font-semibold uppercase leading-[1.02] tracking-[-0.04em] text-zinc-950">
+                Umow prezentacje, telefon lub oferte finansowania.
+              </h3>
+              <p className="text-[0.9rem] leading-[1.8] text-zinc-500">
+                Ten sam standard, co w kafelkach i galerii: jasna struktura, delikatne
+                podswietlenie i wyrazne akcje bez przypadkowych stylow.
+              </p>
             </div>
-          </div>
+          </MotionRevealItem>
 
-          {/* Phone + Interest */}
-          <div className="grid gap-0 lg:grid-cols-2 lg:gap-x-12">
-            <div className="group border-b border-zinc-200 py-5 sm:py-6">
-              <div className="flex items-baseline gap-3 pb-3">
-                <span className="text-[0.65rem] font-semibold tabular-nums tracking-[0.24em] text-zinc-300 transition-colors duration-300 group-focus-within:text-zinc-950">03</span>
-                <label className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-zinc-400 transition-colors duration-300 group-focus-within:text-zinc-950" htmlFor="vf-phone">
-                  Telefon
-                </label>
-              </div>
-              <input
-                autoComplete="tel"
-                className="w-full border-0 bg-transparent px-0 text-[0.95rem] font-medium text-zinc-950 outline-none placeholder:text-zinc-400"
-                id="vf-phone"
-                name="phone"
-                placeholder="+48 123 456 789"
-                type="tel"
-              />
-            </div>
+          <MotionRevealItem>
+            <form className="grid gap-4">
+              <input name="vehicle_slug" type="hidden" value={vehicle.slug} />
+              <input name="vehicle_name" type="hidden" value={`${vehicle.make} ${vehicle.model}`} />
 
-            <div className="group border-b border-zinc-200 py-5 sm:py-6">
-              <div className="flex items-baseline gap-3 pb-3">
-                <span className="text-[0.65rem] font-semibold tabular-nums tracking-[0.24em] text-zinc-300 transition-colors duration-300 group-focus-within:text-zinc-950">04</span>
-                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-zinc-400">
-                  Zainteresowanie
-                </span>
-              </div>
-              <div className="flex flex-wrap gap-2 py-1">
-                {['Prezentacja', 'Jazda próbna', 'Finansowanie', 'Trade-in', 'Inne'].map((opt) => (
-                  <label className="cursor-pointer" key={opt}>
-                    <input className="peer sr-only" name="interest" type="checkbox" value={opt.toLowerCase()} />
-                    <span className="inline-flex h-8 items-center border border-zinc-200 px-3 text-[0.72rem] font-medium text-zinc-500 transition-all duration-200 peer-checked:border-zinc-950 peer-checked:bg-zinc-950 peer-checked:text-white hover:border-zinc-400">
-                      {opt}
-                    </span>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-2">
+                  <label
+                    className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-zinc-500"
+                    htmlFor="vf-name"
+                  >
+                    Imie i nazwisko
                   </label>
-                ))}
+                  <input
+                    autoComplete="name"
+                    className="offer-input"
+                    id="vf-name"
+                    name="name"
+                    placeholder="Jan Kowalski"
+                    required
+                    type="text"
+                  />
+                </div>
+
+                <div className="grid gap-2">
+                  <label
+                    className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-zinc-500"
+                    htmlFor="vf-email"
+                  >
+                    Adres e-mail
+                  </label>
+                  <input
+                    autoComplete="email"
+                    className="offer-input"
+                    id="vf-email"
+                    name="email"
+                    placeholder="adres@firma.pl"
+                    required
+                    type="email"
+                  />
+                </div>
               </div>
-            </div>
-          </div>
 
-          {/* Message */}
-          <div className="group border-b border-zinc-200 py-5 sm:py-6">
-            <div className="flex items-baseline gap-3 pb-3">
-              <span className="text-[0.65rem] font-semibold tabular-nums tracking-[0.24em] text-zinc-300 transition-colors duration-300 group-focus-within:text-zinc-950">05</span>
-              <label className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-zinc-400 transition-colors duration-300 group-focus-within:text-zinc-950" htmlFor="vf-message">
-                Wiadomość
-              </label>
-            </div>
-            <textarea
-              className="min-h-28 w-full border-0 bg-transparent px-0 text-[0.95rem] font-medium text-zinc-950 outline-none placeholder:text-zinc-400 sm:min-h-36"
-              id="vf-message"
-              name="message"
-              placeholder="Opisz swoje oczekiwania — preferowany termin prezentacji, forma finansowania, pytania dotyczące pojazdu..."
-            />
-          </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-2">
+                  <label
+                    className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-zinc-500"
+                    htmlFor="vf-phone"
+                  >
+                    Telefon
+                  </label>
+                  <input
+                    autoComplete="tel"
+                    className="offer-input"
+                    id="vf-phone"
+                    name="phone"
+                    placeholder="+48 123 456 789"
+                    type="tel"
+                  />
+                </div>
 
-          {/* Submit */}
-          <div className="flex flex-col gap-4 pt-8 sm:flex-row sm:items-center sm:justify-between">
-            <p className="max-w-sm text-[0.72rem] leading-relaxed text-zinc-400">
-              Wysyłając formularz akceptujesz naszą politykę prywatności. Odpowiadamy w ciągu 1h w godzinach pracy.
-            </p>
-            <button className="btn-premium min-h-12 w-full px-8 sm:w-fit" type="submit">
-              Wyślij zapytanie
-            </button>
-          </div>
-        </form>
+                <div className="grid gap-2">
+                  <span className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-zinc-500">
+                    Zakres rozmowy
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {['Prezentacja', 'Jazda probna', 'Finansowanie', 'Trade-in', 'Inne'].map(
+                      (option) => (
+                        <label className="cursor-pointer" key={option}>
+                          <input
+                            className="peer sr-only"
+                            name="interest"
+                            type="checkbox"
+                            value={option.toLowerCase()}
+                          />
+                          <span className="inline-flex h-11 items-center rounded-full border border-zinc-200 bg-white/80 px-4 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-zinc-500 transition-all duration-300 peer-checked:border-zinc-950 peer-checked:bg-zinc-950 peer-checked:text-white hover:border-zinc-400 hover:text-zinc-900">
+                            {option}
+                          </span>
+                        </label>
+                      ),
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid gap-2">
+                <label
+                  className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-zinc-500"
+                  htmlFor="vf-message"
+                >
+                  Wiadomosc
+                </label>
+                <textarea
+                  className="offer-textarea"
+                  id="vf-message"
+                  name="message"
+                  placeholder={`Interesuje mnie ${vehicle.make} ${vehicle.model}. Prosze o kontakt.`}
+                />
+              </div>
+
+              <div className="flex flex-col gap-4 border-t border-zinc-200/70 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="max-w-sm text-[0.76rem] leading-[1.7] text-zinc-500">
+                  Wysylajac formularz akceptujesz polityke prywatnosci. Odpowiadamy zwykle w
+                  ciagu 1h w godzinach pracy.
+                </p>
+                <button className="btn-premium min-h-12 w-full px-8 sm:w-fit" type="submit">
+                  Wyslij zapytanie
+                </button>
+              </div>
+            </form>
+          </MotionRevealItem>
+        </MotionReveal>
       </div>
     </section>
   );

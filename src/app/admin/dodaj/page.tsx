@@ -1,12 +1,10 @@
-import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import Link from 'next/link';
 import VehicleForm from '@/app/admin/_components/vehicle-form';
+import { requireAdminSession } from '@/lib/admin-session';
 
 export default async function AddVehiclePage() {
-  const session = await getServerSession(authOptions);
-  if (!session) redirect('/ukryty-dostep');
+  await requireAdminSession();
+
   return (
     <div className="min-h-dvh bg-graphite-950 text-white">
       <header className="border-b border-white/[0.06] bg-white/[0.02] backdrop-blur-md">
@@ -27,7 +25,9 @@ export default async function AddVehiclePage() {
 
       <main className="mx-auto max-w-5xl px-6 py-10">
         <h1 className="text-2xl font-semibold tracking-tight">Dodaj pojazd do oferty</h1>
-        <p className="mt-2 text-graphite-500">Uzupełnij dane poniżej. Pola oznaczone * są wymagane.</p>
+        <p className="mt-2 text-graphite-500">
+          Uzupelnij dane ponizej. Pola oznaczone * sa wymagane.
+        </p>
         <VehicleForm />
       </main>
     </div>

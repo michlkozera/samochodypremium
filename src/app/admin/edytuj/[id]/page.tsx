@@ -1,21 +1,22 @@
-import { redirect, notFound } from 'next/navigation';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { getVehicleById } from '@/app/actions/vehicle';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { getVehicleById } from '@/app/actions/vehicle';
 import VehicleForm from '@/app/admin/_components/vehicle-form';
+import { requireAdminSession } from '@/lib/admin-session';
 
 interface EditVehiclePageProps {
   params: Promise<{ id: string }>;
 }
 
 export default async function EditVehiclePage({ params }: EditVehiclePageProps) {
-  const session = await getServerSession(authOptions);
-  if (!session) redirect('/ukryty-dostep');
+  await requireAdminSession();
 
   const { id } = await params;
   const vehicle = await getVehicleById(id);
-  if (!vehicle) notFound();
+
+  if (!vehicle) {
+    notFound();
+  }
 
   return (
     <div className="min-h-dvh bg-graphite-950 text-white">

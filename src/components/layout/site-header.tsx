@@ -4,15 +4,20 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getHeaderLinks, type PageKey } from '@/data/site';
 
+export type SiteHeaderMode = 'hero' | 'solid';
+
 type SiteHeaderProps = {
   page: PageKey;
+  mode?: SiteHeaderMode;
 };
 
-export function SiteHeader({ page }: SiteHeaderProps) {
+export function SiteHeader({ page, mode = 'hero' }: SiteHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const links = getHeaderLinks(page);
+  const hasHero = mode === 'hero';
+  const isTransparent = hasHero && !isScrolled && !isMenuOpen;
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 12);
@@ -27,7 +32,9 @@ export function SiteHeader({ page }: SiteHeaderProps) {
   }, [isMenuOpen]);
 
   useEffect(() => {
-    if (!isMenuOpen) return;
+    if (!isMenuOpen) {
+      return;
+    }
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -37,8 +44,15 @@ export function SiteHeader({ page }: SiteHeaderProps) {
 
     const onClick = (event: MouseEvent) => {
       const target = event.target;
-      if (!(target instanceof HTMLElement)) return;
-      if (target.closest('#mobnav') || target.closest('#burg')) return;
+
+      if (!(target instanceof HTMLElement)) {
+        return;
+      }
+
+      if (target.closest('#mobnav') || target.closest('#burg')) {
+        return;
+      }
+
       setIsMenuOpen(false);
     };
 
@@ -63,15 +77,17 @@ export function SiteHeader({ page }: SiteHeaderProps) {
   }, []);
 
   const closeMenu = () => setIsMenuOpen(false);
-  const hasHero = true;
-  const isTransparent = hasHero && !isScrolled && !isMenuOpen;
 
   const linkClass = (isCurrent: boolean) =>
     [
       'inline-flex items-center px-3 py-2 text-[0.72rem] font-medium uppercase tracking-[0.22em] transition-colors duration-300 ease-out',
       isTransparent
-        ? isCurrent ? 'text-white' : 'text-white/60 hover:text-white'
-        : isCurrent ? 'text-zinc-950' : 'text-zinc-400 hover:text-zinc-950',
+        ? isCurrent
+          ? 'text-white'
+          : 'text-white/60 hover:text-white'
+        : isCurrent
+          ? 'text-zinc-950'
+          : 'text-zinc-400 hover:text-zinc-950',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2',
     ].join(' ');
 
@@ -86,24 +102,29 @@ export function SiteHeader({ page }: SiteHeaderProps) {
               ? 'border-zinc-200/60 bg-white/95 shadow-[0_12px_32px_rgba(0,0,0,0.04)] backdrop-blur-md'
               : hasHero
                 ? 'border-transparent bg-transparent'
-                : 'border-transparent bg-white/80 backdrop-blur-sm',
+                : 'border-zinc-200/60 bg-white/92 shadow-[0_10px_28px_rgba(0,0,0,0.04)] backdrop-blur-md',
         ].join(' ')}
         id="hdr"
       >
         <div className="site-shell">
           <div className="grid h-14 grid-cols-[auto_1fr_auto] items-center gap-3 sm:h-16">
             <Link
-            aria-label="Samochody Premium — strona główna"
-                className={[
+              aria-label="Samochody Premium - strona glowna"
+              className={[
                 'inline-flex items-center text-[0.82rem] font-semibold uppercase tracking-[0.28em] transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2',
-                isTransparent || isMenuOpen ? 'text-white hover:text-white/70' : 'text-zinc-950 hover:text-zinc-500',
+                isTransparent || isMenuOpen
+                  ? 'text-white hover:text-white/70'
+                  : 'text-zinc-950 hover:text-zinc-500',
               ].join(' ')}
               href="/"
             >
               Samochody Premium
             </Link>
 
-            <nav aria-label="Nawigacja glowna" className="hidden justify-self-end md:flex md:flex-wrap md:justify-end md:gap-2">
+            <nav
+              aria-label="Nawigacja glowna"
+              className="hidden justify-self-end md:flex md:flex-wrap md:justify-end md:gap-2"
+            >
               {links.map((link) => (
                 <Link
                   aria-current={link.current ? 'page' : undefined}
@@ -185,7 +206,7 @@ export function SiteHeader({ page }: SiteHeaderProps) {
 
           <div className="mt-auto grid gap-3 border-t border-white/10 pt-6">
             <span className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-white/40">
-              Samochody Premium — Warszawa
+              Samochody Premium - Warszawa
             </span>
           </div>
         </div>

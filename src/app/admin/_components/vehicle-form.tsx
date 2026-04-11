@@ -1,652 +1,294 @@
 'use client';
 
-import { useState } from 'react';
-import { useActionState } from 'react';
-import { useFormStatus } from 'react-dom';
-import Link from 'next/link';
-import Image from 'next/image';
-import { CldUploadWidget, type CloudinaryUploadWidgetResults } from 'next-cloudinary';
+import { useActionState, useCallback, useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   addVehicle,
+  deleteTemporaryVehicleImage,
   updateVehicle,
   type ActionState,
-  type SerializedVehicle,
 } from '@/app/actions/vehicle';
-
-/* ------------------------------------------------------------------ */
-/*  Opcje selectow                                                    */
-/* ------------------------------------------------------------------ */
-
-const FUEL_OPTIONS = [
-  { value: 'PETROL', label: 'Benzyna' },
-  { value: 'DIESEL', label: 'Diesel' },
-  { value: 'HYBRID', label: 'Hybryda' },
-  { value: 'ELECTRIC', label: 'Elektryk' },
-  { value: 'LPG', label: 'LPG' },
-] as const;
-
-const TRANSMISSION_OPTIONS = [
-  { value: 'AUTOMATIC', label: 'Automatyczna' },
-  { value: 'MANUAL', label: 'Manualna' },
-] as const;
-
-const DRIVE_OPTIONS = [
-  { value: 'AWD', label: '4x4 (AWD)' },
-  { value: 'RWD', label: 'Tylny (RWD)' },
-  { value: 'FWD', label: 'Przedni (FWD)' },
-] as const;
-
-const BODY_OPTIONS = [
-  { value: 'SEDAN', label: 'Sedan' },
-  { value: 'SUV', label: 'SUV' },
-  { value: 'COUPE', label: 'Coupe' },
-  { value: 'CONVERTIBLE', label: 'Kabriolet' },
-  { value: 'HATCHBACK', label: 'Hatchback' },
-  { value: 'ESTATE', label: 'Kombi' },
-  { value: 'LIFTBACK', label: 'Liftback' },
-  { value: 'PICKUP', label: 'Pickup' },
-  { value: 'VAN', label: 'Van' },
-] as const;
-
-const STATUS_OPTIONS = [
-  { value: 'AVAILABLE', label: 'Dostepny' },
-  { value: 'RESERVED', label: 'Zarezerwowany' },
-  { value: 'SOLD', label: 'Sprzedany' },
-] as const;
-
-const VAT_OPTIONS = [
-  { value: 'NONE', label: 'Brak faktury (os. prywatna)' },
-  { value: 'VAT_23', label: 'Faktura VAT 23%' },
-  { value: 'VAT_MARGIN', label: 'VAT marza' },
-] as const;
-
-const CONDITION_OPTIONS = [
-  { value: 'USED', label: 'Uzywany' },
-  { value: 'NEW', label: 'Nowy' },
-] as const;
-
-/* ------------------------------------------------------------------ */
-/*  Styled primitives                                                 */
-/* ------------------------------------------------------------------ */
-
-const inputCls =
-  'w-full rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-3 text-sm text-white placeholder-graphite-600 outline-none transition focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/20';
-
-const labelCls =
-  'mb-1.5 block text-xs font-medium uppercase tracking-wider text-graphite-500';
-
-const checkboxCls =
-  'h-4 w-4 rounded border-white/[0.15] bg-white/[0.04] text-amber-500 accent-amber-500';
-
-function Field({
-  label,
-  htmlFor,
-  children,
-  className,
-}: {
-  label: string;
-  htmlFor: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div className={className}>
-      <label htmlFor={htmlFor} className={labelCls}>
-        {label}
-      </label>
-      {children}
-    </div>
-  );
-}
-
-function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <fieldset className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 backdrop-blur-xl sm:p-8">
-      <legend className="mb-6 text-sm font-semibold tracking-tight text-amber-400">
-        {title}
-      </legend>
-      {children}
-    </fieldset>
-  );
-}
-
-function SubmitButton({ editMode }: { editMode: boolean }) {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      type="submit"
-      disabled={pending}
-      className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-3 text-sm font-semibold text-graphite-950 shadow-lg shadow-amber-500/20 transition hover:from-amber-400 hover:to-amber-500 disabled:cursor-not-allowed disabled:opacity-60"
-    >
-      {pending && (
-        <svg
-          className="h-4 w-4 animate-spin"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          />
-        </svg>
-      )}
-      {pending ? 'Zapisywanie...' : editMode ? 'Zapisz zmiany' : 'Dodaj pojazd'}
-    </button>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  VehicleForm                                                       */
-/* ------------------------------------------------------------------ */
+import {
+  flattenVehicleFieldErrors,
+  normalizePrimaryImageIndex,
+  validateVehicleForm,
+  zipVehicleImages,
+  type UploadedVehicleImage,
+  type VehicleFieldErrors,
+  type SerializedVehicle,
+} from '@/lib/vehicle-form';
+import { VehicleImagesField } from './vehicle-images-field';
+import { SubmitButton, ValidationSummary } from './vehicle-form-primitives';
+import {
+  VehicleAppearanceSection,
+  VehicleBasicsSection,
+  VehicleDescriptionSection,
+  VehicleEngineSection,
+  VehicleHistorySection,
+  VehicleSalesSection,
+} from './vehicle-form-sections';
 
 interface VehicleFormProps {
   vehicle?: SerializedVehicle | null;
 }
 
+function getUnsavedUploadIds(images: UploadedVehicleImage[], persistedIds: Set<string>) {
+  return images
+    .filter((image) => !persistedIds.has(image.publicId))
+    .map((image) => image.publicId);
+}
+
 export default function VehicleForm({ vehicle }: VehicleFormProps) {
-  const editMode = !!vehicle;
+  const router = useRouter();
+  const editMode = Boolean(vehicle);
   const action = editMode ? updateVehicle : addVehicle;
+  const initialImages = useMemo(
+    () => zipVehicleImages(vehicle?.images ?? [], vehicle?.imagePublicIds ?? []),
+    [vehicle],
+  );
+  const persistedImageIds = useMemo(
+    () => new Set(initialImages.map((image) => image.publicId)),
+    [initialImages],
+  );
 
   const [state, formAction] = useActionState<ActionState | null, FormData>(action, null);
-  const [images, setImages] = useState<string[]>(vehicle?.images ?? []);
+  const [images, setImages] = useState<UploadedVehicleImage[]>(initialImages);
+  const [primaryImageIndex, setPrimaryImageIndex] = useState(
+    normalizePrimaryImageIndex(vehicle?.primaryImageIndex ?? 0, initialImages.length),
+  );
+  const [clientFieldErrors, setClientFieldErrors] = useState<VehicleFieldErrors>({});
+  const [clientMessages, setClientMessages] = useState<string[]>([]);
+  const [cleanupMessages, setCleanupMessages] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const isFormLocked = isSubmitting && !state?.error;
 
-  const d = vehicle;
-  const fmtDate = (value: Date | string | null | undefined) => {
-    if (!value) return '';
-    const date = typeof value === 'string' ? new Date(value) : value;
-    return date.toISOString().slice(0, 10);
-  };
+  const cleanupUnsavedUploads = useCallback(async () => {
+    const temporaryUploadIds = getUnsavedUploadIds(images, persistedImageIds);
+
+    if (temporaryUploadIds.length === 0) {
+      return;
+    }
+
+    const results = await Promise.all(
+      temporaryUploadIds.map((publicId) => deleteTemporaryVehicleImage(publicId)),
+    );
+
+    if (results.some((result) => !result.success)) {
+      setCleanupMessages([
+        'Nie wszystkie tymczasowe zdjecia udalo sie usunac automatycznie z Cloudinary.',
+      ]);
+    }
+  }, [images, persistedImageIds]);
+
+  const confirmNavigation = useCallback(async (href: string) => {
+    const shouldLeave = window.confirm(
+      'Masz niezapisane zmiany. Czy na pewno chcesz opuscic formularz bez zapisu?',
+    );
+
+    if (!shouldLeave) {
+      return;
+    }
+
+    await cleanupUnsavedUploads();
+    setIsDirty(false);
+    router.push(href);
+  }, [cleanupUnsavedUploads, router]);
+
+  useEffect(() => {
+    if (!isDirty) {
+      return;
+    }
+
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = '';
+    };
+
+    const handleDocumentClick = (event: MouseEvent) => {
+      const target = event.target;
+
+      if (!(target instanceof Element)) {
+        return;
+      }
+
+      const anchor = target.closest('a[href]');
+
+      if (!(anchor instanceof HTMLAnchorElement)) {
+        return;
+      }
+
+      const href = anchor.getAttribute('href');
+
+      if (
+        !href ||
+        href.startsWith('#') ||
+        href.startsWith('mailto:') ||
+        href.startsWith('tel:') ||
+        anchor.target === '_blank'
+      ) {
+        return;
+      }
+
+      const nextUrl = new URL(anchor.href, window.location.href);
+      const currentUrl = new URL(window.location.href);
+
+      if (nextUrl.href === currentUrl.href) {
+        return;
+      }
+
+      event.preventDefault();
+      void confirmNavigation(`${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`);
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('click', handleDocumentClick, true);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('click', handleDocumentClick, true);
+    };
+  }, [confirmNavigation, isDirty]);
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    if (isFormLocked) {
+      event.preventDefault();
+      return;
+    }
+
+    const validation = validateVehicleForm(new FormData(event.currentTarget));
+
+    if (!validation.success) {
+      event.preventDefault();
+      setClientFieldErrors(flattenVehicleFieldErrors(validation.error));
+      setClientMessages(['Popraw oznaczone pola i sproboj ponownie.']);
+      return;
+    }
+
+    setClientFieldErrors({});
+    setClientMessages([]);
+    setCleanupMessages([]);
+    setIsSubmitting(true);
+  }
+
+  async function handleCancel() {
+    if (!isDirty) {
+      router.push('/admin');
+      return;
+    }
+
+    await confirmNavigation('/admin');
+  }
+
+  async function handleRemoveImage(index: number) {
+    const image = images[index];
+
+    if (!image) {
+      return;
+    }
+
+    const nextImages = images.filter((_, currentIndex) => currentIndex !== index);
+    const nextPrimaryIndex = normalizePrimaryImageIndex(
+      index === primaryImageIndex
+        ? 0
+        : index < primaryImageIndex
+          ? primaryImageIndex - 1
+          : primaryImageIndex,
+      nextImages.length,
+    );
+
+    setImages(nextImages);
+    setPrimaryImageIndex(nextPrimaryIndex);
+    setIsDirty(true);
+
+    if (!persistedImageIds.has(image.publicId)) {
+      const result = await deleteTemporaryVehicleImage(image.publicId);
+
+      if (!result.success) {
+        setCleanupMessages([
+          'Nowo wgrane zdjecie zostalo usuniete z formularza, ale nie z Cloudinary.',
+        ]);
+      }
+    }
+  }
+
+  const fieldErrors =
+    Object.keys(clientFieldErrors).length > 0 ? clientFieldErrors : state?.fieldErrors ?? {};
+
+  const summaryMessages = Array.from(
+    new Set(
+      [
+        ...clientMessages,
+        ...(state?.error ? [state.error] : []),
+        ...cleanupMessages,
+      ].filter(Boolean),
+    ),
+  );
 
   return (
-    <>
-      {state?.error && (
-        <div className="mt-6 rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-400">
-          {state.error}
-        </div>
-      )}
-      {state?.success && (
-        <div className="mt-6 rounded-lg bg-emerald-500/10 px-4 py-3 text-sm text-emerald-400">
-          {state.message}
-        </div>
-      )}
+    <div className="mt-8 space-y-6">
+      <ValidationSummary title="Sprawdz formularz" messages={summaryMessages} />
 
-      <form action={formAction} className="mt-8 space-y-8">
-        {editMode && <input type="hidden" name="id" value={d!.id} />}
+      <form
+        action={formAction}
+        onSubmit={handleSubmit}
+        onChangeCapture={() => setIsDirty(true)}
+        className="space-y-8"
+        aria-busy={isFormLocked}
+      >
+        {editMode ? <input type="hidden" name="id" value={vehicle!.id} /> : null}
+        <input type="hidden" name="images" value={JSON.stringify(images)} />
+        <input type="hidden" name="primaryImageIndex" value={String(primaryImageIndex)} />
 
-        <SectionCard title="Podstawowe informacje">
-          <div className="grid gap-5 sm:grid-cols-2">
-            <Field label="Marka *" htmlFor="make">
-              <input
-                id="make"
-                name="make"
-                type="text"
-                required
-                placeholder="np. Porsche"
-                defaultValue={d?.make ?? ''}
-                className={inputCls}
-              />
-            </Field>
-            <Field label="Model *" htmlFor="model">
-              <input
-                id="model"
-                name="model"
-                type="text"
-                required
-                placeholder="np. 911 Carrera S"
-                defaultValue={d?.model ?? ''}
-                className={inputCls}
-              />
-            </Field>
-            <Field label="Generacja / wersja" htmlFor="generation">
-              <input
-                id="generation"
-                name="generation"
-                type="text"
-                placeholder="np. 992"
-                defaultValue={d?.generation ?? ''}
-                className={inputCls}
-              />
-            </Field>
-            <Field label="Rok produkcji *" htmlFor="year">
-              <input
-                id="year"
-                name="year"
-                type="number"
-                required
-                min={1900}
-                max={2100}
-                placeholder="np. 2024"
-                defaultValue={d?.year ?? ''}
-                className={inputCls}
-              />
-            </Field>
-            <Field label="Numer VIN *" htmlFor="vin" className="sm:col-span-2">
-              <input
-                id="vin"
-                name="vin"
-                type="text"
-                required
-                minLength={17}
-                maxLength={17}
-                placeholder="17-znakowy numer VIN"
-                defaultValue={d?.vin ?? ''}
-                className={inputCls}
-              />
-            </Field>
-          </div>
-        </SectionCard>
+        <fieldset disabled={isFormLocked} className="space-y-8 disabled:opacity-90">
+          <VehicleBasicsSection vehicle={vehicle} errors={fieldErrors} />
+          <VehicleEngineSection vehicle={vehicle} errors={fieldErrors} />
+          <VehicleAppearanceSection vehicle={vehicle} errors={fieldErrors} />
+          <VehicleHistorySection vehicle={vehicle} errors={fieldErrors} />
+          <VehicleSalesSection vehicle={vehicle} errors={fieldErrors} />
+          <VehicleDescriptionSection
+            vehicle={vehicle}
+            errors={fieldErrors}
+            imagesSlot={
+              <VehicleImagesField
+                images={images}
+                primaryImageIndex={primaryImageIndex}
+                error={fieldErrors.images?.[0] ?? fieldErrors.primaryImageIndex?.[0]}
+                onUpload={(image) => {
+                  setImages((currentImages) => {
+                    if (currentImages.length === 0) {
+                      setPrimaryImageIndex(0);
+                    }
 
-        <SectionCard title="Silnik i naped">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <Field label="Przebieg (km) *" htmlFor="mileage">
-              <input
-                id="mileage"
-                name="mileage"
-                type="number"
-                required
-                min={0}
-                placeholder="np. 24500"
-                defaultValue={d?.mileage ?? ''}
-                className={inputCls}
-              />
-            </Field>
-            <Field label="Pojemnosc silnika (cm3)" htmlFor="engineCapacity">
-              <input
-                id="engineCapacity"
-                name="engineCapacity"
-                type="number"
-                min={0}
-                placeholder="np. 2998"
-                defaultValue={d?.engineCapacity ?? ''}
-                className={inputCls}
-              />
-            </Field>
-            <Field label="Moc (KM) *" htmlFor="power">
-              <input
-                id="power"
-                name="power"
-                type="number"
-                required
-                min={1}
-                placeholder="np. 450"
-                defaultValue={d?.power ?? ''}
-                className={inputCls}
-              />
-            </Field>
-            <Field label="Rodzaj paliwa *" htmlFor="fuelType">
-              <select
-                id="fuelType"
-                name="fuelType"
-                required
-                className={inputCls}
-                defaultValue={d?.fuelType ?? ''}
-              >
-                <option value="">Wybierz...</option>
-                {FUEL_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </Field>
-            <Field label="Skrzynia biegow *" htmlFor="transmission">
-              <select
-                id="transmission"
-                name="transmission"
-                required
-                className={inputCls}
-                defaultValue={d?.transmission ?? ''}
-              >
-                <option value="">Wybierz...</option>
-                {TRANSMISSION_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </Field>
-            <Field label="Naped *" htmlFor="driveTrain">
-              <select
-                id="driveTrain"
-                name="driveTrain"
-                required
-                className={inputCls}
-                defaultValue={d?.driveTrain ?? ''}
-              >
-                <option value="">Wybierz...</option>
-                {DRIVE_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </Field>
-          </div>
-        </SectionCard>
-
-        <SectionCard title="Wyglad i wnetrze">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <Field label="Typ nadwozia" htmlFor="bodyType">
-              <select id="bodyType" name="bodyType" className={inputCls} defaultValue={d?.bodyType ?? ''}>
-                <option value="">Wybierz...</option>
-                {BODY_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </Field>
-            <Field label="Kolor" htmlFor="color">
-              <input
-                id="color"
-                name="color"
-                type="text"
-                placeholder="np. Czarny metalik"
-                defaultValue={d?.color ?? ''}
-                className={inputCls}
-              />
-            </Field>
-            <Field label="Tapicerka" htmlFor="upholstery">
-              <input
-                id="upholstery"
-                name="upholstery"
-                type="text"
-                placeholder="np. Skora Merino czarna"
-                defaultValue={d?.upholstery ?? ''}
-                className={inputCls}
-              />
-            </Field>
-            <Field label="Liczba drzwi" htmlFor="doors">
-              <input
-                id="doors"
-                name="doors"
-                type="number"
-                min={1}
-                max={6}
-                placeholder="np. 4"
-                defaultValue={d?.doors ?? ''}
-                className={inputCls}
-              />
-            </Field>
-            <Field label="Liczba miejsc" htmlFor="seats">
-              <input
-                id="seats"
-                name="seats"
-                type="number"
-                min={1}
-                max={9}
-                placeholder="np. 5"
-                defaultValue={d?.seats ?? ''}
-                className={inputCls}
-              />
-            </Field>
-          </div>
-        </SectionCard>
-
-        <SectionCard title="Historia i Status">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <Field label="Kraj pochodzenia" htmlFor="originCountry">
-              <input
-                id="originCountry"
-                name="originCountry"
-                type="text"
-                placeholder="np. Niemcy"
-                defaultValue={d?.originCountry ?? ''}
-                className={inputCls}
-              />
-            </Field>
-            <Field label="Data pierwszej rejestracji" htmlFor="firstRegistration">
-              <input
-                id="firstRegistration"
-                name="firstRegistration"
-                type="date"
-                defaultValue={fmtDate(d?.firstRegistration)}
-                className={inputCls}
-              />
-            </Field>
-            <Field label="Numer rejestracyjny" htmlFor="registrationNumber">
-              <input
-                id="registrationNumber"
-                name="registrationNumber"
-                type="text"
-                placeholder="np. WI 1234A"
-                defaultValue={d?.registrationNumber ?? ''}
-                className={inputCls}
-              />
-            </Field>
-            <Field label="Stan pojazdu" htmlFor="condition">
-              <select
-                id="condition"
-                name="condition"
-                className={inputCls}
-                defaultValue={d?.condition ?? 'USED'}
-              >
-                {CONDITION_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </Field>
-            <Field label="Status" htmlFor="status">
-              <select
-                id="status"
-                name="status"
-                className={inputCls}
-                defaultValue={d?.status ?? 'AVAILABLE'}
-              >
-                {STATUS_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </Field>
-            <div className="flex flex-wrap items-center gap-6 sm:col-span-2 lg:col-span-3">
-              <div className="flex items-center gap-3">
-                <input
-                  id="firstOwner"
-                  name="firstOwner"
-                  type="checkbox"
-                  defaultChecked={d?.firstOwner ?? false}
-                  className={checkboxCls}
-                />
-                <label htmlFor="firstOwner" className="text-sm text-graphite-300">
-                  Pierwszy wlasciciel
-                </label>
-              </div>
-              <div className="flex items-center gap-3">
-                <input
-                  id="registeredInPoland"
-                  name="registeredInPoland"
-                  type="checkbox"
-                  defaultChecked={d?.registeredInPoland ?? false}
-                  className={checkboxCls}
-                />
-                <label htmlFor="registeredInPoland" className="text-sm text-graphite-300">
-                  Zarejestrowany w Polsce
-                </label>
-              </div>
-              <div className="flex items-center gap-3">
-                <input
-                  id="accidentFree"
-                  name="accidentFree"
-                  type="checkbox"
-                  defaultChecked={d?.accidentFree ?? false}
-                  className={checkboxCls}
-                />
-                <label htmlFor="accidentFree" className="text-sm text-graphite-300">
-                  Bezwypadkowy
-                </label>
-              </div>
-              <div className="flex items-center gap-3">
-                <input
-                  id="serviceHistory"
-                  name="serviceHistory"
-                  type="checkbox"
-                  defaultChecked={d?.serviceHistory ?? false}
-                  className={checkboxCls}
-                />
-                <label htmlFor="serviceHistory" className="text-sm text-graphite-300">
-                  Serwisowany w ASO
-                </label>
-              </div>
-            </div>
-          </div>
-        </SectionCard>
-
-        <SectionCard title="Cena i sprzedaz">
-          <div className="grid gap-5 sm:grid-cols-2">
-            <Field label="Cena (PLN) *" htmlFor="price">
-              <input
-                id="price"
-                name="price"
-                type="number"
-                required
-                min={0}
-                step="0.01"
-                placeholder="np. 589000"
-                defaultValue={d?.price ? String(d.price) : ''}
-                className={inputCls}
-              />
-            </Field>
-            <Field label="Rodzaj faktury" htmlFor="vatType">
-              <select id="vatType" name="vatType" className={inputCls} defaultValue={d?.vatType ?? 'NONE'}>
-                {VAT_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </Field>
-            <div className="flex items-center gap-3 self-end pb-1">
-              <input
-                id="vatReclaimable"
-                name="vatReclaimable"
-                type="checkbox"
-                defaultChecked={d?.vatReclaimable ?? false}
-                className={checkboxCls}
-              />
-              <label htmlFor="vatReclaimable" className="text-sm text-graphite-300">
-                Mozliwosc odliczenia VAT 23%
-              </label>
-            </div>
-          </div>
-        </SectionCard>
-
-        <SectionCard title="Media i wyposazenie">
-          <div className="space-y-5">
-            <Field label="Opis" htmlFor="description">
-              <textarea
-                id="description"
-                name="description"
-                rows={5}
-                placeholder="Szczegolowy opis pojazdu..."
-                defaultValue={d?.description ?? ''}
-                className={inputCls}
-              />
-            </Field>
-
-            <div>
-              <span className={labelCls}>Zdjecia</span>
-              <CldUploadWidget
-                uploadPreset="premium_cars"
-                options={{ multiple: true, maxFiles: 30, sources: ['local', 'url', 'camera'] }}
-                onSuccess={(result: CloudinaryUploadWidgetResults) => {
-                  const info = result.info;
-                  if (typeof info === 'object' && info !== null && 'secure_url' in info) {
-                    setImages((prev) => [...prev, (info as { secure_url: string }).secure_url]);
-                  }
+                    return [...currentImages, image];
+                  });
+                  setIsDirty(true);
                 }}
-              >
-                {({ open }) => (
-                  <button
-                    type="button"
-                    onClick={() => open()}
-                    className="flex w-full flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-white/[0.08] bg-white/[0.02] px-6 py-10 text-graphite-500 transition hover:border-amber-500/30 hover:bg-white/[0.04] hover:text-amber-400"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="h-10 w-10"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"
-                      />
-                    </svg>
-                    <span className="text-sm font-medium">
-                      Kliknij lub przeciagnij pliki, aby wgrac zdjecia
-                    </span>
-                    <span className="text-xs text-graphite-600">JPG, PNG, WebP - maks. 30 plikow</span>
-                  </button>
-                )}
-              </CldUploadWidget>
-
-              {images.length > 0 && (
-                <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-                  {images.map((url, index) => (
-                    <div
-                      key={url + index}
-                      className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-white/[0.06] bg-white/[0.03]"
-                    >
-                      <Image
-                        src={url}
-                        alt={`Zdjecie ${index + 1}`}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setImages((prev) => prev.filter((_, currentIndex) => currentIndex !== index))}
-                        className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-graphite-950/80 text-graphite-400 opacity-0 backdrop-blur-sm transition group-hover:opacity-100 hover:bg-red-500/80 hover:text-white"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
-                          <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-                        </svg>
-                      </button>
-                      {index === 0 && (
-                        <span className="absolute bottom-1.5 left-1.5 rounded bg-amber-500/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-graphite-950">
-                          Glowne
-                        </span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <input type="hidden" name="images" value={JSON.stringify(images)} />
-            </div>
-
-            <Field label="Wyposazenie (oddzielone przecinkiem)" htmlFor="features">
-              <textarea
-                id="features"
-                name="features"
-                rows={3}
-                placeholder="Ceramiczne hamulce, Pakiet Sport Chrono, Skora Merino"
-                defaultValue={d?.features?.join(', ') ?? ''}
-                className={inputCls}
+                onRemove={(index) => {
+                  void handleRemoveImage(index);
+                }}
+                onSetPrimary={(index) => {
+                  setPrimaryImageIndex(index);
+                  setIsDirty(true);
+                }}
               />
-            </Field>
-          </div>
-        </SectionCard>
+            }
+          />
 
-        <div className="flex items-center gap-4 pt-2">
-          <SubmitButton editMode={editMode} />
-          <Link href="/admin" className="text-sm text-graphite-500 transition hover:text-white">
-            Anuluj
-          </Link>
-        </div>
+          <div className="flex flex-wrap items-center gap-4 pt-2">
+            <SubmitButton editMode={editMode} locked={isFormLocked} />
+            <button
+              type="button"
+              onClick={() => {
+                void handleCancel();
+              }}
+              className="text-sm text-graphite-500 transition hover:text-white"
+            >
+              Anuluj
+            </button>
+          </div>
+        </fieldset>
       </form>
-    </>
+    </div>
   );
 }

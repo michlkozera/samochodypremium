@@ -13,7 +13,7 @@ function LoginForm() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const callbackUrl = searchParams.get('callbackUrl') ?? '/admin';
+  const callbackUrl = toSafeInternalPath(searchParams.get('callbackUrl'));
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -142,4 +142,19 @@ export default function HiddenLoginPage() {
       <LoginForm />
     </Suspense>
   );
+}
+
+function toSafeInternalPath(value: string | null) {
+  if (!value) {
+    return '/admin';
+  }
+
+  try {
+    const url = new URL(value, 'http://localhost:3000');
+    return url.origin === 'http://localhost:3000'
+      ? `${url.pathname}${url.search}${url.hash}`
+      : '/admin';
+  } catch {
+    return value.startsWith('/') ? value : '/admin';
+  }
 }
