@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------
-// Prisma Schema — Samochody Premium
+// Prisma Schema - Samochody Premium
 // --------------------------------------------------------------------------
 
 generator client {
@@ -11,11 +11,11 @@ datasource db {
 }
 
 // --------------------------------------------------------------------------
-// Status ogłoszenia
+// Status ogloszenia
 // --------------------------------------------------------------------------
 
 enum VehicleStatus {
-  AVAILABLE // Dostępny
+  AVAILABLE // Dostepny
   RESERVED  // Zarezerwowany
   SOLD      // Sprzedany
 }
@@ -33,7 +33,7 @@ enum FuelType {
 }
 
 // --------------------------------------------------------------------------
-// Skrzynia biegów
+// Skrzynia biegow
 // --------------------------------------------------------------------------
 
 enum Transmission {
@@ -42,13 +42,13 @@ enum Transmission {
 }
 
 // --------------------------------------------------------------------------
-// Typ napędu
+// Typ napedu
 // --------------------------------------------------------------------------
 
 enum DriveTrain {
-  FWD // Przód
-  RWD // Tył
-  AWD // 4x4 / Wszystkie koła
+  FWD // Przod
+  RWD // Tyl
+  AWD // 4x4 / Wszystkie kola
 }
 
 // --------------------------------------------------------------------------
@@ -58,7 +58,7 @@ enum DriveTrain {
 enum BodyType {
   SEDAN       // Sedan
   SUV         // SUV
-  COUPE       // Coupé
+  COUPE       // Coupe
   CONVERTIBLE // Kabriolet
   HATCHBACK   // Hatchback
   ESTATE      // Kombi
@@ -72,13 +72,22 @@ enum BodyType {
 // --------------------------------------------------------------------------
 
 enum VatType {
-  VAT_23    // Faktura VAT 23%
-  VAT_MARGIN // VAT Marża
+  VAT_23     // Faktura VAT 23%
+  VAT_MARGIN // VAT marza
   NONE       // Bez faktury (osoba prywatna)
 }
 
 // --------------------------------------------------------------------------
-// Model pojazdu — główna tabela ogłoszeń
+// Stan pojazdu
+// --------------------------------------------------------------------------
+
+enum VehicleCondition {
+  NEW  // Nowy
+  USED // Uzywany
+}
+
+// --------------------------------------------------------------------------
+// Model pojazdu - glowna tabela ogloszen
 // --------------------------------------------------------------------------
 
 model Vehicle {
@@ -86,49 +95,53 @@ model Vehicle {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // --- Główne dane ---
-  make       String // Marka (np. Porsche, BMW, Mercedes-Benz)
-  model      String // Model (np. 911, M5, AMG GT)
+  // --- Glowne dane ---
+  make       String  // Marka (np. Porsche, BMW, Mercedes-Benz)
+  model      String  // Model (np. 911, M5, AMG GT)
   generation String? // Generacja / wersja (np. 992, G30)
-  year       Int // Rok produkcji
+  year       Int     // Rok produkcji
 
-  // --- Wygląd i nadwozie ---
+  // --- Wyglad i nadwozie ---
   bodyType   BodyType? // Typ nadwozia
-  color      String?   // Kolor zewnętrzny
-  upholstery String?   // Tapicerka (np. Skóra Merino, Alcantara)
+  color      String?   // Kolor zewnetrzny
+  upholstery String?   // Tapicerka (np. Skora Merino, Alcantara)
   doors      Int?      // Liczba drzwi
   seats      Int?      // Liczba miejsc
 
   // --- Dane techniczne ---
-  mileage        Int // Przebieg w km
-  engineCapacity Int? // Pojemność silnika w cm³ (null dla elektryków)
-  power          Int // Moc w KM
-  powerUnit      String   @default("KM") // Jednostka mocy (KM / kW)
-  fuelType       FuelType // Rodzaj paliwa
-  transmission   Transmission // Skrzynia biegów
-  driveTrain     DriveTrain // Typ napędu
+  mileage        Int          // Przebieg w km
+  engineCapacity Int?         // Pojemnosc silnika w cm3 (null dla elektrykow)
+  power          Int          // Moc w KM
+  powerUnit      String       @default("KM") // Jednostka mocy (KM / kW)
+  fuelType       FuelType     // Rodzaj paliwa
+  transmission   Transmission // Skrzynia biegow
+  driveTrain     DriveTrain   // Typ napedu
 
   // --- Pochodzenie i historia ---
-  originCountry     String?   // Kraj pochodzenia
-  firstRegistration DateTime? // Data pierwszej rejestracji
-  accidentFree      Boolean   @default(false) // Bezwypadkowy
-  serviceHistory    Boolean   @default(false) // Serwisowany w ASO
+  originCountry      String?          // Kraj pochodzenia
+  firstRegistration  DateTime?        // Data pierwszej rejestracji
+  firstOwner         Boolean          @default(false) // Pierwszy wlasciciel
+  registeredInPoland Boolean          @default(false) // Zarejestrowany w Polsce
+  registrationNumber String?          // Numer rejestracyjny
+  condition          VehicleCondition @default(USED) // Stan pojazdu
+  accidentFree       Boolean          @default(false) // Bezwypadkowy
+  serviceHistory     Boolean          @default(false) // Serwisowany w ASO
 
   // --- Identyfikacja ---
-  vin String @unique // Numer VIN (17 znaków, unikalny)
+  vin String @unique // Numer VIN (17 znakow, unikalny)
 
   // --- Finanse ---
-  price          Decimal        @db.Decimal(12, 2) // Cena
-  currency       String         @default("PLN") // Waluta
-  vatReclaimable Boolean        @default(false) // Faktura VAT 23%
-  vatType        VatType        @default(NONE) // Rodzaj faktury
+  price          Decimal @db.Decimal(12, 2) // Cena
+  currency       String  @default("PLN") // Waluta
+  vatReclaimable Boolean @default(false) // Faktura VAT 23%
+  vatType        VatType @default(NONE) // Rodzaj faktury
 
   // --- Media i opis ---
-  description String? @db.Text // Długi opis ogłoszenia
-  images      String[] // URL-e zdjęć (zewnętrzny hosting)
+  description String?  @db.Text // Dlugi opis ogloszenia
+  images      String[] // URL-e zdjec (zewnetrzny hosting)
 
-  // --- Wyposażenie ---
-  features String[] // Lista elementów wyposażenia
+  // --- Wyposazenie ---
+  features String[] // Lista elementow wyposazenia
 
   // --- Status ---
   status VehicleStatus @default(AVAILABLE)

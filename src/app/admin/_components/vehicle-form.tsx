@@ -6,10 +6,15 @@ import { useFormStatus } from 'react-dom';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CldUploadWidget, type CloudinaryUploadWidgetResults } from 'next-cloudinary';
-import { addVehicle, updateVehicle, type ActionState, type SerializedVehicle } from '@/app/actions/vehicle';
+import {
+  addVehicle,
+  updateVehicle,
+  type ActionState,
+  type SerializedVehicle,
+} from '@/app/actions/vehicle';
 
 /* ------------------------------------------------------------------ */
-/*  Opcje selectów                                                     */
+/*  Opcje selectow                                                    */
 /* ------------------------------------------------------------------ */
 
 const FUEL_OPTIONS = [
@@ -34,7 +39,7 @@ const DRIVE_OPTIONS = [
 const BODY_OPTIONS = [
   { value: 'SEDAN', label: 'Sedan' },
   { value: 'SUV', label: 'SUV' },
-  { value: 'COUPE', label: 'Coupé' },
+  { value: 'COUPE', label: 'Coupe' },
   { value: 'CONVERTIBLE', label: 'Kabriolet' },
   { value: 'HATCHBACK', label: 'Hatchback' },
   { value: 'ESTATE', label: 'Kombi' },
@@ -44,7 +49,7 @@ const BODY_OPTIONS = [
 ] as const;
 
 const STATUS_OPTIONS = [
-  { value: 'AVAILABLE', label: 'Dostępny' },
+  { value: 'AVAILABLE', label: 'Dostepny' },
   { value: 'RESERVED', label: 'Zarezerwowany' },
   { value: 'SOLD', label: 'Sprzedany' },
 ] as const;
@@ -52,11 +57,16 @@ const STATUS_OPTIONS = [
 const VAT_OPTIONS = [
   { value: 'NONE', label: 'Brak faktury (os. prywatna)' },
   { value: 'VAT_23', label: 'Faktura VAT 23%' },
-  { value: 'VAT_MARGIN', label: 'VAT marża' },
+  { value: 'VAT_MARGIN', label: 'VAT marza' },
+] as const;
+
+const CONDITION_OPTIONS = [
+  { value: 'USED', label: 'Uzywany' },
+  { value: 'NEW', label: 'Nowy' },
 ] as const;
 
 /* ------------------------------------------------------------------ */
-/*  Styled primitives                                                  */
+/*  Styled primitives                                                 */
 /* ------------------------------------------------------------------ */
 
 const inputCls =
@@ -64,6 +74,9 @@ const inputCls =
 
 const labelCls =
   'mb-1.5 block text-xs font-medium uppercase tracking-wider text-graphite-500';
+
+const checkboxCls =
+  'h-4 w-4 rounded border-white/[0.15] bg-white/[0.04] text-amber-500 accent-amber-500';
 
 function Field({
   label,
@@ -107,18 +120,27 @@ function SubmitButton({ editMode }: { editMode: boolean }) {
       className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-3 text-sm font-semibold text-graphite-950 shadow-lg shadow-amber-500/20 transition hover:from-amber-400 hover:to-amber-500 disabled:cursor-not-allowed disabled:opacity-60"
     >
       {pending && (
-        <svg className="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <svg
+          className="h-4 w-4 animate-spin"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          />
         </svg>
       )}
-      {pending ? 'Zapisywanie…' : editMode ? 'Zapisz zmiany' : 'Dodaj pojazd'}
+      {pending ? 'Zapisywanie...' : editMode ? 'Zapisz zmiany' : 'Dodaj pojazd'}
     </button>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/*  VehicleForm                                                        */
+/*  VehicleForm                                                       */
 /* ------------------------------------------------------------------ */
 
 interface VehicleFormProps {
@@ -132,11 +154,11 @@ export default function VehicleForm({ vehicle }: VehicleFormProps) {
   const [state, formAction] = useActionState<ActionState | null, FormData>(action, null);
   const [images, setImages] = useState<string[]>(vehicle?.images ?? []);
 
-  const d = vehicle; // shorthand for defaults
-  const fmtDate = (v: Date | string | null | undefined) => {
-    if (!v) return '';
-    const dt = typeof v === 'string' ? new Date(v) : v;
-    return dt.toISOString().slice(0, 10);
+  const d = vehicle;
+  const fmtDate = (value: Date | string | null | undefined) => {
+    if (!value) return '';
+    const date = typeof value === 'string' ? new Date(value) : value;
+    return date.toISOString().slice(0, 10);
   };
 
   return (
@@ -155,152 +177,382 @@ export default function VehicleForm({ vehicle }: VehicleFormProps) {
       <form action={formAction} className="mt-8 space-y-8">
         {editMode && <input type="hidden" name="id" value={d!.id} />}
 
-        {/* ---- Podstawowe informacje ---- */}
         <SectionCard title="Podstawowe informacje">
           <div className="grid gap-5 sm:grid-cols-2">
             <Field label="Marka *" htmlFor="make">
-              <input id="make" name="make" type="text" required placeholder="np. Porsche" defaultValue={d?.make ?? ''} className={inputCls} />
+              <input
+                id="make"
+                name="make"
+                type="text"
+                required
+                placeholder="np. Porsche"
+                defaultValue={d?.make ?? ''}
+                className={inputCls}
+              />
             </Field>
             <Field label="Model *" htmlFor="model">
-              <input id="model" name="model" type="text" required placeholder="np. 911 Carrera S" defaultValue={d?.model ?? ''} className={inputCls} />
+              <input
+                id="model"
+                name="model"
+                type="text"
+                required
+                placeholder="np. 911 Carrera S"
+                defaultValue={d?.model ?? ''}
+                className={inputCls}
+              />
             </Field>
             <Field label="Generacja / wersja" htmlFor="generation">
-              <input id="generation" name="generation" type="text" placeholder="np. 992" defaultValue={d?.generation ?? ''} className={inputCls} />
+              <input
+                id="generation"
+                name="generation"
+                type="text"
+                placeholder="np. 992"
+                defaultValue={d?.generation ?? ''}
+                className={inputCls}
+              />
             </Field>
             <Field label="Rok produkcji *" htmlFor="year">
-              <input id="year" name="year" type="number" required min={1900} max={2100} placeholder="np. 2024" defaultValue={d?.year ?? ''} className={inputCls} />
+              <input
+                id="year"
+                name="year"
+                type="number"
+                required
+                min={1900}
+                max={2100}
+                placeholder="np. 2024"
+                defaultValue={d?.year ?? ''}
+                className={inputCls}
+              />
             </Field>
             <Field label="Numer VIN *" htmlFor="vin" className="sm:col-span-2">
-              <input id="vin" name="vin" type="text" required minLength={17} maxLength={17} placeholder="17-znakowy numer VIN" defaultValue={d?.vin ?? ''} className={inputCls} />
+              <input
+                id="vin"
+                name="vin"
+                type="text"
+                required
+                minLength={17}
+                maxLength={17}
+                placeholder="17-znakowy numer VIN"
+                defaultValue={d?.vin ?? ''}
+                className={inputCls}
+              />
             </Field>
           </div>
         </SectionCard>
 
-        {/* ---- Silnik i napęd ---- */}
-        <SectionCard title="Silnik i napęd">
+        <SectionCard title="Silnik i naped">
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <Field label="Przebieg (km) *" htmlFor="mileage">
-              <input id="mileage" name="mileage" type="number" required min={0} placeholder="np. 24500" defaultValue={d?.mileage ?? ''} className={inputCls} />
+              <input
+                id="mileage"
+                name="mileage"
+                type="number"
+                required
+                min={0}
+                placeholder="np. 24500"
+                defaultValue={d?.mileage ?? ''}
+                className={inputCls}
+              />
             </Field>
-            <Field label="Pojemność silnika (cm³)" htmlFor="engineCapacity">
-              <input id="engineCapacity" name="engineCapacity" type="number" min={0} placeholder="np. 2998" defaultValue={d?.engineCapacity ?? ''} className={inputCls} />
+            <Field label="Pojemnosc silnika (cm3)" htmlFor="engineCapacity">
+              <input
+                id="engineCapacity"
+                name="engineCapacity"
+                type="number"
+                min={0}
+                placeholder="np. 2998"
+                defaultValue={d?.engineCapacity ?? ''}
+                className={inputCls}
+              />
             </Field>
             <Field label="Moc (KM) *" htmlFor="power">
-              <input id="power" name="power" type="number" required min={1} placeholder="np. 450" defaultValue={d?.power ?? ''} className={inputCls} />
+              <input
+                id="power"
+                name="power"
+                type="number"
+                required
+                min={1}
+                placeholder="np. 450"
+                defaultValue={d?.power ?? ''}
+                className={inputCls}
+              />
             </Field>
             <Field label="Rodzaj paliwa *" htmlFor="fuelType">
-              <select id="fuelType" name="fuelType" required className={inputCls} defaultValue={d?.fuelType ?? ''}>
-                <option value="">Wybierz…</option>
-                {FUEL_OPTIONS.map((o) => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
+              <select
+                id="fuelType"
+                name="fuelType"
+                required
+                className={inputCls}
+                defaultValue={d?.fuelType ?? ''}
+              >
+                <option value="">Wybierz...</option>
+                {FUEL_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
                 ))}
               </select>
             </Field>
-            <Field label="Skrzynia biegów *" htmlFor="transmission">
-              <select id="transmission" name="transmission" required className={inputCls} defaultValue={d?.transmission ?? ''}>
-                <option value="">Wybierz…</option>
-                {TRANSMISSION_OPTIONS.map((o) => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
+            <Field label="Skrzynia biegow *" htmlFor="transmission">
+              <select
+                id="transmission"
+                name="transmission"
+                required
+                className={inputCls}
+                defaultValue={d?.transmission ?? ''}
+              >
+                <option value="">Wybierz...</option>
+                {TRANSMISSION_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
                 ))}
               </select>
             </Field>
-            <Field label="Napęd *" htmlFor="driveTrain">
-              <select id="driveTrain" name="driveTrain" required className={inputCls} defaultValue={d?.driveTrain ?? ''}>
-                <option value="">Wybierz…</option>
-                {DRIVE_OPTIONS.map((o) => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
+            <Field label="Naped *" htmlFor="driveTrain">
+              <select
+                id="driveTrain"
+                name="driveTrain"
+                required
+                className={inputCls}
+                defaultValue={d?.driveTrain ?? ''}
+              >
+                <option value="">Wybierz...</option>
+                {DRIVE_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
                 ))}
               </select>
             </Field>
           </div>
         </SectionCard>
 
-        {/* ---- Wygląd i wnętrze ---- */}
-        <SectionCard title="Wygląd i wnętrze">
+        <SectionCard title="Wyglad i wnetrze">
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <Field label="Typ nadwozia" htmlFor="bodyType">
               <select id="bodyType" name="bodyType" className={inputCls} defaultValue={d?.bodyType ?? ''}>
-                <option value="">Wybierz…</option>
-                {BODY_OPTIONS.map((o) => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
+                <option value="">Wybierz...</option>
+                {BODY_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
                 ))}
               </select>
             </Field>
             <Field label="Kolor" htmlFor="color">
-              <input id="color" name="color" type="text" placeholder="np. Czarny metalik" defaultValue={d?.color ?? ''} className={inputCls} />
+              <input
+                id="color"
+                name="color"
+                type="text"
+                placeholder="np. Czarny metalik"
+                defaultValue={d?.color ?? ''}
+                className={inputCls}
+              />
             </Field>
             <Field label="Tapicerka" htmlFor="upholstery">
-              <input id="upholstery" name="upholstery" type="text" placeholder="np. Skóra Merino czarna" defaultValue={d?.upholstery ?? ''} className={inputCls} />
+              <input
+                id="upholstery"
+                name="upholstery"
+                type="text"
+                placeholder="np. Skora Merino czarna"
+                defaultValue={d?.upholstery ?? ''}
+                className={inputCls}
+              />
             </Field>
             <Field label="Liczba drzwi" htmlFor="doors">
-              <input id="doors" name="doors" type="number" min={1} max={6} placeholder="np. 4" defaultValue={d?.doors ?? ''} className={inputCls} />
+              <input
+                id="doors"
+                name="doors"
+                type="number"
+                min={1}
+                max={6}
+                placeholder="np. 4"
+                defaultValue={d?.doors ?? ''}
+                className={inputCls}
+              />
             </Field>
             <Field label="Liczba miejsc" htmlFor="seats">
-              <input id="seats" name="seats" type="number" min={1} max={9} placeholder="np. 5" defaultValue={d?.seats ?? ''} className={inputCls} />
+              <input
+                id="seats"
+                name="seats"
+                type="number"
+                min={1}
+                max={9}
+                placeholder="np. 5"
+                defaultValue={d?.seats ?? ''}
+                className={inputCls}
+              />
             </Field>
           </div>
         </SectionCard>
 
-        {/* ---- Historia i pochodzenie ---- */}
-        <SectionCard title="Historia i pochodzenie">
-          <div className="grid gap-5 sm:grid-cols-2">
+        <SectionCard title="Historia i Status">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <Field label="Kraj pochodzenia" htmlFor="originCountry">
-              <input id="originCountry" name="originCountry" type="text" placeholder="np. Niemcy" defaultValue={d?.originCountry ?? ''} className={inputCls} />
+              <input
+                id="originCountry"
+                name="originCountry"
+                type="text"
+                placeholder="np. Niemcy"
+                defaultValue={d?.originCountry ?? ''}
+                className={inputCls}
+              />
             </Field>
             <Field label="Data pierwszej rejestracji" htmlFor="firstRegistration">
-              <input id="firstRegistration" name="firstRegistration" type="date" defaultValue={fmtDate(d?.firstRegistration)} className={inputCls} />
+              <input
+                id="firstRegistration"
+                name="firstRegistration"
+                type="date"
+                defaultValue={fmtDate(d?.firstRegistration)}
+                className={inputCls}
+              />
             </Field>
-            <div className="flex items-center gap-6 sm:col-span-2">
+            <Field label="Numer rejestracyjny" htmlFor="registrationNumber">
+              <input
+                id="registrationNumber"
+                name="registrationNumber"
+                type="text"
+                placeholder="np. WI 1234A"
+                defaultValue={d?.registrationNumber ?? ''}
+                className={inputCls}
+              />
+            </Field>
+            <Field label="Stan pojazdu" htmlFor="condition">
+              <select
+                id="condition"
+                name="condition"
+                className={inputCls}
+                defaultValue={d?.condition ?? 'USED'}
+              >
+                {CONDITION_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label="Status" htmlFor="status">
+              <select
+                id="status"
+                name="status"
+                className={inputCls}
+                defaultValue={d?.status ?? 'AVAILABLE'}
+              >
+                {STATUS_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <div className="flex flex-wrap items-center gap-6 sm:col-span-2 lg:col-span-3">
               <div className="flex items-center gap-3">
-                <input id="accidentFree" name="accidentFree" type="checkbox" defaultChecked={d?.accidentFree ?? false} className="h-4 w-4 rounded border-white/[0.15] bg-white/[0.04] text-amber-500 accent-amber-500" />
-                <label htmlFor="accidentFree" className="text-sm text-graphite-300">Bezwypadkowy</label>
+                <input
+                  id="firstOwner"
+                  name="firstOwner"
+                  type="checkbox"
+                  defaultChecked={d?.firstOwner ?? false}
+                  className={checkboxCls}
+                />
+                <label htmlFor="firstOwner" className="text-sm text-graphite-300">
+                  Pierwszy wlasciciel
+                </label>
               </div>
               <div className="flex items-center gap-3">
-                <input id="serviceHistory" name="serviceHistory" type="checkbox" defaultChecked={d?.serviceHistory ?? false} className="h-4 w-4 rounded border-white/[0.15] bg-white/[0.04] text-amber-500 accent-amber-500" />
-                <label htmlFor="serviceHistory" className="text-sm text-graphite-300">Serwisowany w ASO</label>
+                <input
+                  id="registeredInPoland"
+                  name="registeredInPoland"
+                  type="checkbox"
+                  defaultChecked={d?.registeredInPoland ?? false}
+                  className={checkboxCls}
+                />
+                <label htmlFor="registeredInPoland" className="text-sm text-graphite-300">
+                  Zarejestrowany w Polsce
+                </label>
+              </div>
+              <div className="flex items-center gap-3">
+                <input
+                  id="accidentFree"
+                  name="accidentFree"
+                  type="checkbox"
+                  defaultChecked={d?.accidentFree ?? false}
+                  className={checkboxCls}
+                />
+                <label htmlFor="accidentFree" className="text-sm text-graphite-300">
+                  Bezwypadkowy
+                </label>
+              </div>
+              <div className="flex items-center gap-3">
+                <input
+                  id="serviceHistory"
+                  name="serviceHistory"
+                  type="checkbox"
+                  defaultChecked={d?.serviceHistory ?? false}
+                  className={checkboxCls}
+                />
+                <label htmlFor="serviceHistory" className="text-sm text-graphite-300">
+                  Serwisowany w ASO
+                </label>
               </div>
             </div>
           </div>
         </SectionCard>
 
-        {/* ---- Cena i sprzedaż ---- */}
-        <SectionCard title="Cena i sprzedaż">
+        <SectionCard title="Cena i sprzedaz">
           <div className="grid gap-5 sm:grid-cols-2">
             <Field label="Cena (PLN) *" htmlFor="price">
-              <input id="price" name="price" type="number" required min={0} step="0.01" placeholder="np. 589000" defaultValue={d?.price ? String(d.price) : ''} className={inputCls} />
-            </Field>
-            <Field label="Status" htmlFor="status">
-              <select id="status" name="status" className={inputCls} defaultValue={d?.status ?? 'AVAILABLE'}>
-                {STATUS_OPTIONS.map((o) => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
-                ))}
-              </select>
+              <input
+                id="price"
+                name="price"
+                type="number"
+                required
+                min={0}
+                step="0.01"
+                placeholder="np. 589000"
+                defaultValue={d?.price ? String(d.price) : ''}
+                className={inputCls}
+              />
             </Field>
             <Field label="Rodzaj faktury" htmlFor="vatType">
               <select id="vatType" name="vatType" className={inputCls} defaultValue={d?.vatType ?? 'NONE'}>
-                {VAT_OPTIONS.map((o) => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
+                {VAT_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
                 ))}
               </select>
             </Field>
             <div className="flex items-center gap-3 self-end pb-1">
-              <input id="vatReclaimable" name="vatReclaimable" type="checkbox" defaultChecked={d?.vatReclaimable ?? false} className="h-4 w-4 rounded border-white/[0.15] bg-white/[0.04] text-amber-500 accent-amber-500" />
-              <label htmlFor="vatReclaimable" className="text-sm text-graphite-300">Możliwość odliczenia VAT 23%</label>
+              <input
+                id="vatReclaimable"
+                name="vatReclaimable"
+                type="checkbox"
+                defaultChecked={d?.vatReclaimable ?? false}
+                className={checkboxCls}
+              />
+              <label htmlFor="vatReclaimable" className="text-sm text-graphite-300">
+                Mozliwosc odliczenia VAT 23%
+              </label>
             </div>
           </div>
         </SectionCard>
 
-        {/* ---- Media i wyposażenie ---- */}
-        <SectionCard title="Media i wyposażenie">
+        <SectionCard title="Media i wyposazenie">
           <div className="space-y-5">
             <Field label="Opis" htmlFor="description">
-              <textarea id="description" name="description" rows={5} placeholder="Szczegółowy opis pojazdu…" defaultValue={d?.description ?? ''} className={inputCls} />
+              <textarea
+                id="description"
+                name="description"
+                rows={5}
+                placeholder="Szczegolowy opis pojazdu..."
+                defaultValue={d?.description ?? ''}
+                className={inputCls}
+              />
             </Field>
 
-            {/* Cloudinary uploader */}
             <div>
-              <span className={labelCls}>Zdjęcia</span>
-              {/* UWAGA: Podmień "twoj_upload_preset" na swój Upload Preset z panelu Cloudinary */}
+              <span className={labelCls}>Zdjecia</span>
               <CldUploadWidget
                 uploadPreset="premium_cars"
                 options={{ multiple: true, maxFiles: 30, sources: ['local', 'url', 'camera'] }}
@@ -317,33 +569,54 @@ export default function VehicleForm({ vehicle }: VehicleFormProps) {
                     onClick={() => open()}
                     className="flex w-full flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-white/[0.08] bg-white/[0.02] px-6 py-10 text-graphite-500 transition hover:border-amber-500/30 hover:bg-white/[0.04] hover:text-amber-400"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-10 w-10">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-10 w-10"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"
+                      />
                     </svg>
-                    <span className="text-sm font-medium">Kliknij lub przeciągnij pliki, aby wgrać zdjęcia</span>
-                    <span className="text-xs text-graphite-600">JPG, PNG, WebP — maks. 30 plików</span>
+                    <span className="text-sm font-medium">
+                      Kliknij lub przeciagnij pliki, aby wgrac zdjecia
+                    </span>
+                    <span className="text-xs text-graphite-600">JPG, PNG, WebP - maks. 30 plikow</span>
                   </button>
                 )}
               </CldUploadWidget>
 
-              {/* Thumbnail grid */}
               {images.length > 0 && (
                 <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-                  {images.map((url, i) => (
-                    <div key={url + i} className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-white/[0.06] bg-white/[0.03]">
-                      <Image src={url} alt={`Zdjęcie ${i + 1}`} fill className="object-cover" sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" />
+                  {images.map((url, index) => (
+                    <div
+                      key={url + index}
+                      className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-white/[0.06] bg-white/[0.03]"
+                    >
+                      <Image
+                        src={url}
+                        alt={`Zdjecie ${index + 1}`}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      />
                       <button
                         type="button"
-                        onClick={() => setImages((prev) => prev.filter((_, idx) => idx !== i))}
+                        onClick={() => setImages((prev) => prev.filter((_, currentIndex) => currentIndex !== index))}
                         className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-graphite-950/80 text-graphite-400 opacity-0 backdrop-blur-sm transition group-hover:opacity-100 hover:bg-red-500/80 hover:text-white"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
                           <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
                         </svg>
                       </button>
-                      {i === 0 && (
+                      {index === 0 && (
                         <span className="absolute bottom-1.5 left-1.5 rounded bg-amber-500/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-graphite-950">
-                          Główne
+                          Glowne
                         </span>
                       )}
                     </div>
@@ -351,17 +624,22 @@ export default function VehicleForm({ vehicle }: VehicleFormProps) {
                 </div>
               )}
 
-              {/* Hidden input — JSON array for Server Action */}
               <input type="hidden" name="images" value={JSON.stringify(images)} />
             </div>
 
-            <Field label="Wyposażenie (oddzielone przecinkiem)" htmlFor="features">
-              <textarea id="features" name="features" rows={3} placeholder="Ceramiczne hamulce, Pakiet Sport Chrono, Skóra Merino" defaultValue={d?.features?.join(', ') ?? ''} className={inputCls} />
+            <Field label="Wyposazenie (oddzielone przecinkiem)" htmlFor="features">
+              <textarea
+                id="features"
+                name="features"
+                rows={3}
+                placeholder="Ceramiczne hamulce, Pakiet Sport Chrono, Skora Merino"
+                defaultValue={d?.features?.join(', ') ?? ''}
+                className={inputCls}
+              />
             </Field>
           </div>
         </SectionCard>
 
-        {/* ---- Akcje ---- */}
         <div className="flex items-center gap-4 pt-2">
           <SubmitButton editMode={editMode} />
           <Link href="/admin" className="text-sm text-graphite-500 transition hover:text-white">

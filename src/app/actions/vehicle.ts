@@ -10,6 +10,7 @@ import {
   VehicleStatus,
   BodyType,
   VatType,
+  VehicleCondition,
 } from '@prisma/client';
 import type { Vehicle } from '@prisma/client';
 
@@ -105,6 +106,10 @@ function parseFormData(formData: FormData) {
     seats: num('seats'),
     originCountry: str('originCountry'),
     firstRegistration: str('firstRegistration'),
+    firstOwner: bool('firstOwner'),
+    registeredInPoland: bool('registeredInPoland'),
+    registrationNumber: str('registrationNumber'),
+    condition: str('condition'),
     accidentFree: bool('accidentFree'),
     serviceHistory: bool('serviceHistory'),
     price: num('price'),
@@ -140,6 +145,7 @@ function validateAndBuild(raw: ReturnType<typeof parseFormData>) {
   const status = toEnum(raw.status, VehicleStatus) ?? VehicleStatus.AVAILABLE;
   const bodyType = toEnum(raw.bodyType, BodyType) ?? null;
   const vatType = toEnum(raw.vatType, VatType) ?? VatType.NONE;
+  const condition = toEnum(raw.condition, VehicleCondition) ?? VehicleCondition.USED;
 
   if (!fuelType || !transmission || !driveTrain) {
     return { error: 'Wybierz poprawne wartości paliwa, skrzyni biegów i napędu.' };
@@ -170,6 +176,10 @@ function validateAndBuild(raw: ReturnType<typeof parseFormData>) {
       seats: raw.seats,
       originCountry: raw.originCountry,
       firstRegistration,
+      firstOwner: raw.firstOwner,
+      registeredInPoland: raw.registeredInPoland,
+      registrationNumber: raw.registrationNumber,
+      condition,
       accidentFree: raw.accidentFree,
       serviceHistory: raw.serviceHistory,
       vin: raw.vin,
@@ -187,6 +197,10 @@ function validateAndBuild(raw: ReturnType<typeof parseFormData>) {
 function serializeVehicle(v: Vehicle): SerializedVehicle {
   return {
     ...v,
+    firstOwner: Boolean(v.firstOwner),
+    registeredInPoland: Boolean(v.registeredInPoland),
+    registrationNumber: v.registrationNumber ?? null,
+    condition: v.condition as SerializedVehicle['condition'],
     price: Number(v.price),
     createdAt: v.createdAt.toISOString(),
     updatedAt: v.updatedAt.toISOString(),
