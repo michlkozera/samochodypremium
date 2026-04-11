@@ -11,9 +11,9 @@ type VehicleInfoProps = {
 
 export function VehicleInfo({ vehicle }: VehicleInfoProps) {
   return (
-    <div className="grid gap-7 lg:gap-8">
-      {/* Breadcrumb */}
-      <nav className="flex flex-wrap items-center gap-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-zinc-400">
+    <div className="grid gap-6 lg:gap-7">
+      {/* Breadcrumb — hidden on mobile (space is precious) */}
+      <nav className="hidden items-center gap-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-zinc-400 sm:flex sm:flex-wrap">
         <Link className="transition-colors duration-200 hover:text-zinc-950" href="/">
           Start
         </Link>
@@ -28,41 +28,41 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
       </nav>
 
       {/* Status badges + Title */}
-      <div className="grid gap-4">
+      <div className="grid gap-3">
         <div className="flex flex-wrap gap-2">
-          <span className="inline-flex items-center border border-zinc-950 bg-zinc-950 px-3 py-1.5 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-white">
+          <span className="inline-flex items-center border border-zinc-950 bg-zinc-950 px-2.5 py-1 text-[0.58rem] font-semibold uppercase tracking-[0.18em] text-white">
             {vehicle.statusLabel}
           </span>
-          <span className="inline-flex items-center border border-zinc-200 bg-white px-3 py-1.5 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-zinc-600">
+          <span className="inline-flex items-center border border-zinc-200 bg-white px-2.5 py-1 text-[0.58rem] font-semibold uppercase tracking-[0.18em] text-zinc-600">
             {vehicle.fuelTypeLabel}
           </span>
-          <span className="inline-flex items-center border border-zinc-200 bg-white px-3 py-1.5 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-zinc-600">
+          <span className="inline-flex items-center border border-zinc-200 bg-white px-2.5 py-1 text-[0.58rem] font-semibold uppercase tracking-[0.18em] text-zinc-600">
             {vehicle.transmissionLabel}
           </span>
         </div>
 
-        <h1 className="max-w-[20ch] text-[clamp(1.6rem,3vw,2.6rem)] font-semibold uppercase leading-[1.06] tracking-[-0.03em] text-zinc-950">
+        <h1 className="text-[clamp(1.55rem,5vw,2.6rem)] font-semibold uppercase leading-[1.06] tracking-[-0.03em] text-zinc-950">
           {vehicle.make} {vehicle.model}
         </h1>
-        <p className="max-w-xl text-[0.88rem] leading-[1.8] text-zinc-500">
+        <p className="text-[0.85rem] leading-[1.8] text-zinc-500 sm:max-w-xl">
           {vehicle.shortDescription}
         </p>
       </div>
 
       {/* Price block */}
       <div className="border border-zinc-200 bg-white">
-        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-zinc-200 p-5 sm:p-6">
+        <div className="flex flex-wrap items-end justify-between gap-3 border-b border-zinc-200 p-4 sm:p-5">
           <div className="grid gap-1">
             <span className="eyebrow text-zinc-400">Cena brutto</span>
-            <span className="text-[clamp(1.8rem,3vw,2.4rem)] font-semibold tracking-[-0.04em] text-zinc-950">
+            <span className="text-[clamp(1.6rem,5vw,2.3rem)] font-semibold tracking-[-0.04em] text-zinc-950">
               {formatPrice(vehicle.price)}&nbsp;PLN
             </span>
           </div>
-          <span className="border border-zinc-200 px-3 py-1.5 text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-zinc-500">
+          <span className="border border-zinc-200 px-2.5 py-1.5 text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-zinc-500">
             Leasing od {formatPrice(vehicle.monthlyRate)}&nbsp;PLN / mies.
           </span>
         </div>
-        <div className="flex items-start gap-3 p-5 sm:p-6">
+        <div className="flex items-start gap-3 p-4 sm:p-5">
           <svg
             className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400"
             fill="none"
@@ -76,7 +76,7 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
               strokeLinejoin="round"
             />
           </svg>
-          <p className="text-[0.8rem] leading-[1.75] text-zinc-500">
+          <p className="text-[0.78rem] leading-[1.75] text-zinc-500">
             Szacunkowa rata leasingu od{' '}
             <strong className="font-semibold text-zinc-950">
               {formatPrice(vehicle.monthlyRate)}&nbsp;PLN
@@ -86,8 +86,8 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
         </div>
       </div>
 
-      {/* Key specs grid */}
-      <div className="grid grid-cols-2 gap-px bg-zinc-200 sm:grid-cols-3">
+      {/* Key specs grid — 3 cols on mobile */}
+      <div className="grid grid-cols-3 gap-px bg-zinc-200 sm:grid-cols-3">
         {[
           ['Rok', String(vehicle.year)],
           ['Przebieg', `${formatMileage(vehicle.mileage)} km`],
@@ -96,19 +96,19 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
           ['Skrzynia', vehicle.transmissionLabel],
           ['Napęd', vehicle.driveTrainLabel],
         ].map(([label, value]) => (
-          <div className="bg-white px-4 py-4" key={label}>
-            <span className="block text-[0.58rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">
+          <div className="bg-white px-3 py-3 sm:px-4 sm:py-4" key={label}>
+            <span className="block text-[0.54rem] font-semibold uppercase tracking-[0.16em] text-zinc-400">
               {label}
             </span>
-            <span className="mt-1.5 block text-[0.88rem] font-semibold leading-tight text-zinc-950">
+            <span className="mt-1 block text-[0.78rem] font-semibold leading-tight text-zinc-950 sm:text-[0.88rem]">
               {value}
             </span>
           </div>
         ))}
       </div>
 
-      {/* CTAs */}
-      <div className="flex flex-col gap-3 sm:flex-row">
+      {/* CTAs — desktop only (mobile uses sticky bar) */}
+      <div className="hidden flex-col gap-3 sm:flex sm:flex-row">
         <a
           className="btn-premium w-full sm:w-fit"
           href="#kontakt-oferta"
@@ -117,6 +117,22 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
         </a>
         <a
           className="btn-premium-ghost w-full sm:w-fit"
+          href={vehicle.advisor.phoneHref}
+        >
+          Zadzwoń teraz
+        </a>
+      </div>
+
+      {/* Mobile CTA row (visible on mobile, below specs, above sticky bar) */}
+      <div className="flex flex-col gap-3 sm:hidden">
+        <a
+          className="btn-premium w-full justify-center"
+          href="#kontakt-oferta"
+        >
+          Zapytaj o ten pojazd
+        </a>
+        <a
+          className="btn-premium-ghost w-full justify-center"
           href={vehicle.advisor.phoneHref}
         >
           Zadzwoń teraz

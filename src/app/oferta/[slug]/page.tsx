@@ -7,6 +7,7 @@ import { VehicleInfo } from '@/components/katalog/vehicle-info';
 import { VehicleSpecs } from '@/components/katalog/vehicle-specs';
 import { VehicleEquipment } from '@/components/katalog/vehicle-equipment';
 import { VehicleContact } from '@/components/katalog/vehicle-contact';
+import { VehicleMobileCta } from '@/components/katalog/vehicle-mobile-cta';
 import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
 import { getCatalogVehicleBySlug } from '@/lib/vehicle-catalog';
 
@@ -38,27 +39,44 @@ export default async function VehicleDetailPage({ params }: PageProps) {
 
   return (
     <SitePage headerMode="solid" page="oferta" pageClass="page-oferta-detail">
-      <main className="flex flex-col">
+      {/* Sticky mobile CTA (fixed bar) */}
+      <VehicleMobileCta vehicle={vehicle} />
+
+      <main className="flex flex-col pb-[4.5rem] lg:pb-0">
 
         {/* ── Hero: gallery + info ── */}
-        <section className="border-b border-zinc-200/60 bg-white pt-[calc(var(--site-header-h)+1.5rem)]">
-          <div className="site-shell py-8 sm:py-10 lg:py-12">
-            <MotionReveal
-              amount={0.12}
-              className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-10 xl:gap-14"
-              stagger={0.14}
-            >
-              <MotionRevealItem preset="slide-left" duration={0.9}>
-                <VehicleGallery
-                  alt={`${vehicle.make} ${vehicle.model}`}
-                  images={vehicle.images}
-                />
-              </MotionRevealItem>
+        <section className="border-b border-zinc-200/60 bg-white pt-[var(--site-header-h)]">
+          {/* Mobile: gallery full-width, no side padding */}
+          <div className="lg:hidden">
+            <VehicleGallery
+              alt={`${vehicle.make} ${vehicle.model}`}
+              images={vehicle.images}
+            />
+            <div className="px-4 py-6 sm:px-6">
+              <VehicleInfo vehicle={vehicle} />
+            </div>
+          </div>
 
-              <MotionRevealItem preset="slide-right" duration={0.9}>
-                <VehicleInfo vehicle={vehicle} />
-              </MotionRevealItem>
-            </MotionReveal>
+          {/* Desktop: side-by-side */}
+          <div className="hidden lg:block">
+            <div className="site-shell py-10 xl:py-12">
+              <MotionReveal
+                amount={0.12}
+                className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] xl:gap-14"
+                stagger={0.14}
+              >
+                <MotionRevealItem preset="slide-left" duration={0.9}>
+                  <VehicleGallery
+                    alt={`${vehicle.make} ${vehicle.model}`}
+                    images={vehicle.images}
+                  />
+                </MotionRevealItem>
+
+                <MotionRevealItem preset="slide-right" duration={0.9}>
+                  <VehicleInfo vehicle={vehicle} />
+                </MotionRevealItem>
+              </MotionReveal>
+            </div>
           </div>
         </section>
 
