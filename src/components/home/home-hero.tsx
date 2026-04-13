@@ -11,7 +11,6 @@ export function HomeHero() {
       title="Wyselekcjonowane samochody klasy premium."
       description="Starannie wybrane auta z pełną historią, transparentną selekcją i wsparciem od pierwszej rozmowy po odbiór kluczyków."
       actions={[
-        { href: '/oferta', label: 'Zobacz ofertę' },
         { href: '/kontakt', label: 'Skontaktuj się' },
       ]}
     />
