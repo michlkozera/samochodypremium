@@ -17,6 +17,7 @@ type PageHeroProps = {
   title: ReactNode;
   description?: ReactNode;
   actions?: PageHeroAction[];
+  searchComponent?: ReactNode;
   sectionClassName?: string;
   contentClassName?: string;
   titleClassName?: string;
@@ -37,6 +38,7 @@ export function PageHero({
   title,
   description,
   actions = [],
+  searchComponent,
   sectionClassName,
   contentClassName,
   titleClassName,
@@ -76,6 +78,14 @@ export function PageHero({
                 <p className={[baseDescriptionClassName, descriptionClassName].filter(Boolean).join(' ')}>
                   {description}
                 </p>
+              </MotionRevealItem>
+            ) : null}
+
+            {searchComponent ? (
+              <MotionRevealItem>
+                <div className="mt-2 sm:mt-4 max-w-2xl">
+                  {searchComponent}
+                </div>
               </MotionRevealItem>
             ) : null}
           </div>

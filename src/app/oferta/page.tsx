@@ -11,17 +11,28 @@ export const metadata: Metadata = {
     'Przeglądaj aktualną ofertę wyselekcjonowanych samochodów premium. Mercedes-AMG, Porsche, Audi RS, BMW M — każdy egzemplarz z pełną historią serwisową.',
 };
 
-export default async function OfertaPage() {
-  const [vehicles, filterOptions] = await Promise.all([
+export default async function OfertaPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const [vehicles, filterOptions, params] = await Promise.all([
     getCatalogVehicles(),
     getCatalogFilterOptions(),
+    searchParams,
   ]);
+
+  const initialSearch = typeof params.search === 'string' ? params.search : '';
 
   return (
     <SitePage page="oferta" pageClass="page-oferta">
       <main className="flex flex-col">
         <OfertaHero />
-        <CatalogClient vehicles={vehicles} filterOptions={filterOptions} />
+        <CatalogClient 
+          vehicles={vehicles} 
+          filterOptions={filterOptions} 
+          initialSearch={initialSearch}
+        />
         <CollaborationCTA />
       </main>
     </SitePage>

@@ -17,6 +17,7 @@ export type FilterState = {
   mileageTo: string;
   priceFrom: string;
   priceTo: string;
+  search: string;
 };
 
 const INITIAL_FILTERS: FilterState = {
@@ -30,6 +31,7 @@ const INITIAL_FILTERS: FilterState = {
   mileageTo: '',
   priceFrom: '',
   priceTo: '',
+  search: '',
 };
 
 type SelectFieldProps = {
@@ -131,10 +133,14 @@ function RangeField({
 type CatalogClientProps = {
   vehicles: CatalogVehicle[];
   filterOptions: CatalogFilterOptions;
+  initialSearch?: string;
 };
 
-export function CatalogClient({ vehicles, filterOptions }: CatalogClientProps) {
-  const [filters, setFilters] = useState<FilterState>(INITIAL_FILTERS);
+export function CatalogClient({ vehicles, filterOptions, initialSearch = '' }: CatalogClientProps) {
+  const [filters, setFilters] = useState<FilterState>({
+    ...INITIAL_FILTERS,
+    search: initialSearch,
+  });
   const [isExpanded, setIsExpanded] = useState(false);
 
   const setFilter = useCallback(<K extends keyof FilterState>(key: K, value: FilterState[K]) => {
@@ -151,6 +157,22 @@ export function CatalogClient({ vehicles, filterOptions }: CatalogClientProps) {
 
   const filteredVehicles = useMemo(() => {
     return vehicles.filter((vehicle) => {
+      // Text search across multiple fields
+      if (filters.search) {
+        const searchLower = filters.search.toLowerCase();
+        const searchFields = [
+          vehicle.make,
+          vehicle.model,
+          vehicle.bodyTypeLabel,
+          vehicle.fuelTypeLabel,
+          vehicle.transmissionLabel,
+          vehicle.year.toString(),
+        ].filter(Boolean).map(f => f.toLowerCase());
+        
+        const matchesSearch = searchFields.some(field => field.includes(searchLower));
+        if (!matchesSearch) return false;
+      }
+      
       if (filters.brand && vehicle.make !== filters.brand) return false;
       if (filters.body && vehicle.bodyTypeLabel !== filters.body) return false;
       if (filters.fuel && vehicle.fuelTypeLabel !== filters.fuel) return false;
@@ -225,8 +247,55 @@ export function CatalogClient({ vehicles, filterOptions }: CatalogClientProps) {
               </div>
             </div>
 
+            {/* Search field */}
+            <div className="mt-6">
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                  <svg
+                    className="h-5 w-5 text-zinc-400 transition-colors"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Wyszukaj markę, model, rok lub typ nadwozia..."
+                  value={filters.search}
+                  onChange={(e) => setFilter('search', e.target.value)}
+                  className="
+                    w-full h-12 pl-12 pr-12
+                    border border-zinc-200 bg-white
+                    text-[0.9rem] text-zinc-950
+                    placeholder:text-zinc-400
+                    outline-none
+                    transition-all duration-200
+                    focus:border-zinc-950 focus:ring-0
+                  "
+                />
+                {filters.search && (
+                  <button
+                    type="button"
+                    onClick={() => setFilter('search', '')}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1 text-zinc-400 hover:text-zinc-600 transition-colors"
+                  >
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            </div>
+
             {/* Main filters */}
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               <SelectField
                 id="filter-brand"
                 label="Marka"
