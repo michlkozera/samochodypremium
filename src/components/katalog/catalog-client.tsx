@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import type { CatalogVehicle, CatalogFilterOptions } from '@/lib/vehicle-catalog';
 import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
 import { VehicleCard } from './vehicle-card';
@@ -269,11 +269,19 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '' }: C
   const [sortBy, setSortBy] = useState<SortOption>('');
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 10;
+  const vehicleGridRef = useRef<HTMLDivElement>(null);
 
   // Reset page when filters or sort change
   useEffect(() => {
     setCurrentPage(1);
   }, [filters, sortBy]);
+
+  // Handle page change with scroll to top of vehicle grid
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+    // Scroll to vehicle grid section with smooth animation
+    vehicleGridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
 
   const setFilter = useCallback(<K extends keyof FilterState>(key: K, value: FilterState[K]) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -554,7 +562,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '' }: C
       </section>
 
       {/* ── Vehicle Grid ── */}
-      <section className="border-b border-zinc-200 bg-[linear-gradient(180deg,rgba(250,250,250,0.94)_0%,rgba(255,255,255,1)_100%)]">
+      <section ref={vehicleGridRef} className="border-b border-zinc-200 bg-[linear-gradient(180deg,rgba(250,250,250,0.94)_0%,rgba(255,255,255,1)_100%)] scroll-mt-20">
         <div className="site-shell py-10 sm:py-12 lg:py-14">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-8">
             <div className="grid gap-2">
@@ -626,7 +634,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '' }: C
                   totalPages={totalPages}
                   totalItems={filteredVehicles.length}
                   itemsPerPage={ITEMS_PER_PAGE}
-                  onPageChange={setCurrentPage}
+                  onPageChange={handlePageChange}
                 />
               )}
             </>
