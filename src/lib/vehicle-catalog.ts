@@ -54,6 +54,8 @@ export type CatalogVehicleDetail = {
   statusLabel: string;
   shortDescription: string;
   description: string;
+  youtubeUrl: string | null;
+  youtubeEmbedUrl: string | null;
   images: string[];
   features: string[];
   specs: [string, string][];
@@ -169,6 +171,57 @@ function buildCatalogVehicle(vehicle: Vehicle): CatalogVehicle {
   };
 }
 
+function extractYouTubeVideoId(value: string | null | undefined) {
+  if (!value) {
+    return null;
+  }
+
+  try {
+    const url = new URL(value);
+    const hostname = url.hostname.toLowerCase().replace(/^www\./, '');
+
+    if (hostname === 'youtu.be') {
+      const shortId = url.pathname.replace(/^\/+/, '').split('/')[0];
+      return /^[a-zA-Z0-9_-]{11}$/.test(shortId) ? shortId : null;
+    }
+
+    if (
+      hostname === 'youtube.com' ||
+      hostname.endsWith('.youtube.com') ||
+      hostname === 'youtube-nocookie.com' ||
+      hostname.endsWith('.youtube-nocookie.com')
+    ) {
+      const watchId = url.searchParams.get('v');
+
+      if (watchId && /^[a-zA-Z0-9_-]{11}$/.test(watchId)) {
+        return watchId;
+      }
+
+      const pathParts = url.pathname.split('/').filter(Boolean);
+      const markerIndex = pathParts.findIndex((part) => ['embed', 'shorts', 'live'].includes(part));
+
+      if (markerIndex !== -1) {
+        const pathId = pathParts[markerIndex + 1] ?? '';
+        return /^[a-zA-Z0-9_-]{11}$/.test(pathId) ? pathId : null;
+      }
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
+function toYouTubeEmbedUrl(value: string | null | undefined) {
+  const videoId = extractYouTubeVideoId(value);
+
+  if (!videoId) {
+    return null;
+  }
+
+  return `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`;
+}
+
 function sortImagesByPrimary(
   images: string[],
   primaryImageIndex: number | null | undefined,
@@ -217,6 +270,8 @@ function buildCatalogVehicleDetail(vehicle: Vehicle): CatalogVehicleDetail {
     description:
       vehicle.description ??
       'Skontaktuj się z nami, aby otrzymać pełną specyfikację, historię serwisową i ofertę finansowania dla tego egzemplarza.',
+    youtubeUrl: vehicle.youtubeUrl,
+    youtubeEmbedUrl: toYouTubeEmbedUrl(vehicle.youtubeUrl),
     images: sortImagesByPrimary(vehicle.images, vehicle.primaryImageIndex),
     features: vehicle.features,
     specs: buildSpecs(vehicle),

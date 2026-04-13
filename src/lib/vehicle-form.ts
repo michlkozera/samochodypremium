@@ -57,6 +57,7 @@ type RawVehicleFormValues = {
   vatType: string;
   status: string;
   description: string;
+  youtubeUrl: string;
   images: UploadedVehicleImage[];
   primaryImageIndex: number | null;
   features: string[];
@@ -120,6 +121,9 @@ const vehicleFormSchema = z
     vatType: z.nativeEnum(VatType),
     status: z.nativeEnum(VehicleStatus),
     description: z.string().trim().max(20_000, 'Opis jest zbyt długi.').transform(emptyToNull),
+    youtubeUrl: z
+      .union([z.string().trim().url('Podaj poprawny link do filmu.'), z.literal('')])
+      .transform((value) => (value === '' ? null : value)),
     images: z
       .array(uploadedVehicleImageSchema)
       .max(30, 'Możesz dodać maksymalnie 30 zdjęć.')
@@ -183,10 +187,35 @@ const vehicleFormSchema = z
         message: 'Dla pojazdu elektrycznego pozostaw pojemność silnika pustą.',
       });
     }
+
+    if (value.youtubeUrl && !isYouTubeUrl(value.youtubeUrl)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['youtubeUrl'],
+        message: 'Podaj link do YouTube (youtube.com lub youtu.be).',
+      });
+    }
   });
 
 function emptyToNull(value: string) {
   return value.length === 0 ? null : value;
+}
+
+function isYouTubeUrl(value: string) {
+  try {
+    const url = new URL(value);
+    const hostname = url.hostname.toLowerCase().replace(/^www\./, '');
+
+    return (
+      hostname === 'youtu.be' ||
+      hostname === 'youtube.com' ||
+      hostname === 'youtube-nocookie.com' ||
+      hostname.endsWith('.youtube.com') ||
+      hostname.endsWith('.youtube-nocookie.com')
+    );
+  } catch {
+    return false;
+  }
 }
 
 function nullableInteger(min: number, max: number, label: string) {
@@ -354,6 +383,7 @@ export function buildVehicleFormValues(formData: FormData): RawVehicleFormValues
     vatType: parseText(formData.get('vatType')),
     status: parseText(formData.get('status')),
     description: parseText(formData.get('description')),
+    youtubeUrl: parseText(formData.get('youtubeUrl')),
     images: parseImages(formData.get('images')),
     primaryImageIndex: parseNumber(formData.get('primaryImageIndex')),
     features: parseFeatures(formData.get('features')),
@@ -407,6 +437,7 @@ export function buildVehiclePersistenceData(parsed: z.infer<typeof vehicleFormSc
     vatType: parsed.vatType,
     status: parsed.status,
     description: parsed.description,
+    youtubeUrl: parsed.youtubeUrl,
     images: parsed.images.map((image) => image.url),
     imagePublicIds: parsed.images.map((image) => image.publicId),
     primaryImageIndex,

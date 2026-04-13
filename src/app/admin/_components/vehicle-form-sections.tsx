@@ -225,6 +225,21 @@ export function VehicleDescriptionSection({
 
         {imagesSlot}
 
+        <Field
+          label="Link do filmu YouTube"
+          htmlFor="youtubeUrl"
+          error={getError(errors, 'youtubeUrl')}
+        >
+          <input
+            id="youtubeUrl"
+            name="youtubeUrl"
+            type="url"
+            placeholder="https://www.youtube.com/watch?v=..."
+            defaultValue={vehicle?.youtubeUrl ?? ''}
+            className={inputCls}
+          />
+        </Field>
+
         <Field label="Wyposazenie (oddzielone przecinkiem)" htmlFor="features" error={getError(errors, 'features')}>
           <textarea id="features" name="features" rows={3} placeholder="Ceramiczne hamulce, Pakiet Sport Chrono, Skora Merino" defaultValue={vehicle?.features?.join(', ') ?? ''} className={inputCls} />
         </Field>

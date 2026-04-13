@@ -138,6 +138,7 @@ model Vehicle {
 
   // --- Media i opis ---
   description       String?  @db.Text // Dlugi opis ogloszenia
+  youtubeUrl        String? // Link do filmu YouTube dla oferty
   images            String[] // URL-e zdjec (zewnetrzny hosting)
   imagePublicIds    String[] @default([]) // Public IDs z Cloudinary odpowiadajace tablicy images
   primaryImageIndex Int      @default(0) // Indeks zdjecia glownego

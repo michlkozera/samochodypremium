@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { SitePage } from '@/components/layout/site-page';
 import { VehicleGallery } from '@/components/katalog/vehicle-gallery';
+import { VehicleVideoTile } from '@/components/katalog/vehicle-video-tile';
 import { VehicleInfo } from '@/components/katalog/vehicle-info';
 import { VehicleSpecs } from '@/components/katalog/vehicle-specs';
 import { VehicleEquipment } from '@/components/katalog/vehicle-equipment';
@@ -52,6 +53,15 @@ export default async function VehicleDetailPage({ params }: PageProps) {
               alt={`${vehicle.make} ${vehicle.model}`}
               images={vehicle.images}
             />
+            {vehicle.youtubeEmbedUrl ? (
+              <div className="px-4 pt-4 sm:px-6">
+                <VehicleVideoTile
+                  title={`${vehicle.make} ${vehicle.model}`}
+                  embedUrl={vehicle.youtubeEmbedUrl}
+                  watchUrl={vehicle.youtubeUrl}
+                />
+              </div>
+            ) : null}
             <div className="px-4 py-6 sm:px-6">
               <VehicleInfo vehicle={vehicle} />
             </div>
@@ -66,10 +76,19 @@ export default async function VehicleDetailPage({ params }: PageProps) {
                 stagger={0.14}
               >
                 <MotionRevealItem preset="slide-left" duration={0.9}>
-                  <VehicleGallery
-                    alt={`${vehicle.make} ${vehicle.model}`}
-                    images={vehicle.images}
-                  />
+                  <div className="grid gap-4">
+                    <VehicleGallery
+                      alt={`${vehicle.make} ${vehicle.model}`}
+                      images={vehicle.images}
+                    />
+                    {vehicle.youtubeEmbedUrl ? (
+                      <VehicleVideoTile
+                        title={`${vehicle.make} ${vehicle.model}`}
+                        embedUrl={vehicle.youtubeEmbedUrl}
+                        watchUrl={vehicle.youtubeUrl}
+                      />
+                    ) : null}
+                  </div>
                 </MotionRevealItem>
 
                 <MotionRevealItem preset="slide-right" duration={0.9}>
