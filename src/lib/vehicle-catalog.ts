@@ -169,6 +169,33 @@ function buildCatalogVehicle(vehicle: Vehicle): CatalogVehicle {
   };
 }
 
+function sortImagesByPrimary(
+  images: string[],
+  primaryImageIndex: number | null | undefined,
+) {
+  if (images.length <= 1) {
+    return images;
+  }
+
+  const parsedIndex = Number(primaryImageIndex);
+  const normalizedIndex =
+    Number.isInteger(parsedIndex) && parsedIndex >= 0
+      ? Math.min(parsedIndex, images.length - 1)
+      : 0;
+
+  if (normalizedIndex === 0) {
+    return images;
+  }
+
+  const primaryImage = images[normalizedIndex];
+
+  if (!primaryImage) {
+    return images;
+  }
+
+  return [primaryImage, ...images.filter((_, index) => index !== normalizedIndex)];
+}
+
 function buildCatalogVehicleDetail(vehicle: Vehicle): CatalogVehicleDetail {
   return {
     id: vehicle.id,
@@ -190,7 +217,7 @@ function buildCatalogVehicleDetail(vehicle: Vehicle): CatalogVehicleDetail {
     description:
       vehicle.description ??
       'Skontaktuj się z nami, aby otrzymać pełną specyfikację, historię serwisową i ofertę finansowania dla tego egzemplarza.',
-    images: vehicle.images,
+    images: sortImagesByPrimary(vehicle.images, vehicle.primaryImageIndex),
     features: vehicle.features,
     specs: buildSpecs(vehicle),
     advisor: {

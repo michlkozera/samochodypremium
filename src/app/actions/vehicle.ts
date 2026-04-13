@@ -163,6 +163,7 @@ function toActionError(error: unknown): ActionState {
 function revalidateVehiclePaths(currentSlug?: string, previousSlug?: string) {
   revalidatePath('/admin');
   revalidatePath('/oferta');
+  revalidatePath('/oferta/[slug]', 'page');
 
   if (previousSlug) {
     revalidatePath(`/oferta/${previousSlug}`);

@@ -1,12 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import {
-  CldUploadWidget,
-  type CloudinaryUploadWidgetResults,
-} from 'next-cloudinary';
+import { useRef, useState } from 'react';
 import type { UploadedVehicleImage } from '@/lib/vehicle-form';
 import { labelCls } from './vehicle-form-primitives';
+
+const MAX_IMAGES = 30;
+const UPLOAD_PRESET = 'premium_cars';
+const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
 type VehicleImagesFieldProps = {
   images: UploadedVehicleImage[];
@@ -17,17 +18,48 @@ type VehicleImagesFieldProps = {
   onSetPrimary: (index: number) => void;
 };
 
-function isUploadInfo(
-  value: unknown,
-): value is { secure_url: string; public_id: string } {
-  return (
-    typeof value === 'object' &&
-    value !== null &&
-    'secure_url' in value &&
-    typeof value.secure_url === 'string' &&
-    'public_id' in value &&
-    typeof value.public_id === 'string'
+async function uploadImageFile(file: File): Promise<UploadedVehicleImage> {
+  if (!CLOUDINARY_CLOUD_NAME) {
+    throw new Error('Brak konfiguracji Cloudinary.');
+  }
+
+  const payload = new FormData();
+  payload.append('file', file);
+  payload.append('upload_preset', UPLOAD_PRESET);
+
+  const response = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`,
+    {
+      method: 'POST',
+      body: payload,
+    },
   );
+
+  if (!response.ok) {
+    throw new Error('Nie udalo sie wyslac pliku do Cloudinary.');
+  }
+
+  const result = await response.json() as {
+    secure_url?: string;
+    public_id?: string;
+  };
+
+  if (!result.secure_url || !result.public_id) {
+    throw new Error('Cloudinary nie zwrocilo danych o przeslanym pliku.');
+  }
+
+  return {
+    url: result.secure_url,
+    publicId: result.public_id,
+  };
+}
+
+function isImageFile(file: File) {
+  if (file.type.startsWith('image/')) {
+    return true;
+  }
+
+  return /\.(avif|gif|heic|heif|jpe?g|png|webp)$/i.test(file.name);
 }
 
 export function VehicleImagesField({
@@ -38,59 +70,194 @@ export function VehicleImagesField({
   onRemove,
   onSetPrimary,
 }: VehicleImagesFieldProps) {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{
+    done: number;
+    total: number;
+  } | null>(null);
+  const [uploadMessage, setUploadMessage] = useState<string | null>(null);
+  const slotsLeft = Math.max(0, MAX_IMAGES - images.length);
+  const interactionLocked = isUploading || slotsLeft === 0;
+
+  async function handleUpload(files: File[]) {
+    if (interactionLocked) {
+      return;
+    }
+
+    if (!CLOUDINARY_CLOUD_NAME) {
+      setUploadMessage('Brak konfiguracji Cloudinary. Ustaw NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME.');
+      return;
+    }
+
+    const imageFiles = files.filter((file) => isImageFile(file));
+
+    if (imageFiles.length === 0) {
+      setUploadMessage('Dodaj pliki graficzne (JPG, PNG, WebP lub AVIF).');
+      return;
+    }
+
+    const acceptedFiles = imageFiles.slice(0, slotsLeft);
+    const skippedByLimit = imageFiles.length - acceptedFiles.length;
+    const failedFiles: string[] = [];
+
+    setUploadMessage(null);
+    setIsUploading(true);
+    setUploadProgress({ done: 0, total: acceptedFiles.length });
+
+    for (const [index, file] of acceptedFiles.entries()) {
+      try {
+        const uploadedImage = await uploadImageFile(file);
+        onUpload(uploadedImage);
+      } catch {
+        failedFiles.push(file.name);
+      } finally {
+        setUploadProgress({ done: index + 1, total: acceptedFiles.length });
+      }
+    }
+
+    setIsUploading(false);
+    setUploadProgress(null);
+
+    if (failedFiles.length > 0 || skippedByLimit > 0) {
+      const reasons: string[] = [];
+
+      if (failedFiles.length > 0) {
+        reasons.push(`Nie udalo sie wgrac ${failedFiles.length} plikow.`);
+      }
+
+      if (skippedByLimit > 0) {
+        reasons.push(`Pominieto ${skippedByLimit} plikow (limit ${MAX_IMAGES} zdjec).`);
+      }
+
+      setUploadMessage(reasons.join(' '));
+      return;
+    }
+
+    setUploadMessage('Pliki zostaly poprawnie dodane do galerii.');
+  }
+
+  function openFilePicker() {
+    if (interactionLocked) {
+      return;
+    }
+
+    fileInputRef.current?.click();
+  }
+
   return (
     <div>
       <span className={labelCls}>Zdjecia</span>
-      <CldUploadWidget
-        uploadPreset="premium_cars"
-        options={{
-          multiple: true,
-          maxFiles: Math.max(0, 30 - images.length),
-          sources: ['local', 'url', 'camera'],
-        }}
-        onSuccess={(result: CloudinaryUploadWidgetResults) => {
-          if (isUploadInfo(result.info)) {
-            onUpload({
-              url: result.info.secure_url,
-              publicId: result.info.public_id,
-            });
+      <div
+        onClick={openFilePicker}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openFilePicker();
           }
         }}
+        onDragEnter={(event) => {
+          event.preventDefault();
+          if (!interactionLocked) {
+            setIsDragging(true);
+          }
+        }}
+        onDragOver={(event) => {
+          event.preventDefault();
+          if (!interactionLocked) {
+            setIsDragging(true);
+          }
+        }}
+        onDragLeave={(event) => {
+          event.preventDefault();
+          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+            setIsDragging(false);
+          }
+        }}
+        onDrop={(event) => {
+          event.preventDefault();
+          setIsDragging(false);
+          if (interactionLocked) {
+            return;
+          }
+
+          const files = Array.from(event.dataTransfer.files);
+          void handleUpload(files);
+        }}
+        role="button"
+        tabIndex={interactionLocked ? -1 : 0}
+        aria-disabled={interactionLocked}
+        className={`admin-surface-soft mt-2 flex w-full flex-col items-center justify-center gap-3 border-2 border-dashed px-6 py-10 text-center transition ${
+          isDragging
+            ? 'border-zinc-950 bg-zinc-950 text-white'
+            : 'border-zinc-300 bg-white text-zinc-600 hover:border-zinc-950 hover:text-zinc-950'
+        } ${interactionLocked ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
       >
-        {({ open }) => (
-          <button
-            type="button"
-            onClick={() => open()}
-            disabled={images.length >= 30}
-            className="admin-surface-soft flex w-full flex-col items-center justify-center gap-3 border-2 border-dashed border-zinc-300 px-6 py-10 text-zinc-500 transition hover:border-zinc-950 hover:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-60"
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          multiple
+          className="sr-only"
+          onChange={(event) => {
+            const pickedFiles = Array.from(event.target.files ?? []);
+            if (pickedFiles.length > 0) {
+              void handleUpload(pickedFiles);
+            }
+
+            event.currentTarget.value = '';
+          }}
+        />
+        {isUploading ? (
+          <svg
+            className="h-10 w-10 animate-spin"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="h-10 w-10"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"
-              />
-            </svg>
-            <span className="text-sm font-medium">
-              {images.length >= 30
-                ? 'Osiagnieto limit 30 zdjec'
-                : 'Kliknij lub przeciagnij pliki, aby wgrac zdjecia'}
-            </span>
-            <span className="text-xs text-zinc-500">
-              JPG, PNG, WebP - maks. 30 plikow
-            </span>
-          </button>
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 0 1 8-8v4a4 4 0 0 0-4 4H4Z"
+            />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="h-10 w-10"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M7.5 8.25V6A2.25 2.25 0 0 1 9.75 3.75h4.5A2.25 2.25 0 0 1 16.5 6v2.25m-10.5 0h12A2.25 2.25 0 0 1 20.25 10.5v7.5A2.25 2.25 0 0 1 18 20.25H6A2.25 2.25 0 0 1 3.75 18v-7.5A2.25 2.25 0 0 1 6 8.25Zm6 2.25v5m0 0 2.25-2.25M12 15.75 9.75 13.5"
+            />
+          </svg>
         )}
-      </CldUploadWidget>
+        <span className="text-sm font-semibold uppercase tracking-[0.12em]">
+          {slotsLeft === 0
+            ? `Osiagnieto limit ${MAX_IMAGES} zdjec`
+            : isDragging
+              ? 'Upusc zdjecia, aby je dodac'
+              : 'Przeciagnij i upusc zdjecia tutaj'}
+        </span>
+        <span className="text-xs text-zinc-500">
+          Lub kliknij, aby wybrac pliki. JPG, PNG, WebP, AVIF | pozostalo {slotsLeft} z {MAX_IMAGES}.
+        </span>
+        {uploadProgress ? (
+          <span className="text-xs font-medium uppercase tracking-[0.1em]">
+            Wysylanie: {uploadProgress.done}/{uploadProgress.total}
+          </span>
+        ) : null}
+      </div>
 
       {error ? <p className="mt-1.5 text-xs text-zinc-700">{error}</p> : null}
+      {uploadMessage ? <p className="mt-1.5 text-xs text-zinc-700">{uploadMessage}</p> : null}
 
       {images.length > 0 ? (
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
