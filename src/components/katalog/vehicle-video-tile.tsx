@@ -5,8 +5,8 @@ import { useState } from 'react';
 
 type VehicleVideoTileProps = {
   title: string;
-  embedUrl: string;
-  watchUrl?: string | null;
+  embedUrl?: string | null;
+  watchUrl: string;
 };
 
 export function VehicleVideoTile({ title, embedUrl, watchUrl }: VehicleVideoTileProps) {
@@ -39,7 +39,7 @@ export function VehicleVideoTile({ title, embedUrl, watchUrl }: VehicleVideoTile
           ) : null}
         </div>
       </div>
-      {isExpanded ? (
+      {isExpanded && embedUrl ? (
         <div className="relative aspect-video w-full bg-zinc-100">
           <iframe
             src={embedUrl}
@@ -50,6 +50,11 @@ export function VehicleVideoTile({ title, embedUrl, watchUrl }: VehicleVideoTile
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
           />
+        </div>
+      ) : null}
+      {isExpanded && !embedUrl ? (
+        <div className="border-t border-zinc-200 px-4 py-4 text-sm text-zinc-600">
+          Nie udalo sie osadzic filmu w tym formacie linku. Otworz film przez przycisk YouTube.
         </div>
       ) : null}
     </section>

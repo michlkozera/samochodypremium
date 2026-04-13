@@ -53,7 +53,7 @@ export default async function VehicleDetailPage({ params }: PageProps) {
               alt={`${vehicle.make} ${vehicle.model}`}
               images={vehicle.images}
             />
-            {vehicle.youtubeEmbedUrl ? (
+            {vehicle.youtubeUrl ? (
               <div className="px-4 pt-4 sm:px-6">
                 <VehicleVideoTile
                   title={`${vehicle.make} ${vehicle.model}`}
@@ -81,7 +81,7 @@ export default async function VehicleDetailPage({ params }: PageProps) {
                       alt={`${vehicle.make} ${vehicle.model}`}
                       images={vehicle.images}
                     />
-                    {vehicle.youtubeEmbedUrl ? (
+                    {vehicle.youtubeUrl ? (
                       <VehicleVideoTile
                         title={`${vehicle.make} ${vehicle.model}`}
                         embedUrl={vehicle.youtubeEmbedUrl}

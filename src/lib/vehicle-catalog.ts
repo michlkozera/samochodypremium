@@ -206,7 +206,12 @@ function extractYouTubeVideoId(value: string | null | undefined) {
       }
     }
   } catch {
-    return null;
+    // Fallback for non-standard but still valid-ish pasted strings.
+  }
+
+  const fallbackMatch = value.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})(?:[?&/]|$)/);
+  if (fallbackMatch?.[1]) {
+    return fallbackMatch[1];
   }
 
   return null;
