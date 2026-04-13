@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import type { CatalogVehicle, CatalogFilterOptions } from '@/lib/vehicle-catalog';
 import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
 import { VehicleCard } from './vehicle-card';
@@ -130,10 +130,134 @@ function RangeField({
   );
 }
 
+// Pagination Component
+type PaginationProps = {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+};
+
+function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageChange }: PaginationProps) {
+  const getVisiblePages = () => {
+    const pages: (number | string)[] = [];
+    const showEllipsis = totalPages > 7;
+
+    if (!showEllipsis) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 4) {
+        for (let i = 1; i <= 5; i++) pages.push(i);
+        pages.push('...');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 3) {
+        pages.push(1);
+        pages.push('...');
+        for (let i = totalPages - 4; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        pages.push('...');
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) pages.push(i);
+        pages.push('...');
+        pages.push(totalPages);
+      }
+    }
+
+    return pages;
+  };
+
+  const startItem = (currentPage - 1) * itemsPerPage + 1;
+  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+
+  return (
+    <div className="mt-10 flex flex-col items-center gap-4 sm:mt-12">
+      {/* Info text */}
+      <p className="text-[0.7rem] uppercase tracking-[0.12em] text-zinc-500">
+        Pokazano {startItem}–{endItem} z {totalItems} ofert
+      </p>
+
+      {/* Page buttons */}
+      <div className="flex items-center gap-1">
+        {/* Previous button */}
+        <button
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="
+            flex h-10 w-10 items-center justify-center
+            border border-zinc-200 bg-white
+            text-zinc-700 transition-all duration-200
+            hover:border-zinc-400 hover:text-zinc-950
+            disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-zinc-200 disabled:hover:text-zinc-700
+          "
+          aria-label="Poprzednia strona"
+        >
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        {/* Page numbers */}
+        {getVisiblePages().map((page, index) => (
+          <div key={index}>
+            {page === '...' ? (
+              <span className="flex h-10 w-10 items-center justify-center text-zinc-400">...</span>
+            ) : (
+              <button
+                onClick={() => onPageChange(page as number)}
+                className={`
+                  flex h-10 w-10 items-center justify-center
+                  border text-[0.75rem] font-medium transition-all duration-200
+                  ${currentPage === page
+                    ? 'border-zinc-950 bg-zinc-950 text-white'
+                    : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-400 hover:text-zinc-950'
+                  }
+                `}
+              >
+                {page}
+              </button>
+            )}
+          </div>
+        ))}
+
+        {/* Next button */}
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="
+            flex h-10 w-10 items-center justify-center
+            border border-zinc-200 bg-white
+            text-zinc-700 transition-all duration-200
+            hover:border-zinc-400 hover:text-zinc-950
+            disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-zinc-200 disabled:hover:text-zinc-700
+          "
+          aria-label="Następna strona"
+        >
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
 type CatalogClientProps = {
   vehicles: CatalogVehicle[];
   filterOptions: CatalogFilterOptions;
   initialSearch?: string;
+};
+
+type SortOption = 'price-asc' | 'price-desc' | 'year-desc' | 'mileage-asc' | '';
+
+const SORT_LABELS: Record<SortOption, string> = {
+  '': 'Domyślne',
+  'price-asc': 'Cena: od najniższej',
+  'price-desc': 'Cena: od najwyższej',
+  'year-desc': 'Najnowsze',
+  'mileage-asc': 'Najniższy przebieg',
 };
 
 export function CatalogClient({ vehicles, filterOptions, initialSearch = '' }: CatalogClientProps) {
@@ -142,6 +266,14 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '' }: C
     search: initialSearch,
   });
   const [isExpanded, setIsExpanded] = useState(false);
+  const [sortBy, setSortBy] = useState<SortOption>('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
+
+  // Reset page when filters or sort change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters, sortBy]);
 
   const setFilter = useCallback(<K extends keyof FilterState>(key: K, value: FilterState[K]) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -156,7 +288,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '' }: C
   }, [filters]);
 
   const filteredVehicles = useMemo(() => {
-    return vehicles.filter((vehicle) => {
+    let result = vehicles.filter((vehicle) => {
       // Text search across multiple fields
       if (filters.search) {
         const searchLower = filters.search.toLowerCase();
@@ -185,11 +317,38 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '' }: C
       if (filters.priceTo && vehicle.price > Number(filters.priceTo)) return false;
       return true;
     });
-  }, [vehicles, filters]);
+
+    // Apply sorting
+    if (sortBy) {
+      result = [...result].sort((a, b) => {
+        switch (sortBy) {
+          case 'price-asc':
+            return a.price - b.price;
+          case 'price-desc':
+            return b.price - a.price;
+          case 'year-desc':
+            return b.year - a.year;
+          case 'mileage-asc':
+            return a.mileage - b.mileage;
+          default:
+            return 0;
+        }
+      });
+    }
+
+    return result;
+  }, [vehicles, filters, sortBy]);
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredVehicles.length / ITEMS_PER_PAGE);
+  const paginatedVehicles = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredVehicles.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredVehicles, currentPage]);
 
   // Key changes when filtered set changes — forces MotionReveal remount
   // so newly revealed items animate correctly after filter reset
-  const gridKey = filteredVehicles.map((v) => v.id).join(',');
+  const gridKey = paginatedVehicles.map((v) => v.id).join(',');
 
   return (
     <>
@@ -231,13 +390,6 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '' }: C
                     Wyczyść filtry
                   </button>
                 )}
-                <button
-                  className="inline-flex min-h-11 items-center justify-center border border-zinc-300 bg-transparent px-5 text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-zinc-950 transition-colors duration-200 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white"
-                  onClick={() => setIsExpanded((v) => !v)}
-                  type="button"
-                >
-                  {isExpanded ? 'Ukryj dodatkowe' : 'Więcej filtrów'}
-                </button>
                 <Link
                   className="inline-flex min-h-11 items-center justify-center border border-zinc-950 bg-zinc-950 px-5 text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-white transition-colors duration-200 hover:bg-white hover:text-zinc-950"
                   href="/kontakt"
@@ -326,6 +478,23 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '' }: C
               />
             </div>
 
+            {/* Toggle extended filters - simple link below */}
+            <button
+              className="mt-4 flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-zinc-500 transition-colors duration-200 hover:text-zinc-950"
+              onClick={() => setIsExpanded((v) => !v)}
+              type="button"
+            >
+              <span>{isExpanded ? 'Ukryj dodatkowe filtry' : 'Pokaż więcej filtrów'}</span>
+              <svg
+                className={`h-4 w-4 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
             {/* Extended filters */}
             <div
               className="grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
@@ -396,25 +565,71 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '' }: C
                   : 'Oferty gotowe do prezentacji.'}
               </h2>
             </div>
-            <div className="inline-flex items-center gap-2 border border-zinc-200 bg-white px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-zinc-700">
-              <span>{filteredVehicles.length}</span>
-              <span>ofert</span>
+            <div className="flex items-center gap-3">
+              {/* Sort dropdown */}
+              <div className="relative">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as SortOption)}
+                  className="
+                    appearance-none
+                    h-10 pl-4 pr-10
+                    border border-zinc-200 bg-white
+                    text-[0.7rem] font-medium uppercase tracking-[0.12em] text-zinc-700
+                    outline-none cursor-pointer
+                    transition-colors duration-200
+                    hover:border-zinc-400
+                    focus:border-zinc-950
+                  "
+                >
+                  {Object.entries(SORT_LABELS).map(([value, label]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </select>
+                <svg
+                  className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+
+              <div className="inline-flex items-center gap-2 border border-zinc-200 bg-white px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-zinc-700">
+                <span>{filteredVehicles.length}</span>
+                <span>ofert</span>
+              </div>
             </div>
           </div>
 
-          {filteredVehicles.length > 0 ? (
-            <MotionReveal
-              key={gridKey}
-              amount={0.08}
-              className="grid gap-px bg-zinc-200 sm:grid-cols-2"
-              stagger={0.08}
-            >
-              {filteredVehicles.map((vehicle) => (
-                <MotionRevealItem key={vehicle.id}>
-                  <VehicleCard vehicle={vehicle} />
-                </MotionRevealItem>
-              ))}
-            </MotionReveal>
+          {paginatedVehicles.length > 0 ? (
+            <>
+              <MotionReveal
+                key={gridKey}
+                amount={0.08}
+                className="grid gap-px bg-zinc-200 sm:grid-cols-2"
+                stagger={0.08}
+              >
+                {paginatedVehicles.map((vehicle) => (
+                  <MotionRevealItem key={vehicle.id}>
+                    <VehicleCard vehicle={vehicle} />
+                  </MotionRevealItem>
+                ))}
+              </MotionReveal>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalItems={filteredVehicles.length}
+                  itemsPerPage={ITEMS_PER_PAGE}
+                  onPageChange={setCurrentPage}
+                />
+              )}
+            </>
           ) : (
             <div className="border border-zinc-200 bg-white px-6 py-16 text-center">
               <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-zinc-400">
