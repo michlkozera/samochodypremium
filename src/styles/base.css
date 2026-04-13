@@ -190,6 +190,130 @@
     @apply py-12 sm:py-16 lg:py-20 xl:py-24;
   }
 
+  .admin-shell {
+    position: relative;
+    isolation: isolate;
+    background: linear-gradient(180deg, #ffffff 0%, #f4f4f5 100%);
+    color: var(--color-graphite-950);
+  }
+
+  .admin-shell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(rgba(24, 24, 27, 0.04) 1px, transparent 1px) 0 0 / 100% 36px,
+      linear-gradient(90deg, rgba(24, 24, 27, 0.04) 1px, transparent 1px) 0 0 / 36px 100%;
+    opacity: 0.28;
+    z-index: -1;
+  }
+
+  .admin-header-bar {
+    @apply border-b border-zinc-950/90 bg-white/95 backdrop-blur-sm;
+  }
+
+  .admin-surface {
+    border: 1px solid var(--color-graphite-950);
+    border-radius: 0;
+    background: white;
+    box-shadow: 8px 8px 0 rgba(9, 9, 11, 0.08);
+  }
+
+  .admin-surface-soft {
+    border: 1px solid rgba(24, 24, 27, 0.18);
+    border-radius: 0;
+    background: rgba(255, 255, 255, 0.98);
+    transition:
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .admin-surface-soft[data-interactive='true']:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-graphite-950);
+    box-shadow: 6px 6px 0 rgba(9, 9, 11, 0.12);
+  }
+
+  .admin-label {
+    @apply mb-1.5 block text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-zinc-500;
+  }
+
+  .admin-input {
+    width: 100%;
+    min-height: 2.75rem;
+    border: 1px solid rgba(24, 24, 27, 0.2);
+    border-radius: 0;
+    background: white;
+    padding: 0.62rem 0.85rem;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--color-graphite-950);
+    outline: none;
+    transition:
+      transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  textarea.admin-input {
+    min-height: 8.5rem;
+    resize: vertical;
+  }
+
+  .admin-input::placeholder {
+    color: var(--color-graphite-500);
+  }
+
+  .admin-input:focus {
+    border-color: var(--color-graphite-950);
+    box-shadow: 4px 4px 0 rgba(9, 9, 11, 0.12);
+    transform: translateY(-1px);
+  }
+
+  .admin-input:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+    background: rgba(244, 244, 245, 0.8);
+  }
+
+  .admin-btn-primary {
+    @apply inline-flex min-h-11 items-center justify-center border border-zinc-950 bg-zinc-950 px-5 text-[0.66rem] font-semibold uppercase tracking-[0.22em] text-white transition-[background-color,color,border-color,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-px hover:bg-white hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .admin-btn-secondary {
+    @apply inline-flex min-h-11 items-center justify-center border border-zinc-300 bg-white px-5 text-[0.66rem] font-semibold uppercase tracking-[0.22em] text-zinc-950 transition-[background-color,color,border-color,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-px hover:border-zinc-950 hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .admin-appear {
+    animation: adminAppear 0.46s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .admin-appear-delay-1 {
+    animation-delay: 70ms;
+  }
+
+  .admin-appear-delay-2 {
+    animation-delay: 140ms;
+  }
+
+  .admin-appear-delay-3 {
+    animation-delay: 210ms;
+  }
+
+  @keyframes adminAppear {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
   /* Hide scrollbar but keep scroll functionality */
   .scrollbar-hide {
     -ms-overflow-style: none;

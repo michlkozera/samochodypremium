@@ -173,7 +173,7 @@ export function VehicleHistorySection({ vehicle, errors }: SectionProps) {
           ] as Array<[string, string, boolean]>).map(([name, label, checked]) => (
             <div key={name} className="flex items-center gap-3">
               <input id={name} name={name} type="checkbox" defaultChecked={Boolean(checked)} className={checkboxCls} />
-              <label htmlFor={name} className="text-sm text-graphite-300">
+              <label htmlFor={name} className="text-sm text-zinc-700">
                 {label}
               </label>
             </div>
@@ -202,7 +202,7 @@ export function VehicleSalesSection({ vehicle, errors }: SectionProps) {
         </Field>
         <div className="flex items-center gap-3 self-end pb-1">
           <input id="vatReclaimable" name="vatReclaimable" type="checkbox" defaultChecked={vehicle?.vatReclaimable ?? false} className={checkboxCls} />
-          <label htmlFor="vatReclaimable" className="text-sm text-graphite-300">
+          <label htmlFor="vatReclaimable" className="text-sm text-zinc-700">
             Mozliwosc odliczenia VAT 23%
           </label>
         </div>

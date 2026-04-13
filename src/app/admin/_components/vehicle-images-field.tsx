@@ -62,7 +62,7 @@ export function VehicleImagesField({
             type="button"
             onClick={() => open()}
             disabled={images.length >= 30}
-            className="flex w-full flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-white/[0.08] bg-white/[0.02] px-6 py-10 text-graphite-500 transition hover:border-amber-500/30 hover:bg-white/[0.04] hover:text-amber-400 disabled:cursor-not-allowed disabled:opacity-60"
+            className="admin-surface-soft flex w-full flex-col items-center justify-center gap-3 border-2 border-dashed border-zinc-300 px-6 py-10 text-zinc-500 transition hover:border-zinc-950 hover:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -83,14 +83,14 @@ export function VehicleImagesField({
                 ? 'Osiagnieto limit 30 zdjec'
                 : 'Kliknij lub przeciagnij pliki, aby wgrac zdjecia'}
             </span>
-            <span className="text-xs text-graphite-600">
+            <span className="text-xs text-zinc-500">
               JPG, PNG, WebP - maks. 30 plikow
             </span>
           </button>
         )}
       </CldUploadWidget>
 
-      {error ? <p className="mt-1.5 text-xs text-red-400">{error}</p> : null}
+      {error ? <p className="mt-1.5 text-xs text-zinc-700">{error}</p> : null}
 
       {images.length > 0 ? (
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
@@ -100,28 +100,28 @@ export function VehicleImagesField({
             return (
               <div
                 key={`${image.publicId}-${index}`}
-                className="group relative overflow-hidden rounded-lg border border-white/[0.06] bg-white/[0.03]"
+                className="group relative overflow-hidden border border-zinc-300 bg-white transition hover:border-zinc-950"
               >
                 <div className="relative aspect-[4/3]">
                   <Image
                     src={image.url}
                     alt={`Zdjecie ${index + 1}`}
                     fill
-                    className="object-cover"
+                    className="object-cover saturate-110 transition duration-500 group-hover:scale-[1.03]"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
                 </div>
 
                 <div className="absolute left-1.5 top-1.5 flex flex-wrap gap-1.5">
                   {isPrimary ? (
-                    <span className="rounded bg-amber-500/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-graphite-950">
+                    <span className="border border-zinc-950 bg-zinc-950 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
                       Glowne
                     </span>
                   ) : (
                     <button
                       type="button"
                       onClick={() => onSetPrimary(index)}
-                      className="rounded bg-graphite-950/85 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-white transition hover:bg-amber-500 hover:text-graphite-950"
+                      className="border border-zinc-950 bg-white px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-zinc-950 transition hover:bg-zinc-950 hover:text-white"
                     >
                       Ustaw glowne
                     </button>
@@ -131,14 +131,14 @@ export function VehicleImagesField({
                 <button
                   type="button"
                   onClick={() => onRemove(index)}
-                  className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-graphite-950/80 text-graphite-400 opacity-0 backdrop-blur-sm transition group-hover:opacity-100 hover:bg-red-500/80 hover:text-white"
+                  className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center border border-zinc-950 bg-white text-zinc-950 opacity-0 transition group-hover:opacity-100 hover:bg-zinc-950 hover:text-white"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
                     <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
                   </svg>
                 </button>
 
-                <div className="border-t border-white/[0.06] px-3 py-2 text-[11px] text-graphite-500">
+                <div className="border-t border-zinc-200 px-3 py-2 text-[11px] text-zinc-500">
                   Zdjecie {index + 1} z {images.length}
                 </div>
               </div>

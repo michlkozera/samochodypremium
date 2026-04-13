@@ -2,7 +2,7 @@
 
 import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { type FormEvent, useState, Suspense } from 'react';
+import { type FormEvent, Suspense, useState } from 'react';
 
 function LoginForm() {
   const router = useRouter();
@@ -30,7 +30,7 @@ function LoginForm() {
     setLoading(false);
 
     if (result?.error) {
-      setError('Nieprawidłowy login lub hasło.');
+      setError('Nieprawidlowy login lub haslo.');
       return;
     }
 
@@ -39,24 +39,18 @@ function LoginForm() {
   }
 
   return (
-    <div className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-graphite-950 px-4">
-      {/* subtle ambient glow */}
-      <div className="pointer-events-none absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-amber-500/5 blur-[120px]" />
-      <div className="pointer-events-none absolute -bottom-32 right-1/4 h-[400px] w-[400px] rounded-full bg-amber-400/5 blur-[100px]" />
-
+    <div className="admin-shell relative flex min-h-dvh items-center justify-center px-4 py-8">
       <div className="relative z-10 w-full max-w-md">
-        {/* glass card */}
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-8 shadow-2xl backdrop-blur-xl sm:p-10">
-          {/* logo / branding */}
+        <div className="admin-surface admin-appear p-8 sm:p-10">
           <div className="mb-8 text-center">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-amber-500/20 bg-amber-500/10">
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center border border-zinc-950 bg-zinc-950 text-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth={1.5}
-                className="h-5 w-5 text-amber-400"
+                className="h-5 w-5"
               >
                 <path
                   strokeLinecap="round"
@@ -65,20 +59,17 @@ function LoginForm() {
                 />
               </svg>
             </div>
-            <h1 className="text-lg font-semibold tracking-tight text-white">
-              Panel Administracyjny
+            <h1 className="text-lg font-semibold uppercase tracking-[0.14em] text-zinc-950">
+              Panel administracyjny
             </h1>
-            <p className="mt-1 text-sm text-graphite-500">
-              Zaloguj się, aby kontynuować
+            <p className="mt-2 text-sm text-zinc-600">
+              Zaloguj sie, aby kontynuowac.
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label
-                htmlFor="username"
-                className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-graphite-500"
-              >
+              <label htmlFor="username" className="admin-label">
                 Login
               </label>
               <input
@@ -88,17 +79,14 @@ function LoginForm() {
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-3 text-sm text-white placeholder-graphite-600 outline-none transition focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/20"
-                placeholder="Nazwa użytkownika"
+                className="admin-input"
+                placeholder="Nazwa uzytkownika"
               />
             </div>
 
             <div>
-              <label
-                htmlFor="password"
-                className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-graphite-500"
-              >
-                Hasło
+              <label htmlFor="password" className="admin-label">
+                Haslo
               </label>
               <input
                 id="password"
@@ -107,29 +95,25 @@ function LoginForm() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-3 text-sm text-white placeholder-graphite-600 outline-none transition focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/20"
-                placeholder="••••••••"
+                className="admin-input"
+                placeholder="********"
               />
             </div>
 
             {error && (
-              <p className="rounded-md bg-red-500/10 px-3 py-2 text-center text-sm text-red-400">
+              <p className="border border-zinc-950 px-3 py-2 text-center text-sm text-zinc-950">
                 {error}
               </p>
             )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 px-4 py-3 text-sm font-semibold text-graphite-950 shadow-lg shadow-amber-500/20 transition hover:from-amber-400 hover:to-amber-500 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {loading ? 'Logowanie…' : 'Zaloguj się'}
+            <button type="submit" disabled={loading} className="admin-btn-primary w-full">
+              {loading ? 'Logowanie...' : 'Zaloguj sie'}
             </button>
           </form>
         </div>
 
-        <p className="mt-6 text-center text-xs text-graphite-700">
-          Samochody Premium &mdash; Dostęp zastrzeżony
+        <p className="mt-6 text-center text-xs uppercase tracking-[0.14em] text-zinc-500">
+          Samochody Premium | Dostep zastrzezony
         </p>
       </div>
     </div>

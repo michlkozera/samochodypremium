@@ -11,13 +11,19 @@ import {
   type VehicleRow,
 } from '@/app/actions/vehicle';
 
-const STATUS_LABEL: Record<
-  VehicleRow['status'],
-  { text: string; cls: string }
-> = {
-  AVAILABLE: { text: 'Dostepny', cls: 'bg-emerald-500/10 text-emerald-300 ring-1 ring-emerald-500/20' },
-  RESERVED: { text: 'Zarezerwowany', cls: 'bg-amber-500/10 text-amber-300 ring-1 ring-amber-500/20' },
-  SOLD: { text: 'Sprzedany', cls: 'bg-zinc-500/10 text-zinc-300 ring-1 ring-zinc-500/20' },
+const STATUS_LABEL: Record<VehicleRow['status'], { text: string; cls: string }> = {
+  AVAILABLE: {
+    text: 'Dostepny',
+    cls: 'border border-zinc-950 bg-zinc-950 text-white',
+  },
+  RESERVED: {
+    text: 'Zarezerwowany',
+    cls: 'border border-zinc-300 bg-zinc-100 text-zinc-950',
+  },
+  SOLD: {
+    text: 'Sprzedany',
+    cls: 'border border-zinc-300 bg-white text-zinc-500',
+  },
 };
 
 function formatPrice(price: number) {
@@ -93,7 +99,7 @@ function DeleteButton({
           onResult(result.error ?? 'Nie udalo sie usunac pojazdu.', 'error');
         });
       }}
-      className="rounded-md px-2.5 py-1.5 text-xs text-red-400 transition hover:bg-red-500/10 disabled:opacity-50"
+      className="inline-flex items-center border border-zinc-300 bg-white px-2.5 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-zinc-700 transition hover:border-zinc-950 hover:bg-zinc-950 hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
     >
       {isPending ? 'Usuwanie...' : 'Usun'}
     </button>
@@ -103,16 +109,27 @@ function DeleteButton({
 function SummaryCard({
   label,
   value,
-  accent,
+  inverted = false,
 }: {
   label: string;
   value: number;
-  accent: string;
+  inverted?: boolean;
 }) {
   return (
-    <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
-      <p className="text-xs uppercase tracking-[0.18em] text-graphite-500">{label}</p>
-      <p className={`mt-2 text-2xl font-semibold tracking-tight ${accent}`}>{value}</p>
+    <div
+      className={`admin-surface-soft admin-appear p-4 ${
+        inverted ? 'border-zinc-950 bg-zinc-950 text-white' : ''
+      }`}
+      data-interactive="true"
+    >
+      <p
+        className={`text-[0.64rem] font-semibold uppercase tracking-[0.2em] ${
+          inverted ? 'text-zinc-300' : 'text-zinc-500'
+        }`}
+      >
+        {label}
+      </p>
+      <p className="mt-2 text-[1.9rem] font-semibold leading-none tracking-[-0.04em]">{value}</p>
     </div>
   );
 }
@@ -139,29 +156,42 @@ export default function AdminDashboard({
 
   const flashClassName =
     flash?.tone === 'error'
-      ? 'bg-red-500/10 text-red-400'
-      : 'bg-emerald-500/10 text-emerald-400';
+      ? 'border-zinc-950 bg-white text-zinc-950'
+      : 'border-zinc-950 bg-zinc-950 text-white';
 
   return (
-    <div className="min-h-dvh bg-graphite-950 text-white">
-      <header className="border-b border-white/[0.06] bg-white/[0.02] backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-500/10 text-amber-400">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-4 w-4">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A.75.75 0 0 1 18 20.25h-2.25a2.25 2.25 0 0 1-2.25-2.25v-2.25Z" />
+    <div className="admin-shell min-h-dvh">
+      <header className="admin-header-bar sticky top-0 z-20">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
+          <div className="admin-appear flex min-w-0 items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center border border-zinc-950 bg-zinc-950 text-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.5}
+                className="h-4 w-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6Zm0 9.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6Zm0 9.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25a2.25 2.25 0 0 1-2.25-2.25v-2.25Z"
+                />
               </svg>
             </div>
-            <span className="text-sm font-semibold tracking-tight">Panel Administratora</span>
+            <span className="truncate text-[0.75rem] font-semibold uppercase tracking-[0.2em] text-zinc-500">
+              Panel administratora
+            </span>
           </div>
 
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-graphite-500">
-              Witaj, <span className="text-white">{userName}</span>
+          <div className="admin-appear admin-appear-delay-1 flex items-center gap-3">
+            <span className="hidden text-xs uppercase tracking-[0.14em] text-zinc-500 sm:block">
+              {userName}
             </span>
             <button
               onClick={() => signOut({ callbackUrl: '/' })}
-              className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-sm text-graphite-300 transition hover:bg-white/[0.08] hover:text-white"
+              className="admin-btn-secondary px-4"
             >
               Wyloguj
             </button>
@@ -169,47 +199,46 @@ export default function AdminDashboard({
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-6 py-12">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight">Pojazdy</h1>
-            <p className="mt-1 text-graphite-500">
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="admin-appear grid gap-1">
+            <h1 className="text-[clamp(1.8rem,4.8vw,3rem)] font-semibold uppercase leading-[1.05] tracking-[-0.03em]">
+              Pojazdy
+            </h1>
+            <p className="text-sm text-zinc-600">
               {data.totalItems === 0
                 ? 'Brak pojazdow w bazie.'
-                : `${data.totalItems} wynikow, strona ${data.page} z ${data.totalPages}`}
+                : `${data.totalItems} wynikow | strona ${data.page} z ${data.totalPages}`}
             </p>
           </div>
-          <Link
-            href="/admin/dodaj"
-            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-2.5 text-sm font-semibold text-graphite-950 shadow-lg shadow-amber-500/20 transition hover:from-amber-400 hover:to-amber-500"
-          >
+          <Link href="/admin/dodaj" className="admin-btn-primary admin-appear admin-appear-delay-1 gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
-              <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+              <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
             </svg>
             Dodaj pojazd
           </Link>
         </div>
 
         {flash ? (
-          <div className={`mt-6 rounded-lg px-4 py-3 text-sm ${flashClassName}`}>
+          <div className={`admin-appear admin-appear-delay-2 mt-6 border px-4 py-3 text-sm ${flashClassName}`}>
             {flash.message}
           </div>
         ) : null}
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <SummaryCard label="Wszystkie" value={data.counts.all} accent="text-white" />
-          <SummaryCard label="Dostepne" value={data.counts.available} accent="text-emerald-300" />
-          <SummaryCard label="Rezerwacje" value={data.counts.reserved} accent="text-amber-300" />
-          <SummaryCard label="Sprzedane" value={data.counts.sold} accent="text-zinc-300" />
+          <SummaryCard label="Wszystkie" value={data.counts.all} inverted />
+          <SummaryCard label="Dostepne" value={data.counts.available} />
+          <SummaryCard label="Rezerwacje" value={data.counts.reserved} />
+          <SummaryCard label="Sprzedane" value={data.counts.sold} />
         </div>
 
         <form
           action="/admin"
           method="get"
-          className="mt-8 grid gap-4 rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 md:grid-cols-[minmax(0,1fr)_220px_auto]"
+          className="admin-surface admin-appear admin-appear-delay-1 mt-8 grid gap-4 p-5 md:grid-cols-[minmax(0,1fr)_220px_auto]"
         >
           <div>
-            <label htmlFor="admin-q" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-graphite-500">
+            <label htmlFor="admin-q" className="admin-label">
               Wyszukaj
             </label>
             <input
@@ -217,19 +246,19 @@ export default function AdminDashboard({
               name="q"
               defaultValue={data.query}
               placeholder="Marka, model lub ostatnie 5 znakow VIN"
-              className="w-full rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-3 text-sm text-white placeholder-graphite-600 outline-none transition focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/20"
+              className="admin-input"
             />
           </div>
 
           <div>
-            <label htmlFor="admin-status" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-graphite-500">
+            <label htmlFor="admin-status" className="admin-label">
               Status
             </label>
             <select
               id="admin-status"
               name="status"
               defaultValue={data.status}
-              className="w-full rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-3 text-sm text-white outline-none transition focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/20"
+              className="admin-input"
             >
               <option value="ALL">Wszystkie</option>
               <option value="AVAILABLE">Dostepne</option>
@@ -239,92 +268,92 @@ export default function AdminDashboard({
           </div>
 
           <div className="flex flex-wrap items-end gap-3">
-            <button
-              type="submit"
-              className="inline-flex h-[46px] items-center justify-center rounded-lg bg-white px-5 text-sm font-semibold text-graphite-950 transition hover:bg-amber-400"
-            >
+            <button type="submit" className="admin-btn-primary">
               Filtruj
             </button>
-            <Link
-              href="/admin"
-              className="inline-flex h-[46px] items-center justify-center rounded-lg border border-white/[0.08] px-5 text-sm text-graphite-300 transition hover:bg-white/[0.06] hover:text-white"
-            >
-              Wyczyść
+            <Link href="/admin" className="admin-btn-secondary">
+              Wyczysc
             </Link>
           </div>
         </form>
 
         {data.vehicles.length > 0 ? (
-          <div className="mt-8 overflow-x-auto rounded-xl border border-white/[0.06]">
-            <table className="w-full text-left text-sm">
+          <div className="admin-surface admin-appear admin-appear-delay-2 mt-8 overflow-x-auto">
+            <table className="w-full min-w-[880px] border-collapse text-left text-sm">
               <thead>
-                <tr className="border-b border-white/[0.06] bg-white/[0.02]">
-                  <th className="px-5 py-3.5 text-xs font-medium uppercase tracking-wider text-graphite-500">Pojazd</th>
-                  <th className="px-5 py-3.5 text-xs font-medium uppercase tracking-wider text-graphite-500">Cena</th>
-                  <th className="px-5 py-3.5 text-xs font-medium uppercase tracking-wider text-graphite-500">Status</th>
-                  <th className="px-5 py-3.5 text-xs font-medium uppercase tracking-wider text-graphite-500">Zdjecia</th>
-                  <th className="px-5 py-3.5 text-xs font-medium uppercase tracking-wider text-graphite-500">Aktualizacja</th>
-                  <th className="px-5 py-3.5 text-xs font-medium uppercase tracking-wider text-graphite-500 text-right">Akcje</th>
+                <tr className="border-b border-zinc-950 bg-zinc-950 text-white">
+                  <th className="px-5 py-3.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em]">Pojazd</th>
+                  <th className="px-5 py-3.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em]">Cena</th>
+                  <th className="px-5 py-3.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em]">Status</th>
+                  <th className="px-5 py-3.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em]">Zdjecia</th>
+                  <th className="px-5 py-3.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em]">Aktualizacja</th>
+                  <th className="px-5 py-3.5 text-right text-[0.62rem] font-semibold uppercase tracking-[0.18em]">Akcje</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/[0.04]">
+              <tbody className="divide-y divide-zinc-200">
                 {data.vehicles.map((vehicle) => {
                   const status = STATUS_LABEL[vehicle.status];
 
                   return (
-                    <tr key={vehicle.id} className="transition hover:bg-white/[0.02]">
+                    <tr key={vehicle.id} className="group transition hover:bg-zinc-50">
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
                           {vehicle.primaryImageUrl ? (
-                            <div className="relative h-12 w-16 overflow-hidden rounded-md">
+                            <div className="relative h-14 w-20 overflow-hidden border border-zinc-200 bg-zinc-100">
                               <Image
                                 src={vehicle.primaryImageUrl}
                                 alt=""
                                 fill
-                                className="object-cover"
-                                sizes="64px"
+                                className="object-cover saturate-110 transition duration-500 group-hover:scale-[1.04]"
+                                sizes="80px"
                               />
                             </div>
                           ) : (
-                            <div className="flex h-12 w-16 items-center justify-center rounded-md bg-white/[0.04] text-graphite-600">
+                            <div className="flex h-14 w-20 items-center justify-center border border-zinc-200 bg-zinc-100 text-zinc-500">
                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
-                                <path fillRule="evenodd" d="M1 5.25A2.25 2.25 0 013.25 3h13.5A2.25 2.25 0 0119 5.25v9.5A2.25 2.25 0 0116.75 17H3.25A2.25 2.25 0 011 14.75v-9.5zm1.5 5.81v3.69c0 .414.336.75.75.75h13.5a.75.75 0 00.75-.75v-2.69l-2.22-2.219a.75.75 0 00-1.06 0l-1.91 1.909-4.969-4.969a.75.75 0 00-1.06 0L2.5 11.06z" clipRule="evenodd" />
+                                <path
+                                  fillRule="evenodd"
+                                  d="M1 5.25A2.25 2.25 0 0 1 3.25 3h13.5A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17H3.25A2.25 2.25 0 0 1 1 14.75v-9.5Zm1.5 5.81v3.69c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75v-2.69l-2.22-2.219a.75.75 0 0 0-1.06 0l-1.91 1.909-4.969-4.969a.75.75 0 0 0-1.06 0L2.5 11.06Z"
+                                  clipRule="evenodd"
+                                />
                               </svg>
                             </div>
                           )}
                           <div className="min-w-0">
-                            <p className="font-medium text-white">{vehicle.make} {vehicle.model}</p>
-                            <p className="mt-1 text-xs text-graphite-500">
-                              {vehicle.year} · {formatMileage(vehicle.mileage)} · VIN ...{vehicle.vinSuffix}
+                            <p className="font-semibold text-zinc-950">
+                              {vehicle.make} {vehicle.model}
+                            </p>
+                            <p className="mt-1 text-xs text-zinc-600">
+                              {vehicle.year} | {formatMileage(vehicle.mileage)} | VIN ...{vehicle.vinSuffix}
                             </p>
                           </div>
                         </div>
                       </td>
-                      <td className="whitespace-nowrap px-5 py-4 font-medium text-white">
+                      <td className="whitespace-nowrap px-5 py-4 font-semibold text-zinc-950">
                         {formatPrice(vehicle.price)}
                       </td>
                       <td className="whitespace-nowrap px-5 py-4">
-                        <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${status.cls}`}>
+                        <span className={`inline-flex px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ${status.cls}`}>
                           {status.text}
                         </span>
                       </td>
-                      <td className="whitespace-nowrap px-5 py-4 text-graphite-400">
+                      <td className="whitespace-nowrap px-5 py-4 text-zinc-600">
                         {vehicle.imageCount}
                       </td>
-                      <td className="whitespace-nowrap px-5 py-4 text-graphite-400">
+                      <td className="whitespace-nowrap px-5 py-4 text-zinc-600">
                         {formatDate(vehicle.updatedAt)}
                       </td>
                       <td className="whitespace-nowrap px-5 py-4 text-right">
-                        <div className="inline-flex items-center gap-1">
+                        <div className="inline-flex items-center gap-1.5">
                           <Link
                             href={`/admin/edytuj/${vehicle.id}`}
-                            className="rounded-md px-2.5 py-1.5 text-xs text-amber-400 transition hover:bg-amber-500/10"
+                            className="inline-flex items-center border border-zinc-950 bg-zinc-950 px-2.5 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-white hover:text-zinc-950"
                           >
                             Edytuj
                           </Link>
                           <Link
                             href={`/oferta/${vehicle.slug}`}
-                            className="rounded-md px-2.5 py-1.5 text-xs text-graphite-300 transition hover:bg-white/[0.06] hover:text-white"
+                            className="inline-flex items-center border border-zinc-300 bg-white px-2.5 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-zinc-700 transition hover:border-zinc-950 hover:bg-zinc-950 hover:text-white"
                           >
                             Podglad
                           </Link>
@@ -342,14 +371,14 @@ export default function AdminDashboard({
             </table>
           </div>
         ) : (
-          <div className="mt-8 rounded-2xl border border-white/[0.06] bg-white/[0.03] px-6 py-12 text-center text-graphite-400">
+          <div className="admin-surface admin-appear admin-appear-delay-2 mt-8 px-6 py-12 text-center text-zinc-600">
             Nie znaleziono pojazdow dla wybranych filtrow.
           </div>
         )}
 
         {data.totalPages > 1 ? (
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm text-graphite-500">
+          <div className="admin-appear admin-appear-delay-3 mt-6 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm text-zinc-600">
               Strona {data.page} z {data.totalPages}
             </p>
 
@@ -357,10 +386,10 @@ export default function AdminDashboard({
               <Link
                 href={buildPageHref(Math.max(1, data.page - 1), data.query, data.status)}
                 aria-disabled={data.page === 1}
-                className={`rounded-lg px-4 py-2 text-sm transition ${
+                className={`inline-flex min-h-10 items-center justify-center border px-4 text-[0.66rem] font-semibold uppercase tracking-[0.18em] transition ${
                   data.page === 1
-                    ? 'pointer-events-none border border-white/[0.06] text-graphite-700'
-                    : 'border border-white/[0.08] text-graphite-300 hover:bg-white/[0.06] hover:text-white'
+                    ? 'pointer-events-none border-zinc-200 bg-zinc-100 text-zinc-400'
+                    : 'border-zinc-300 bg-white text-zinc-800 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white'
                 }`}
               >
                 Poprzednia
@@ -371,10 +400,10 @@ export default function AdminDashboard({
                   <Link
                     key={page}
                     href={buildPageHref(page, data.query, data.status)}
-                    className={`rounded-lg px-4 py-2 text-sm transition ${
+                    className={`inline-flex min-h-10 min-w-10 items-center justify-center border px-3 text-[0.66rem] font-semibold uppercase tracking-[0.16em] transition ${
                       page === data.page
-                        ? 'bg-white text-graphite-950'
-                        : 'border border-white/[0.08] text-graphite-300 hover:bg-white/[0.06] hover:text-white'
+                        ? 'border-zinc-950 bg-zinc-950 text-white'
+                        : 'border-zinc-300 bg-white text-zinc-800 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white'
                     }`}
                   >
                     {page}
@@ -383,10 +412,10 @@ export default function AdminDashboard({
               <Link
                 href={buildPageHref(Math.min(data.totalPages, data.page + 1), data.query, data.status)}
                 aria-disabled={data.page === data.totalPages}
-                className={`rounded-lg px-4 py-2 text-sm transition ${
+                className={`inline-flex min-h-10 items-center justify-center border px-4 text-[0.66rem] font-semibold uppercase tracking-[0.18em] transition ${
                   data.page === data.totalPages
-                    ? 'pointer-events-none border border-white/[0.06] text-graphite-700'
-                    : 'border border-white/[0.08] text-graphite-300 hover:bg-white/[0.06] hover:text-white'
+                    ? 'pointer-events-none border-zinc-200 bg-zinc-100 text-zinc-400'
+                    : 'border-zinc-300 bg-white text-zinc-800 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white'
                 }`}
               >
                 Nastepna

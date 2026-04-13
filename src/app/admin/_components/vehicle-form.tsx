@@ -275,14 +275,14 @@ export default function VehicleForm({ vehicle }: VehicleFormProps) {
             }
           />
 
-          <div className="flex flex-wrap items-center gap-4 pt-2">
+          <div className="admin-appear flex flex-wrap items-center gap-4 pt-2">
             <SubmitButton editMode={editMode} locked={isFormLocked} />
             <button
               type="button"
               onClick={() => {
                 void handleCancel();
               }}
-              className="text-sm text-graphite-500 transition hover:text-white"
+              className="admin-btn-secondary px-6"
             >
               Anuluj
             </button>

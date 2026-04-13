@@ -3,13 +3,13 @@
 import { useFormStatus } from 'react-dom';
 
 export const inputCls =
-  'w-full rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-3 text-sm text-white placeholder-graphite-600 outline-none transition focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/20 disabled:cursor-not-allowed disabled:opacity-60';
+  'admin-input';
 
 export const labelCls =
-  'mb-1.5 block text-xs font-medium uppercase tracking-wider text-graphite-500';
+  'admin-label';
 
 export const checkboxCls =
-  'h-4 w-4 rounded border-white/[0.15] bg-white/[0.04] text-amber-500 accent-amber-500';
+  'h-4 w-4 rounded-none border-zinc-400 bg-white text-zinc-950 accent-zinc-950';
 
 export function Field({
   label,
@@ -30,7 +30,7 @@ export function Field({
         {label}
       </label>
       {children}
-      {error ? <p className="mt-1.5 text-xs text-red-400">{error}</p> : null}
+      {error ? <p className="mt-1.5 text-xs text-zinc-700">{error}</p> : null}
     </div>
   );
 }
@@ -43,8 +43,8 @@ export function SectionCard({
   children: React.ReactNode;
 }) {
   return (
-    <fieldset className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 backdrop-blur-xl sm:p-8">
-      <legend className="mb-6 text-sm font-semibold tracking-tight text-amber-400">
+    <fieldset className="admin-surface admin-appear p-5 sm:p-7">
+      <legend className="mb-6 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-zinc-500">
         {title}
       </legend>
       {children}
@@ -63,16 +63,16 @@ export function ValidationSummary({
 }) {
   const className =
     tone === 'error'
-      ? 'bg-red-500/10 text-red-400'
-      : 'bg-emerald-500/10 text-emerald-400';
+      ? 'border-zinc-950 bg-white text-zinc-950'
+      : 'border-zinc-950 bg-zinc-950 text-white';
 
   if (messages.length === 0) {
     return null;
   }
 
   return (
-    <div className={`rounded-lg px-4 py-3 text-sm ${className}`}>
-      <p className="font-medium">{title}</p>
+    <div className={`admin-appear border px-4 py-3 text-sm ${className}`}>
+      <p className="text-[0.72rem] font-semibold uppercase tracking-[0.16em]">{title}</p>
       <ul className="mt-2 grid gap-1 text-xs sm:text-sm">
         {messages.map((message) => (
           <li key={message}>{message}</li>
@@ -96,7 +96,7 @@ export function SubmitButton({
     <button
       type="submit"
       disabled={disabled}
-      className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-3 text-sm font-semibold text-graphite-950 shadow-lg shadow-amber-500/20 transition hover:from-amber-400 hover:to-amber-500 disabled:cursor-not-allowed disabled:opacity-60"
+      className="admin-btn-primary gap-2 px-7"
     >
       {disabled ? (
         <svg
