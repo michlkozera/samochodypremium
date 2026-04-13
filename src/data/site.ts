@@ -1,4 +1,4 @@
-export type PageKey = 'home' | 'oferta' | 'onas' | 'kontakt' | 'wycena';
+export type PageKey = 'home' | 'oferta' | 'onas' | 'kontakt' | 'wycena' | 'finansowanie';
 
 export type NavLink = {
   href: string;
@@ -45,9 +45,15 @@ export const mobileMenuContent = {
   },
   wycena: {
     label: 'Warszawa / skup i odkup aut premium',
-    copy: 'Sprzedajesz samochód? Otrzymasz uczciwa wycenę i szybką realizację transakcji.',
+    copy: 'Sprzedajesz samochód? Otrzymasz uczciwą wycenę i szybką realizację transakcji.',
     ctaHref: '/kontakt',
     ctaLabel: 'Skontaktuj się',
+  },
+  finansowanie: {
+    label: 'Warszawa / leasing i kredyt premium',
+    copy: 'Przygotowujemy finansowanie skrojone pod samochody klasy premium, z szybką decyzją i wsparciem na każdym etapie.',
+    ctaHref: '/kontakt',
+    ctaLabel: 'Porozmawiaj z doradcą',
   },
 } as const;
 
@@ -65,6 +71,7 @@ export const footerNavigation: Record<PageKey, FooterLink[]> = {
   onas: defaultFooterLinks,
   kontakt: defaultFooterLinks,
   wycena: defaultFooterLinks,
+  finansowanie: defaultFooterLinks,
 };
 
 export function getHeaderLinks(page: PageKey): NavLink[] {

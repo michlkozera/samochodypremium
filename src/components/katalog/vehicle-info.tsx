@@ -12,7 +12,6 @@ type VehicleInfoProps = {
 export function VehicleInfo({ vehicle }: VehicleInfoProps) {
   return (
     <div className="grid gap-6 lg:gap-7">
-      {/* Breadcrumb — hidden on mobile (space is precious) */}
       <nav className="hidden items-center gap-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-zinc-400 sm:flex sm:flex-wrap">
         <Link className="transition-colors duration-200 hover:text-zinc-950" href="/">
           Start
@@ -27,7 +26,6 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
         </span>
       </nav>
 
-      {/* Status badges + Title */}
       <div className="grid gap-3">
         <div className="flex flex-wrap gap-2">
           <span className="inline-flex items-center border border-zinc-950 bg-zinc-950 px-2.5 py-1 text-[0.58rem] font-semibold uppercase tracking-[0.18em] text-white">
@@ -49,7 +47,6 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
         </p>
       </div>
 
-      {/* Price block */}
       <div className="border border-zinc-200 bg-white">
         <div className="flex flex-wrap items-end justify-between gap-3 border-b border-zinc-200 p-4 sm:p-5">
           <div className="grid gap-1">
@@ -81,12 +78,18 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
             <strong className="font-semibold text-zinc-950">
               {formatPrice(vehicle.monthlyRate)}&nbsp;PLN
             </strong>{' '}
-            miesięcznie. Szczegóły finansowania — zapytaj naszego doradcę.
+            miesięcznie.{' '}
+            <Link
+              className="font-semibold text-zinc-950 underline decoration-zinc-300 underline-offset-4 transition-colors duration-200 hover:text-zinc-600 hover:decoration-zinc-500"
+              href="/finansowanie"
+            >
+              Zobacz szczegóły finansowania
+            </Link>
+            .
           </p>
         </div>
       </div>
 
-      {/* Key specs grid — 3 cols on mobile */}
       <div className="grid grid-cols-3 gap-px bg-zinc-200 sm:grid-cols-3">
         {[
           ['Rok', String(vehicle.year)],
@@ -107,34 +110,20 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
         ))}
       </div>
 
-      {/* CTAs — desktop only (mobile uses sticky bar) */}
       <div className="hidden flex-col gap-3 sm:flex sm:flex-row">
-        <a
-          className="btn-premium w-full sm:w-fit"
-          href="#kontakt-oferta"
-        >
+        <a className="btn-premium w-full sm:w-fit" href="#kontakt-oferta">
           Zapytaj o ten pojazd
         </a>
-        <a
-          className="btn-premium-ghost w-full sm:w-fit"
-          href={vehicle.advisor.phoneHref}
-        >
+        <a className="btn-premium-ghost w-full sm:w-fit" href={vehicle.advisor.phoneHref}>
           Zadzwoń teraz
         </a>
       </div>
 
-      {/* Mobile CTA row (visible on mobile, below specs, above sticky bar) */}
       <div className="flex flex-col gap-3 sm:hidden">
-        <a
-          className="btn-premium w-full justify-center"
-          href="#kontakt-oferta"
-        >
+        <a className="btn-premium w-full justify-center" href="#kontakt-oferta">
           Zapytaj o ten pojazd
         </a>
-        <a
-          className="btn-premium-ghost w-full justify-center"
-          href={vehicle.advisor.phoneHref}
-        >
+        <a className="btn-premium-ghost w-full justify-center" href={vehicle.advisor.phoneHref}>
           Zadzwoń teraz
         </a>
       </div>

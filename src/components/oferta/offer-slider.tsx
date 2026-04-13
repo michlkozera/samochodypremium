@@ -87,9 +87,7 @@ export function OfferSlider() {
               className={[
                 'relative grid gap-1 border-r border-white/[0.06] px-3 py-3 text-left transition-colors duration-300 last:border-r-0',
                 'sm:px-4 sm:py-4 lg:px-6 lg:py-5',
-                isActive
-                  ? 'bg-white text-zinc-950'
-                  : 'text-zinc-500 hover:bg-white/5 hover:text-zinc-200',
+                isActive ? 'bg-white text-zinc-950' : 'text-zinc-500',
               ].join(' ')}
             >
               <span
@@ -241,7 +239,7 @@ export function OfferSlider() {
                 </Link>
                 <Link
                   href="/wycena"
-                  className="btn-premium-ghost w-full border-white/20 text-white/80 hover:border-white/50 hover:text-white sm:w-auto"
+                  className="btn-premium-ghost w-full border-white/20 text-white/80 sm:w-auto"
                 >
                   Sprawdź wycenę
                 </Link>
@@ -255,15 +253,15 @@ export function OfferSlider() {
       <div className="flex items-center justify-between border-t border-white/[0.06] bg-zinc-950/60 px-5 py-3 backdrop-blur-sm">
         {/* Progress dots */}
         <div className="flex items-center gap-2">
-          {ofertaSlides.map((_, i) => (
+                {ofertaSlides.map((_, i) => (
             <button
               key={i}
               onClick={() => setIndex(i)}
               type="button"
               aria-label={`${TAB_LABELS[i]} – zakres ${i + 1}`}
               className={[
-                'block h-[3px] transition-all duration-400 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/60',
-                i === index ? 'w-8 bg-white' : 'w-2.5 bg-white/20 hover:bg-white/45',
+                'block h-[3px] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/60',
+                i === index ? 'w-8 bg-white' : 'w-2.5 bg-white/20',
               ].join(' ')}
             />
           ))}
@@ -276,7 +274,7 @@ export function OfferSlider() {
             disabled={index === 0}
             type="button"
             aria-label="Poprzednia kategoria"
-            className="inline-flex h-9 w-9 items-center justify-center border border-white/14 text-base text-white transition duration-200 hover:border-white hover:bg-white/8 disabled:cursor-not-allowed disabled:opacity-20 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/60"
+            className="inline-flex h-9 w-9 items-center justify-center border border-white/14 text-base text-white disabled:cursor-not-allowed disabled:opacity-20 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/60"
           >
             ←
           </button>
@@ -285,7 +283,7 @@ export function OfferSlider() {
             disabled={index === total - 1}
             type="button"
             aria-label="Nastepna kategoria"
-            className="inline-flex h-9 w-9 items-center justify-center border border-white/14 text-base text-white transition duration-200 hover:border-white hover:bg-white/8 disabled:cursor-not-allowed disabled:opacity-20 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/60"
+            className="inline-flex h-9 w-9 items-center justify-center border border-white/14 text-base text-white disabled:cursor-not-allowed disabled:opacity-20 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/60"
           >
             →
           </button>

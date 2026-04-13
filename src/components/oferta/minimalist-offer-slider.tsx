@@ -201,7 +201,7 @@ export function MinimalistOfferSlider() {
         disabled={index === 0}
         type="button"
         aria-label="Poprzednia kategoria"
-        className="absolute left-0 top-1/2 z-20 flex h-20 w-10 -translate-y-1/2 items-center justify-center border-y border-r border-zinc-200/60 bg-white/80 backdrop-blur-sm transition-colors duration-200 hover:bg-zinc-50 disabled:pointer-events-none disabled:opacity-0 sm:h-28 sm:w-12 lg:h-36 lg:w-14"
+        className="absolute left-0 top-1/2 z-20 flex h-20 w-10 -translate-y-1/2 items-center justify-center border-y border-r border-zinc-200/60 bg-white/80 disabled:pointer-events-none disabled:opacity-0 sm:h-28 sm:w-12 lg:h-36 lg:w-14"
       >
         <svg
           width="20"
@@ -223,7 +223,7 @@ export function MinimalistOfferSlider() {
         disabled={index === total - 1}
         type="button"
         aria-label="Nastepna kategoria"
-        className="absolute right-0 top-1/2 z-20 flex h-20 w-10 -translate-y-1/2 items-center justify-center border-y border-l border-zinc-200/60 bg-white/80 backdrop-blur-sm transition-colors duration-200 hover:bg-zinc-50 disabled:pointer-events-none disabled:opacity-0 sm:h-28 sm:w-12 lg:h-36 lg:w-14"
+        className="absolute right-0 top-1/2 z-20 flex h-20 w-10 -translate-y-1/2 items-center justify-center border-y border-l border-zinc-200/60 bg-white/80 disabled:pointer-events-none disabled:opacity-0 sm:h-28 sm:w-12 lg:h-36 lg:w-14"
       >
         <svg
           width="20"
@@ -252,9 +252,7 @@ export function MinimalistOfferSlider() {
             aria-label={`Przejdz do zakresu ${i + 1}`}
             className={[
               'block h-[2px] transition-all duration-500 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950',
-              i === index
-                ? 'w-8 bg-zinc-950'
-                : 'w-3 bg-zinc-300 hover:bg-zinc-500',
+              i === index ? 'w-8 bg-zinc-950' : 'w-3 bg-zinc-300',
             ].join(' ')}
           />
         ))}

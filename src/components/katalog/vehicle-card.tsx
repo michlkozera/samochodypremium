@@ -12,7 +12,7 @@ type VehicleCardProps = {
 
 export function VehicleCard({ vehicle }: VehicleCardProps) {
   return (
-    <article className="group flex h-full flex-col border border-zinc-200 bg-white transition-colors duration-300 hover:border-zinc-400">
+    <article className="group flex h-full flex-col border border-zinc-200 bg-white">
       {/* Image */}
       <Link
         className="relative block aspect-[16/10] overflow-hidden bg-zinc-100"
@@ -76,7 +76,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         {/* Title */}
         <div className="grid gap-2">
           <Link href={`/oferta/${vehicle.slug}`}>
-            <h3 className="text-[0.95rem] font-semibold uppercase leading-tight tracking-[-0.01em] text-zinc-950 transition-colors duration-200 hover:text-zinc-500 sm:text-[1rem]">
+            <h3 className="text-[0.95rem] font-semibold uppercase leading-tight tracking-[-0.01em] text-zinc-950 sm:text-[1rem]">
               {vehicle.make} {vehicle.model}
             </h3>
           </Link>
@@ -106,7 +106,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         {/* CTA */}
         <div className="mt-auto">
           <Link
-            className="inline-flex h-10 w-full items-center justify-center border border-zinc-950 bg-zinc-950 px-5 text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-white transition-colors duration-200 hover:bg-white hover:text-zinc-950"
+            className="btn-premium h-10 min-h-10 w-full px-5 text-[0.64rem]"
             href={`/oferta/${vehicle.slug}`}
           >
             Zobacz szczegóły

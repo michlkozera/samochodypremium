@@ -10,9 +10,7 @@ export function OfertaHero() {
       imageSrc={assets.heroOferta}
       eyebrow={
         <>
-          <Link href="/" className="transition-colors duration-200 hover:text-white">
-            Start
-          </Link>{' '}
+          <Link href="/">Start</Link>{' '}
           / Oferta
         </>
       }
