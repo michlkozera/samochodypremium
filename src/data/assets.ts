@@ -12,20 +12,18 @@ import Mercedes09 from '../../photos/Mercedes_09.jpg';
 import Mercedes10 from '../../photos/Mercedes_10.jpg';
 import Mercedes11 from '../../photos/Mercedes_11.jpg';
 import Mercedes12 from '../../photos/Mercedes_12.jpg';
-import Mercedes13 from '../../photos/Mercedes_13.jpg';
 import Porsche01 from '../../photos/Porsche_01.jpg';
 import Porsche02 from '../../photos/Porsche_02.jpg';
-import Porsche03 from '../../photos/Porsche_03.jpg';
 import Porsche09 from '../../photos/Porsche_09.jpg';
 import Porsche10 from '../../photos/Porsche_10.jpg';
 import Porsche11 from '../../photos/Porsche_11.jpg';
 
 export type AssetMap = Record<string, StaticImageData>;
 
-const sharedSubpageHero = Porsche03;
+const sharedSubpageHero = Mercedes01;
 
 export const assets = {
-  heroMain: Mercedes13,
+  heroMain: Mercedes01,
   heroOferta: sharedSubpageHero,
   heroOnas: sharedSubpageHero,
   heroKontakt: sharedSubpageHero,
