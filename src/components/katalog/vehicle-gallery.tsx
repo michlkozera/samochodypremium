@@ -210,86 +210,47 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
           )}
         </div>
       </div>
-      {/* Thumbnail Strip - Professional Slider */}
+      {/* Thumbnail Strip - Draggable */}
       {total > 1 && (
-        <div className="mt-3 grid grid-cols-[auto_1fr_auto] items-center gap-2">
-          {/* Left Arrow */}
-          <button
-            type="button"
-            aria-label="Przewiń miniaturki w lewo"
-            onClick={() => {
-              const el = thumbsRef.current;
-              if (el) {
-                const thumbWidth = 96; // 24 * 4 = 96px
-                el.scrollBy({ left: -thumbWidth * 2, behavior: 'smooth' });
-              }
-            }}
-            className="flex h-10 w-8 items-center justify-center border border-zinc-300 bg-white text-zinc-600 transition-all duration-200 hover:border-zinc-500 hover:text-zinc-900 hover:bg-zinc-50"
+        <div className="mt-3 overflow-hidden">
+          <div
+            ref={thumbsRef}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerUp}
+            onPointerCancel={onPointerUp}
+            className="flex gap-2 overflow-x-auto no-scrollbar py-1 cursor-grab active:cursor-grabbing"
+            style={{ scrollSnapType: 'x mandatory' }}
           >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path d="M15 19l-7-7 7-7" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-
-          {/* Thumbnails Track - Fixed Width */}
-          <div className="relative overflow-hidden">
-            <div
-              ref={thumbsRef}
-              onPointerDown={onPointerDown}
-              onPointerMove={onPointerMove}
-              onPointerUp={onPointerUp}
-              onPointerCancel={onPointerUp}
-              className="flex gap-2 overflow-x-auto no-scrollbar py-1"
-              style={{ scrollSnapType: 'x mandatory' }}
-            >
-              {safeImages.map((img, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActiveIndex(i);
-                  }}
-                  className={`
-                    relative flex-shrink-0 overflow-hidden
-                    w-20 h-14 sm:w-24 sm:h-16
-                    transition-all duration-200 ease-out
-                    ${i === displayed
-                      ? 'ring-2 ring-zinc-950 ring-offset-1 opacity-100'
-                      : 'opacity-60 hover:opacity-90 hover:ring-1 hover:ring-zinc-400'
-                    }
-                  `}
-                  style={{ scrollSnapAlign: 'start' }}
-                >
-                  <Image
-                    src={img}
-                    alt={`${alt} - miniatura ${i + 1}`}
-                    fill
-                    className="object-cover"
-                    sizes="96px"
-                  />
-                </button>
-              ))}
-            </div>
+            {safeImages.map((img, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveIndex(i);
+                }}
+                className={`
+                  relative flex-shrink-0 overflow-hidden
+                  w-20 h-14 sm:w-24 sm:h-16
+                  transition-all duration-200 ease-out
+                  ${i === displayed
+                    ? 'ring-2 ring-zinc-950 ring-offset-1 opacity-100'
+                    : 'opacity-60 hover:opacity-90 hover:ring-1 hover:ring-zinc-400'
+                  }
+                `}
+                style={{ scrollSnapAlign: 'start' }}
+              >
+                <Image
+                  src={img}
+                  alt={`${alt} - miniatura ${i + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="96px"
+                />
+              </button>
+            ))}
           </div>
-
-          {/* Right Arrow */}
-          <button
-            type="button"
-            aria-label="Przewiń miniaturki w prawo"
-            onClick={() => {
-              const el = thumbsRef.current;
-              if (el) {
-                const thumbWidth = 96;
-                el.scrollBy({ left: thumbWidth * 2, behavior: 'smooth' });
-              }
-            }}
-            className="flex h-10 w-8 items-center justify-center border border-zinc-300 bg-white text-zinc-600 transition-all duration-200 hover:border-zinc-500 hover:text-zinc-900 hover:bg-zinc-50"
-          >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
         </div>
       )}
 
