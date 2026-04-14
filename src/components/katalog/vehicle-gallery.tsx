@@ -70,6 +70,16 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
   const thumbsRef = useRef<HTMLDivElement | null>(null);
   const pointer = useRef({ down: false, startX: 0, scrollLeft: 0, isDragging: false });
 
+  // Auto-scroll thumbnails when active image changes (via arrows)
+  useEffect(() => {
+    const el = thumbsRef.current;
+    if (!el) return;
+    const child = el.children[displayed] as HTMLElement | undefined;
+    if (!child) return;
+    const target = child.offsetLeft - el.clientWidth / 2 + child.clientWidth / 2;
+    el.scrollTo({ left: target, behavior: 'smooth' });
+  }, [displayed]);
+
   const scrollThumbsTo = (index: number) => {
     setActiveIndex(index);
     const el = thumbsRef.current;
