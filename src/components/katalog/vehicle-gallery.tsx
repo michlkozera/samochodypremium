@@ -238,7 +238,7 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
             onPointerUp={onPointerUp}
             onPointerCancel={onPointerUp}
             role="list"
-            className="flex-1 overflow-x-auto py-2 no-scrollbar"
+            className="flex-1 min-w-0 overflow-x-auto py-2 no-scrollbar"
           >
             <div className="flex gap-2">
               {safeImages.map((img, i) => (
