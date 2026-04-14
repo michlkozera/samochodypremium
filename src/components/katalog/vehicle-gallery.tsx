@@ -210,75 +210,84 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
           )}
         </div>
       </div>
-      {/* Thumbnail strip with navigation arrows */}
+      {/* Thumbnail Strip - Professional Slider */}
       {total > 1 && (
-        <div className="mt-3 flex items-center gap-2">
-          {/* Left arrow */}
+        <div className="mt-3 grid grid-cols-[auto_1fr_auto] items-center gap-2">
+          {/* Left Arrow */}
           <button
             type="button"
             aria-label="Przewiń miniaturki w lewo"
             onClick={() => {
               const el = thumbsRef.current;
               if (el) {
-                el.scrollBy({ left: -200, behavior: 'smooth' });
+                const thumbWidth = 96; // 24 * 4 = 96px
+                el.scrollBy({ left: -thumbWidth * 2, behavior: 'smooth' });
               }
             }}
-            className="flex-shrink-0 flex h-12 w-10 items-center justify-center border border-zinc-200 bg-white text-zinc-600 transition-colors duration-200 hover:border-zinc-400 hover:text-zinc-950"
+            className="flex h-10 w-8 items-center justify-center border border-zinc-300 bg-white text-zinc-600 transition-all duration-200 hover:border-zinc-500 hover:text-zinc-900 hover:bg-zinc-50"
           >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <path d="M15.75 19.5 8.25 12l7.5-7.5" strokeLinecap="round" strokeLinejoin="round" />
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path d="M15 19l-7-7 7-7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
 
-          {/* Thumbnails container */}
-          <div
-            ref={thumbsRef}
-            onPointerDown={onPointerDown}
-            onPointerMove={onPointerMove}
-            onPointerUp={onPointerUp}
-            onPointerCancel={onPointerUp}
-            role="list"
-            className="flex-1 min-w-0 overflow-x-auto py-2 no-scrollbar"
-          >
-            <div className="flex gap-2">
+          {/* Thumbnails Track - Fixed Width */}
+          <div className="relative overflow-hidden">
+            <div
+              ref={thumbsRef}
+              onPointerDown={onPointerDown}
+              onPointerMove={onPointerMove}
+              onPointerUp={onPointerUp}
+              onPointerCancel={onPointerUp}
+              className="flex gap-2 overflow-x-auto no-scrollbar py-1"
+              style={{ scrollSnapType: 'x mandatory' }}
+            >
               {safeImages.map((img, i) => (
                 <button
                   key={i}
                   type="button"
-                  role="listitem"
-                  aria-label={`Pokaż zdjęcie ${i + 1}`}
                   onClick={(e) => {
                     e.stopPropagation();
-                    scrollThumbsTo(i);
+                    setActiveIndex(i);
                   }}
-                  className={`flex-shrink-0 focus:outline-none transition-all duration-200 ${
-                    i === displayed
-                      ? 'ring-2 ring-zinc-950 ring-offset-2'
-                      : 'hover:ring-1 hover:ring-zinc-300 hover:ring-offset-1'
-                  }`}
+                  className={`
+                    relative flex-shrink-0 overflow-hidden
+                    w-20 h-14 sm:w-24 sm:h-16
+                    transition-all duration-200 ease-out
+                    ${i === displayed
+                      ? 'ring-2 ring-zinc-950 ring-offset-1 opacity-100'
+                      : 'opacity-60 hover:opacity-90 hover:ring-1 hover:ring-zinc-400'
+                    }
+                  `}
+                  style={{ scrollSnapAlign: 'start' }}
                 >
-                  <div className={`relative w-20 h-14 sm:w-24 sm:h-16 md:w-28 md:h-18 ${i === displayed ? '' : 'opacity-70 hover:opacity-100'}`}>
-                    <Image src={img} alt={`${alt} ${i + 1}`} fill className="object-cover" />
-                  </div>
+                  <Image
+                    src={img}
+                    alt={`${alt} - miniatura ${i + 1}`}
+                    fill
+                    className="object-cover"
+                    sizes="96px"
+                  />
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Right arrow */}
+          {/* Right Arrow */}
           <button
             type="button"
             aria-label="Przewiń miniaturki w prawo"
             onClick={() => {
               const el = thumbsRef.current;
               if (el) {
-                el.scrollBy({ left: 200, behavior: 'smooth' });
+                const thumbWidth = 96;
+                el.scrollBy({ left: thumbWidth * 2, behavior: 'smooth' });
               }
             }}
-            className="flex-shrink-0 flex h-12 w-10 items-center justify-center border border-zinc-200 bg-white text-zinc-600 transition-colors duration-200 hover:border-zinc-400 hover:text-zinc-950"
+            className="flex h-10 w-8 items-center justify-center border border-zinc-300 bg-white text-zinc-600 transition-all duration-200 hover:border-zinc-500 hover:text-zinc-900 hover:bg-zinc-50"
           >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <path d="m8.25 4.5 7.5 7.5-7.5 7.5" strokeLinecap="round" strokeLinejoin="round" />
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         </div>
