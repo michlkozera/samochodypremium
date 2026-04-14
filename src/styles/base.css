@@ -721,7 +721,13 @@
     transform: translate3d(0, 20px, 0);
     transition:
       opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.3s ease,
+      color 0.3s ease;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: -1rem;
+    margin-right: -1rem;
   }
 
   .contact-field.is-visible {
@@ -729,25 +735,58 @@
     transform: translate3d(0, 0, 0);
   }
 
+  /* Hover/focus effect - black background, white text */
+  .contact-field:hover,
+  .contact-field:has(.contact-input:focus),
+  .contact-field:has(textarea:focus) {
+    background-color: var(--color-graphite-950);
+    color: white;
+  }
+
+  /* Input styling inside active field */
+  .contact-field:hover .contact-input,
+  .contact-field:has(.contact-input:focus) .contact-input,
+  .contact-field:has(textarea:focus) .contact-input {
+    color: white;
+  }
+
+  .contact-field:hover .contact-input::placeholder,
+  .contact-field:has(.contact-input:focus) .contact-input::placeholder,
+  .contact-field:has(textarea:focus) .contact-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Labels and index numbers - white when field is active */
+  .contact-field:hover label,
+  .contact-field:hover .text-zinc-400,
+  .contact-field:hover .text-zinc-300,
+  .contact-field:has(.contact-input:focus) label,
+  .contact-field:has(.contact-input:focus) .text-zinc-400,
+  .contact-field:has(.contact-input:focus) .text-zinc-300,
+  .contact-field:has(textarea:focus) label,
+  .contact-field:has(textarea:focus) .text-zinc-400,
+  .contact-field:has(textarea:focus) .text-zinc-300 {
+    color: white !important;
+  }
+
+  /* Chip labels inside active field */
+  .contact-field:hover .contact-chip-label,
+  .contact-field:has(.contact-input:focus) .contact-chip-label,
+  .contact-field:has(textarea:focus) .contact-chip-label {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .contact-field:hover .contact-chip-label:hover,
+  .contact-field:has(.contact-input:focus) .contact-chip-label:hover,
+  .contact-field:has(textarea:focus) .contact-chip-label:hover {
+    border-color: white;
+    color: white;
+  }
+
+  /* Hide animated underline - replaced by background effect */
   .contact-field-line {
-    position: relative;
-    height: 1px;
-    background: var(--color-graphite-200);
-    overflow: hidden;
-  }
-
-  .contact-field-line::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--color-graphite-950);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .group:focus-within .contact-field-line::after {
-    transform: scaleX(1);
+    display: none;
   }
 
   .contact-input {
