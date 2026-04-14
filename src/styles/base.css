@@ -721,11 +721,7 @@
     transform: translate3d(0, 20px, 0);
     transition:
       opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 0.15s ease,
-      color 0.15s ease,
-      padding 0.15s ease,
-      margin 0.15s ease;
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .contact-field.is-visible {
