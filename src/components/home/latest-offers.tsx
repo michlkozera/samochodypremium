@@ -13,7 +13,7 @@ export function LatestOffers({ vehicles }: LatestOffersProps) {
 
   return (
     <section className="border-b border-zinc-200 bg-white py-16 sm:py-20 lg:py-24">
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="site-shell">
         {/* Header */}
         <MotionReveal className="mb-10 sm:mb-12">
           <div className="flex items-end justify-between">
@@ -104,7 +104,7 @@ export function LatestOffers({ vehicles }: LatestOffersProps) {
                     </p>
                   </div>
 
-                  {/* Bottom: Specs and Price */}
+                  {/* Bottom: Specs, Price and CTA */}
                   <div className="flex items-end justify-between mt-2 sm:mt-3">
                     {/* Specs */}
                     <div className="flex gap-4 text-[0.7rem]">
@@ -122,13 +122,21 @@ export function LatestOffers({ vehicles }: LatestOffersProps) {
                       </div>
                     </div>
 
-                    {/* Price */}
-                    <div className="text-right">
-                      <span className="block text-[0.5rem] font-medium uppercase tracking-[0.14em] text-zinc-400">
-                        Cena brutto
-                      </span>
-                      <span className="block text-[0.95rem] font-semibold tracking-[-0.02em] text-zinc-950 sm:text-[1.05rem]">
-                        {formatPrice(vehicle.price)} PLN
+                    {/* Price & CTA */}
+                    <div className="flex flex-col items-end gap-2">
+                      <div className="text-right">
+                        <span className="block text-[0.5rem] font-medium uppercase tracking-[0.14em] text-zinc-400">
+                          Cena brutto
+                        </span>
+                        <span className="block text-[0.95rem] font-semibold tracking-[-0.02em] text-zinc-950 sm:text-[1.05rem]">
+                          {formatPrice(vehicle.price)} PLN
+                        </span>
+                      </div>
+                      <span className="inline-flex items-center gap-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-zinc-600 group-hover:text-zinc-950 transition-colors">
+                        Zobacz szczegóły
+                        <svg className="w-3 h-3 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
                       </span>
                     </div>
                   </div>
