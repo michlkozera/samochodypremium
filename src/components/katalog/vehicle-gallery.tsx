@@ -210,35 +210,79 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
           )}
         </div>
       </div>
-      <div className="mt-3">
-        <div
-          ref={thumbsRef}
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={onPointerUp}
-          onPointerCancel={onPointerUp}
-          role="list"
-          className="flex gap-3 overflow-x-auto pb-2 pl-2 pr-2 no-scrollbar snap-x snap-mandatory"
-        >
-          {safeImages.map((img, i) => (
-            <button
-              key={i}
-              type="button"
-              role="listitem"
-              aria-label={`Pokaż zdjęcie ${i + 1}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                scrollThumbsTo(i);
-              }}
-              className={`flex-shrink-0 overflow-hidden snap-start focus:outline-none`}
-            >
-              <div className={`relative w-24 h-16 sm:w-28 sm:h-20 md:w-32 md:h-24 ${i === displayed ? '' : 'opacity-90'}`}>
-                <Image src={img} alt={`${alt} ${i + 1}`} fill className="object-cover" />
-              </div>
-            </button>
-          ))}
+      {/* Thumbnail strip with navigation arrows */}
+      {total > 1 && (
+        <div className="mt-3 flex items-center gap-2">
+          {/* Left arrow */}
+          <button
+            type="button"
+            aria-label="Przewiń miniaturki w lewo"
+            onClick={() => {
+              const el = thumbsRef.current;
+              if (el) {
+                el.scrollBy({ left: -200, behavior: 'smooth' });
+              }
+            }}
+            className="flex-shrink-0 flex h-12 w-10 items-center justify-center border border-zinc-200 bg-white text-zinc-600 transition-colors duration-200 hover:border-zinc-400 hover:text-zinc-950"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+              <path d="M15.75 19.5 8.25 12l7.5-7.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+
+          {/* Thumbnails container */}
+          <div
+            ref={thumbsRef}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerUp}
+            onPointerCancel={onPointerUp}
+            role="list"
+            className="flex-1 overflow-x-auto py-2 no-scrollbar"
+          >
+            <div className="flex gap-2">
+              {safeImages.map((img, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  role="listitem"
+                  aria-label={`Pokaż zdjęcie ${i + 1}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    scrollThumbsTo(i);
+                  }}
+                  className={`flex-shrink-0 focus:outline-none transition-all duration-200 ${
+                    i === displayed
+                      ? 'ring-2 ring-zinc-950 ring-offset-2'
+                      : 'hover:ring-1 hover:ring-zinc-300 hover:ring-offset-1'
+                  }`}
+                >
+                  <div className={`relative w-20 h-14 sm:w-24 sm:h-16 md:w-28 md:h-18 ${i === displayed ? '' : 'opacity-70 hover:opacity-100'}`}>
+                    <Image src={img} alt={`${alt} ${i + 1}`} fill className="object-cover" />
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Right arrow */}
+          <button
+            type="button"
+            aria-label="Przewiń miniaturki w prawo"
+            onClick={() => {
+              const el = thumbsRef.current;
+              if (el) {
+                el.scrollBy({ left: 200, behavior: 'smooth' });
+              }
+            }}
+            className="flex-shrink-0 flex h-12 w-10 items-center justify-center border border-zinc-200 bg-white text-zinc-600 transition-colors duration-200 hover:border-zinc-400 hover:text-zinc-950"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+              <path d="m8.25 4.5 7.5 7.5-7.5 7.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
         </div>
-      </div>
+      )}
 
       <AnimatePresence>
         {isFullscreen && (
