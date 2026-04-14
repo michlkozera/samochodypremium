@@ -1135,45 +1135,7 @@ export async function GET() {
         registeredInPoland: true,
         registrationNumber: "DW X640D"
       },
-      {
-        make: "Audi",
-        model: "Q7",
-        generation: "4M LCI",
-        year: 2023,
-        mileage: 29000,
-        engineCapacity: 2967,
-        power: 286,
-        fuelType: "DIESEL",
-        transmission: "AUTOMATIC",
-        driveTrain: "AWD",
-        vin: "WAUZZZ4M0PN000030",
-        price: 360000,
-        currency: "PLN",
-        vatReclaimable: true,
-        vatType: "VAT_23",
-        description: "Praktyczny, niezwykle bezpieczny i przestronny rodzinny krążownik. Audi Q7 50 TDI ze sprawdzonym silnikiem V6 oferuje potężny moment obrotowy i ekonomiczne spalanie podczas jazdy autostradowej. Bogata wersja S-line zewnętrzna oraz wewnętrzna, fotele z masażem.",
-        images: [],
-        imagePublicIds: [],
-        primaryImageIndex: 0,
-        youtubeUrl: "",
-        features: ["Pakiet S-line", "Reflektory Matrix LED", "Ogrzewanie postojowe Webasto", "Tylna oś skrętna"],
-        status: "AVAILABLE",
-        slug: "audi-q7-50tdi-2023",
-        accidentFree: true,
-        bodyType: "SUV",
-        color: "Niebieski Navarra Metalik",
-        doors: 5,
-        firstRegistration: new Date("2023-01-10"),
-        originCountry: "Polska",
-        powerUnit: "KM",
-        seats: 5,
-        serviceHistory: true,
-        upholstery: "Alcantara/Skóra z tłoczeniem S-line",
-        condition: "USED",
-        firstOwner: true,
-        registeredInPoland: true,
-        registrationNumber: "WA Q7TDI"
-      }
+      
     ];
 
     for (const car of cars) {
