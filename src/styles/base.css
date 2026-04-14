@@ -721,7 +721,11 @@
     transform: translate3d(0, 20px, 0);
     transition:
       opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.15s ease,
+      color 0.15s ease,
+      padding 0.15s ease,
+      margin 0.15s ease;
   }
 
   .contact-field.is-visible {
@@ -736,11 +740,6 @@
   .contact-field:has(textarea:focus) {
     background-color: var(--color-graphite-950);
     color: white;
-    transition:
-      opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 0.15s ease,
-      color 0.15s ease;
     padding-left: 1rem;
     padding-right: 1rem;
     margin-left: -1rem;
