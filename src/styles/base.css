@@ -721,13 +721,7 @@
     transform: translate3d(0, 20px, 0);
     transition:
       opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 0.3s ease,
-      color 0.3s ease;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    margin-left: -1rem;
-    margin-right: -1rem;
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .contact-field.is-visible {
@@ -735,53 +729,53 @@
     transform: translate3d(0, 0, 0);
   }
 
-  /* Hover/focus effect - black background, white text */
-  .contact-field:hover,
-  .contact-field:has(.contact-input:focus),
+  /* Focus effect - black background, white text (only for text input fields, not chips) */
+  .contact-field:has(input[type="text"]:focus),
+  .contact-field:has(input[type="email"]:focus),
+  .contact-field:has(input[type="tel"]:focus),
   .contact-field:has(textarea:focus) {
     background-color: var(--color-graphite-950);
     color: white;
+    transition:
+      opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.15s ease,
+      color 0.15s ease;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: -1rem;
+    margin-right: -1rem;
   }
 
-  /* Input styling inside active field */
-  .contact-field:hover .contact-input,
-  .contact-field:has(.contact-input:focus) .contact-input,
+  /* Input styling inside focused field */
+  .contact-field:has(input[type="text"]:focus) .contact-input,
+  .contact-field:has(input[type="email"]:focus) .contact-input,
+  .contact-field:has(input[type="tel"]:focus) .contact-input,
   .contact-field:has(textarea:focus) .contact-input {
     color: white;
   }
 
-  .contact-field:hover .contact-input::placeholder,
-  .contact-field:has(.contact-input:focus) .contact-input::placeholder,
+  .contact-field:has(input[type="text"]:focus) .contact-input::placeholder,
+  .contact-field:has(input[type="email"]:focus) .contact-input::placeholder,
+  .contact-field:has(input[type="tel"]:focus) .contact-input::placeholder,
   .contact-field:has(textarea:focus) .contact-input::placeholder {
     color: rgba(255, 255, 255, 0.5);
   }
 
-  /* Labels and index numbers - white when field is active */
-  .contact-field:hover label,
-  .contact-field:hover .text-zinc-400,
-  .contact-field:hover .text-zinc-300,
-  .contact-field:has(.contact-input:focus) label,
-  .contact-field:has(.contact-input:focus) .text-zinc-400,
-  .contact-field:has(.contact-input:focus) .text-zinc-300,
+  /* Labels and index numbers - white when field is focused */
+  .contact-field:has(input[type="text"]:focus) label,
+  .contact-field:has(input[type="text"]:focus) .text-zinc-400,
+  .contact-field:has(input[type="text"]:focus) .text-zinc-300,
+  .contact-field:has(input[type="email"]:focus) label,
+  .contact-field:has(input[type="email"]:focus) .text-zinc-400,
+  .contact-field:has(input[type="email"]:focus) .text-zinc-300,
+  .contact-field:has(input[type="tel"]:focus) label,
+  .contact-field:has(input[type="tel"]:focus) .text-zinc-400,
+  .contact-field:has(input[type="tel"]:focus) .text-zinc-300,
   .contact-field:has(textarea:focus) label,
   .contact-field:has(textarea:focus) .text-zinc-400,
   .contact-field:has(textarea:focus) .text-zinc-300 {
     color: white !important;
-  }
-
-  /* Chip labels inside active field */
-  .contact-field:hover .contact-chip-label,
-  .contact-field:has(.contact-input:focus) .contact-chip-label,
-  .contact-field:has(textarea:focus) .contact-chip-label {
-    border-color: rgba(255, 255, 255, 0.3);
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-  .contact-field:hover .contact-chip-label:hover,
-  .contact-field:has(.contact-input:focus) .contact-chip-label:hover,
-  .contact-field:has(textarea:focus) .contact-chip-label:hover {
-    border-color: white;
-    color: white;
   }
 
   /* Hide animated underline - replaced by background effect */
