@@ -68,7 +68,7 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
   const imgTransition = rm ? { duration: 0 } : { duration: 0.38, ease: EASE };
 
   const thumbsRef = useRef<HTMLDivElement | null>(null);
-  const pointer = useRef({ down: false, startX: 0, scrollLeft: 0 });
+  const pointer = useRef({ down: false, startX: 0, scrollLeft: 0, isDragging: false });
 
   const scrollThumbsTo = (index: number) => {
     setActiveIndex(index);
@@ -84,6 +84,7 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
     const el = thumbsRef.current;
     if (!el) return;
     pointer.current.down = true;
+    pointer.current.isDragging = false;
     pointer.current.startX = e.clientX;
     pointer.current.scrollLeft = el.scrollLeft;
     (e.target as Element).setPointerCapture?.(e.pointerId);
@@ -93,6 +94,10 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
     const el = thumbsRef.current;
     if (!el || !pointer.current.down) return;
     const dx = e.clientX - pointer.current.startX;
+    // If moved more than 5px, consider it a drag
+    if (Math.abs(dx) > 5) {
+      pointer.current.isDragging = true;
+    }
     el.scrollLeft = pointer.current.scrollLeft - dx;
   };
 
@@ -103,6 +108,17 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
     } catch (err) {
       // ignore
     }
+  };
+
+  // Handle thumbnail click with drag detection
+  const handleThumbClick = (index: number) => (e: React.MouseEvent | React.PointerEvent) => {
+    // If we were dragging, don't trigger click
+    if (pointer.current.isDragging) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    setActiveIndex(index);
   };
 
   const ArrowBtn = ({
@@ -219,17 +235,14 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
             onPointerCancel={onPointerUp}
-            className="flex gap-2 overflow-x-auto no-scrollbar py-1 cursor-grab active:cursor-grabbing"
+            className="flex gap-2 overflow-x-auto py-1 cursor-grab active:cursor-grabbing scrollbar-hide"
             style={{ scrollSnapType: 'x mandatory' }}
           >
             {safeImages.map((img, i) => (
               <button
                 key={i}
                 type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setActiveIndex(i);
-                }}
+                onClick={handleThumbClick(i)}
                 className={`
                   relative flex-shrink-0 overflow-hidden
                   w-20 h-14 sm:w-24 sm:h-16
@@ -245,8 +258,9 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
                   src={img}
                   alt={`${alt} - miniatura ${i + 1}`}
                   fill
-                  className="object-cover"
+                  className="object-cover select-none"
                   sizes="96px"
+                  draggable={false}
                 />
               </button>
             ))}
