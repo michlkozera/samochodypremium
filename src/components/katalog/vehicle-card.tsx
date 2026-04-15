@@ -24,12 +24,36 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const specs = [
-    { label: 'Rok', value: String(vehicle.year) },
-    { label: 'Przebieg', value: `${formatMileage(vehicle.mileage)} km` },
-    { label: 'Moc', value: `${vehicle.power} KM` },
-    { label: 'Paliwo', value: vehicle.fuelTypeLabel },
-    { label: 'Skrzynia', value: vehicle.transmissionLabel },
-    { label: 'Nadwozie', value: vehicle.bodyTypeLabel !== 'Nie podano' ? vehicle.bodyTypeLabel : '—' },
+    {
+      label: 'Rok',
+      value: String(vehicle.year),
+      icon: <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>,
+    },
+    {
+      label: 'Przebieg',
+      value: `${formatMileage(vehicle.mileage)} km`,
+      icon: <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+    },
+    {
+      label: 'Moc',
+      value: `${vehicle.power} KM`,
+      icon: <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>,
+    },
+    {
+      label: 'Paliwo',
+      value: vehicle.fuelTypeLabel,
+      icon: <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.623a8.25 8.25 0 013.138-5.04A8.25 8.25 0 0115.362 5.214z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1.001A3.75 3.75 0 0012 18z" /></svg>,
+    },
+    {
+      label: 'Skrzynia',
+      value: vehicle.transmissionLabel,
+      icon: <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>,
+    },
+    {
+      label: 'Nadwozie',
+      value: vehicle.bodyTypeLabel !== 'Nie podano' ? vehicle.bodyTypeLabel : '—',
+      icon: <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" /></svg>,
+    },
   ];
 
   return (
@@ -64,15 +88,15 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.04)_0%,rgba(0,0,0,0.04)_50%,rgba(0,0,0,0.58)_100%)]" />
 
         {/* Bottom-left: year */}
-        <div className="absolute left-0 bottom-0 border-r border-t border-white/20 bg-black/60 px-3 py-2 backdrop-blur-sm">
-          <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-white/80">
+        <div className="absolute left-0 bottom-0 border-r border-t border-white/10 bg-white/10 px-3 py-2 backdrop-blur-md backdrop-saturate-150">
+          <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-white drop-shadow-sm">
             {vehicle.year}
           </span>
         </div>
 
         {/* Bottom-right: status label */}
-        <div className="absolute right-0 bottom-0 border-l border-t border-white/20 bg-black/60 px-3 py-2 backdrop-blur-sm">
-          <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-white/80">
+        <div className="absolute right-0 bottom-0 border-l border-t border-white/10 bg-white/10 px-3 py-2 backdrop-blur-md backdrop-saturate-150">
+          <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-white drop-shadow-sm">
             {vehicle.statusLabel}
           </span>
         </div>
@@ -81,7 +105,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         <div className="absolute inset-x-0 bottom-0 translate-y-full transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0">
           <button
             type="button"
-            className="flex w-full items-center justify-center gap-2 bg-white py-3 text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-zinc-950 hover:bg-zinc-950 hover:text-white transition-colors duration-200"
+            className="flex w-full items-center justify-center gap-2 border-t border-white/20 bg-white/15 py-3 text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md backdrop-saturate-150 transition-colors duration-200 hover:bg-white/25"
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setModalOpen(true); }}
           >
             <svg className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -114,7 +138,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
 
         {/* Specs grid — 3×2 */}
         <div className="grid grid-cols-3 border-b border-zinc-200">
-          {specs.map(({ label, value }, i) => (
+          {specs.map(({ label, value, icon }, i) => (
             <div
               key={label}
               className={[
@@ -123,6 +147,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                 i >= 3 ? 'border-t border-zinc-200' : '',
               ].join(' ')}
             >
+              <span className="mb-0.5 text-zinc-400">{icon}</span>
               <span className="text-[0.45rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">
                 {label}
               </span>
