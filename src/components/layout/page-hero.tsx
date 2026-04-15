@@ -26,7 +26,7 @@ type PageHeroProps = {
 };
 
 const baseSectionClassName =
-  'relative isolate min-h-[100svh] bg-black text-white';
+  'relative isolate flex min-h-[100svh] flex-col bg-black text-white';
 const baseContentClassName = 'grid min-w-0 max-w-4xl gap-5 sm:gap-6';
 const baseTitleClassName =
   'max-w-[18ch] text-[clamp(2rem,10vw,5.2rem)] font-bold uppercase leading-[1.03] tracking-[-0.03em] [overflow-wrap:anywhere] [text-wrap:balance] sm:leading-[1.05]';
@@ -58,7 +58,7 @@ export function PageHero({
 
       <div
         ref={textRef}
-        className="site-shell relative z-10 flex w-full flex-col justify-end pb-10 pt-[calc(var(--site-header-h)+1.5rem)] sm:pb-14 lg:pb-16"
+        className="site-shell relative z-10 flex min-h-full w-full flex-1 flex-col justify-end pb-10 pt-[calc(var(--site-header-h)+1.5rem)] sm:pb-14 lg:pb-16"
         style={{ willChange: 'transform, opacity' }}
       >
         {children ? (
