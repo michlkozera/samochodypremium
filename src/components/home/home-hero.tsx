@@ -56,10 +56,10 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
           </MotionRevealItem>
 
           <MotionRevealItem>
-            <div className="flex flex-wrap gap-6 pb-2 sm:gap-10 sm:pb-0">
+            <div className="flex flex-wrap gap-x-8 gap-y-4 sm:gap-x-10">
               <div className="grid gap-1">
                 <span className="text-[1.5rem] font-bold tracking-[-0.02em] text-white sm:text-[1.75rem]">
-                  <CountUp value={vehicleCount} />+
+                  <CountUp value={vehicleCount} delay={0} />+
                 </span>
                 <span className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">
                   samochodów w ofercie
@@ -67,10 +67,18 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
               </div>
               <div className="grid gap-1">
                 <span className="text-[1.5rem] font-bold tracking-[-0.02em] text-white sm:text-[1.75rem]">
-                  <CountUp value={600} />+
+                  <CountUp value={600} delay={0.2} />+
                 </span>
                 <span className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">
                   zadowolonych klientów
+                </span>
+              </div>
+              <div className="grid gap-1">
+                <span className="text-[1.5rem] font-bold tracking-[-0.02em] text-white sm:text-[1.75rem]">
+                  <CountUp value={100} delay={0.4} />%
+                </span>
+                <span className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">
+                  zadowolenia klientów
                 </span>
               </div>
             </div>

@@ -5,9 +5,10 @@ import { useEffect, useRef, useState } from 'react';
 type CountUpProps = {
   className?: string;
   value: number;
+  delay?: number;
 };
 
-export function CountUp({ className, value }: CountUpProps) {
+export function CountUp({ className, value, delay = 0 }: CountUpProps) {
   const ref = useRef<HTMLSpanElement | null>(null);
   const [displayValue, setDisplayValue] = useState(0);
 
@@ -25,7 +26,7 @@ export function CountUp({ className, value }: CountUpProps) {
             observer.unobserve(entry.target);
           });
         },
-        { threshold: 0.6 }
+        { threshold: 0.1 }
       );
 
       observer.observe(element);
@@ -33,11 +34,12 @@ export function CountUp({ className, value }: CountUpProps) {
     }
 
     let animationFrame = 0;
+    let timeoutId = 0;
     let hasAnimated = false;
 
     const animate = () => {
       const start = performance.now();
-      const duration = 1400;
+      const duration = 1600;
 
       const step = (now: number) => {
         const progress = Math.min((now - start) / duration, 1);
@@ -56,11 +58,11 @@ export function CountUp({ className, value }: CountUpProps) {
         entries.forEach((entry) => {
           if (!entry.isIntersecting || hasAnimated) return;
           hasAnimated = true;
-          animate();
+          timeoutId = window.setTimeout(animate, delay * 1000);
           observer.unobserve(entry.target);
         });
       },
-      { threshold: 0.6 }
+      { threshold: 0.1 }
     );
 
     observer.observe(element);
@@ -68,8 +70,9 @@ export function CountUp({ className, value }: CountUpProps) {
     return () => {
       observer.disconnect();
       window.cancelAnimationFrame(animationFrame);
+      window.clearTimeout(timeoutId);
     };
-  }, [value]);
+  }, [value, delay]);
 
   return (
     <span className={className} ref={ref}>
