@@ -54,7 +54,7 @@ export function PageHero({
         <HeroBackground src={imageSrc} alt="" bgRef={bgRef} />
       </div>
 
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.25)_0%,rgba(0,0,0,0.55)_50%,rgba(0,0,0,0.82)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.15)_40%,rgba(0,0,0,0.45)_70%,rgba(0,0,0,0.82)_100%)]" />
 
       <div
         ref={textRef}
