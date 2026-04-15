@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
-import { motion } from 'framer-motion';
+import { useState, type FormEvent } from 'react';
 
 interface HeroSearchProps {
   buttonLabel?: string;
@@ -22,44 +21,27 @@ export function HeroSearch({ buttonLabel = 'Zobacz katalog', buttonHref = '/ofer
   };
 
   return (
-    <motion.form
-      onSubmit={handleSubmit}
-      className="w-full"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <form onSubmit={handleSubmit} className="w-full">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         {/* Search Input */}
-        <motion.div 
-          className="relative flex-1"
-          animate={{ 
-            scale: isFocused ? 1.02 : 1,
-          }}
-          transition={{ duration: 0.2 }}
-        >
-          <div 
-            className={`
-              relative flex items-center overflow-hidden
-              border bg-white/10 backdrop-blur-sm
-              transition-all duration-300 ease-out
-              ${isFocused 
-                ? 'border-white/50 bg-white/15 shadow-[0_0_30px_rgba(255,255,255,0.1)]' 
-                : 'border-white/20 hover:border-white/30'
-              }
-            `}
+        <div className="relative flex-1">
+          <div
+            className={[
+              'relative flex items-center overflow-hidden border backdrop-blur-sm transition-all duration-300 ease-out',
+              isFocused
+                ? 'border-white/50 bg-white/15 shadow-[0_0_30px_rgba(255,255,255,0.1)]'
+                : 'border-white/20 bg-white/10 hover:border-white/30',
+            ].join(' ')}
           >
             {/* Search Icon */}
-            <motion.svg
-              className="ml-4 h-5 w-5 text-zinc-400"
+            <svg
+              className={[
+                'ml-4 h-5 w-5 transition-colors duration-200',
+                isFocused ? 'text-white' : 'text-zinc-400',
+              ].join(' ')}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              animate={{ 
-                color: isFocused ? '#ffffff' : '#a1a1aa',
-                scale: isFocused ? 1.1 : 1
-              }}
-              transition={{ duration: 0.2 }}
             >
               <path
                 strokeLinecap="round"
@@ -67,7 +49,7 @@ export function HeroSearch({ buttonLabel = 'Zobacz katalog', buttonHref = '/ofer
                 strokeWidth={1.5}
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
-            </motion.svg>
+            </svg>
 
             <input
               type="text"
@@ -76,45 +58,27 @@ export function HeroSearch({ buttonLabel = 'Zobacz katalog', buttonHref = '/ofer
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
-              className="
-                w-full bg-transparent px-4 py-4 text-[0.9rem] text-white
-                placeholder:text-zinc-400
-                outline-none
-              "
+              className="w-full bg-transparent px-4 py-4 text-[0.9rem] text-white placeholder:text-zinc-400 outline-none"
             />
 
-            {/* Clear Button - visible when typing */}
-            <motion.button
+            {/* Clear Button */}
+            <button
               type="button"
               onClick={() => setSearchQuery('')}
-              className="mr-2 p-1 text-zinc-400 hover:text-white transition-colors"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ 
-                opacity: searchQuery ? 1 : 0, 
-                scale: searchQuery ? 1 : 0.8,
-                pointerEvents: searchQuery ? 'auto' : 'none'
-              }}
-              transition={{ duration: 0.15 }}
+              className={[
+                'mr-2 p-1 text-zinc-400 hover:text-white transition-all duration-200',
+                searchQuery ? 'opacity-100 scale-100' : 'opacity-0 scale-75 pointer-events-none',
+              ].join(' ')}
             >
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
               </svg>
-            </motion.button>
+            </button>
           </div>
-
-          {/* Focus glow effect */}
-          <motion.div
-            className="absolute inset-0 -z-10 rounded-sm bg-white/5 blur-xl"
-            animate={{ 
-              opacity: isFocused ? 1 : 0,
-              scale: isFocused ? 1.1 : 1
-            }}
-            transition={{ duration: 0.3 }}
-          />
-        </motion.div>
+        </div>
 
         {/* Submit Button */}
-        <motion.button
+        <button
           type="submit"
           className="
             group relative overflow-hidden
@@ -123,16 +87,13 @@ export function HeroSearch({ buttonLabel = 'Zobacz katalog', buttonHref = '/ofer
             text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-950
             transition-all duration-300
             hover:bg-zinc-950 hover:text-white hover:border-white/50
+            active:scale-[0.98]
             sm:min-h-[56px] sm:px-10 sm:text-[0.75rem] sm:tracking-[0.24em]
           "
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
         >
-          <span className="relative z-10 flex items-center justify-center gap-2">
-            {buttonLabel}
-          </span>
-        </motion.button>
+          {buttonLabel}
+        </button>
       </div>
-    </motion.form>
+    </form>
   );
 }

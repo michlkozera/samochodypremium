@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { assets } from '@/data/assets';
 import { PageHero } from '@/components/layout/page-hero';
 import { HeroSearch } from '@/components/home/hero-search';
+import { CountUp } from '@/components/ui/count-up';
 import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
 
 type HomeHeroProps = {
@@ -24,7 +25,7 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
         {/* ── Left column ── */}
         <div className="grid min-w-0 gap-5 sm:gap-6">
           <MotionRevealItem>
-            <div className="eyebrow border-zinc-500 text-[0.78rem] text-zinc-400 sm:text-[0.7rem]">
+            <div className="eyebrow border-zinc-500 text-[0.78rem] text-zinc-400 backdrop-blur-sm bg-white/5 sm:text-[0.7rem]">
               Warszawa / wyselekcjonowane egzemplarze / bezkompromisowa jakość
             </div>
           </MotionRevealItem>
@@ -38,7 +39,7 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
           <MotionRevealItem>
             <Link
               href="/oferta"
-              className="hero-btn-secondary inline-flex w-fit gap-2 px-8 sm:px-10"
+              className="hero-btn-secondary inline-flex w-fit gap-2 px-8 backdrop-blur-sm bg-white/5 sm:px-10"
             >
               Zobacz katalog
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -64,7 +65,7 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
             <div className="flex flex-wrap gap-6 sm:gap-10">
               <div className="grid gap-1">
                 <span className="text-[1.5rem] font-bold tracking-[-0.02em] text-white sm:text-[1.75rem]">
-                  {vehicleCount}+
+                  <CountUp value={vehicleCount} />+
                 </span>
                 <span className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">
                   samochodów w ofercie
@@ -72,7 +73,7 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
               </div>
               <div className="grid gap-1">
                 <span className="text-[1.5rem] font-bold tracking-[-0.02em] text-white sm:text-[1.75rem]">
-                  600+
+                  <CountUp value={600} />+
                 </span>
                 <span className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">
                   zadowolonych klientów
