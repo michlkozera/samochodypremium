@@ -123,11 +123,11 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         {/* Title + description */}
         <div className="grid gap-2">
           <Link href={`/oferta/${vehicle.slug}`}>
-            <h3 className="text-[1.1rem] font-bold uppercase leading-tight tracking-[-0.02em] text-zinc-950 transition-colors group-hover:text-zinc-700 sm:text-[1.2rem]">
+            <h3 className="text-[1.25rem] font-bold uppercase leading-tight tracking-[-0.03em] text-zinc-950 transition-colors group-hover:text-zinc-700 sm:text-[1.45rem]">
               {vehicle.make} {vehicle.model}
             </h3>
           </Link>
-          <p className="line-clamp-2 text-[0.88rem] leading-[1.7] text-zinc-500">
+          <p className="line-clamp-2 text-[0.93rem] leading-[1.75] text-zinc-500">
             {vehicle.shortDescription}
           </p>
         </div>
@@ -148,17 +148,17 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         </div>
 
         {/* Bottom: price tile + CTA */}
-        <div className="mt-auto flex items-stretch">
-          <div className="flex flex-1 flex-col justify-center bg-zinc-950 px-4 py-3 transition-colors duration-200 hover:bg-zinc-700">
-            <span className="block text-[0.52rem] font-medium uppercase tracking-[0.18em] text-white/50">
+        <div className="mt-auto flex items-center">
+          <div className="flex flex-1 flex-col justify-center bg-zinc-950 px-5 py-4 transition-colors duration-200 hover:bg-zinc-700">
+            <span className="block text-[0.52rem] font-medium uppercase tracking-[0.2em] text-white/50">
               Cena brutto
             </span>
-            <span className="block text-[0.92rem] font-semibold tracking-[-0.02em] text-white sm:text-[1rem]">
+            <span className="block text-[1.05rem] font-bold tracking-[-0.03em] text-white sm:text-[1.15rem]">
               {formatPrice(vehicle.price)} PLN
             </span>
           </div>
           <Link
-            className="inline-flex shrink-0 items-center gap-2 border-l border-zinc-800 bg-zinc-950 px-4 py-3 text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-white transition-colors duration-200 hover:bg-zinc-700"
+            className="inline-flex shrink-0 items-center gap-1.5 px-4 text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-zinc-950 transition-colors duration-200 hover:text-zinc-500"
             href={`/oferta/${vehicle.slug}`}
           >
             Szczegóły oferty
