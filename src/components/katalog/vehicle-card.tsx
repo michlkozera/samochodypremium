@@ -23,7 +23,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
   ];
 
   return (
-    <article className="group flex h-full flex-col border border-zinc-200 bg-white">
+    <article className="group flex h-full flex-col border border-zinc-200 bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-shadow duration-300 hover:shadow-[0_16px_48px_rgba(0,0,0,0.14)]">
       {/* ── Image ── */}
       <Link
         className="relative block aspect-[16/11] overflow-hidden bg-zinc-100"
