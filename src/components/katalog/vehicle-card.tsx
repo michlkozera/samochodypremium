@@ -26,7 +26,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
     <article className="group flex h-full flex-col border border-zinc-200 bg-white">
       {/* ── Image ── */}
       <Link
-        className="relative block aspect-[16/10] overflow-hidden bg-zinc-100"
+        className="relative block aspect-[16/11] overflow-hidden bg-zinc-100"
         href={`/oferta/${vehicle.slug}`}
         tabIndex={-1}
         aria-hidden="true"
@@ -71,16 +71,16 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
       <div className="flex flex-1 flex-col">
 
         {/* Brand + Model */}
-        <div className="border-b border-zinc-200 px-4 py-4">
+        <div className="border-b border-zinc-200 px-3.5 py-3">
           <Link href={`/oferta/${vehicle.slug}`} className="block">
-            <p className="mb-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-zinc-400">
+            <p className="mb-0.5 text-[0.55rem] font-semibold uppercase tracking-[0.3em] text-zinc-400">
               {vehicle.make}
             </p>
-            <h3 className="text-[clamp(1.15rem,2.2vw,1.55rem)] font-semibold uppercase leading-[1.1] tracking-[-0.03em] text-zinc-950">
+            <h3 className="text-[clamp(1rem,2vw,1.35rem)] font-semibold uppercase leading-[1.1] tracking-[-0.03em] text-zinc-950">
               {vehicle.model}
             </h3>
             {vehicle.shortDescription && (
-              <p className="mt-2 line-clamp-1 text-[0.78rem] leading-[1.6] text-zinc-500">
+              <p className="mt-1.5 line-clamp-1 text-[0.7rem] leading-[1.5] text-zinc-500">
                 {vehicle.shortDescription}
               </p>
             )}
@@ -93,15 +93,15 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
             <div
               key={label}
               className={[
-                'grid gap-0.5 px-3 py-2.5',
+                'grid gap-0.5 px-2.5 py-2',
                 i % 3 !== 0 ? 'border-l border-zinc-200' : '',
                 i >= 3 ? 'border-t border-zinc-200' : '',
               ].join(' ')}
             >
-              <span className="text-[0.5rem] font-semibold uppercase tracking-[0.2em] text-zinc-400">
+              <span className="text-[0.45rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">
                 {label}
               </span>
-              <span className="text-[0.7rem] font-semibold leading-tight text-zinc-900">
+              <span className="text-[0.65rem] font-semibold leading-tight text-zinc-900">
                 {value}
               </span>
             </div>
@@ -109,12 +109,12 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         </div>
 
         {/* Price + CTA */}
-        <div className="mt-auto flex items-center justify-between gap-4 px-4 py-3">
+        <div className="mt-auto flex items-center justify-between gap-3 px-3.5 py-2.5">
           <div className="grid gap-0.5">
-            <span className="text-[0.52rem] font-semibold uppercase tracking-[0.22em] text-zinc-400">
+            <span className="text-[0.48rem] font-semibold uppercase tracking-[0.2em] text-zinc-400">
               Cena brutto
             </span>
-            <span className="text-[clamp(1.25rem,2.5vw,1.65rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-950">
+            <span className="text-[clamp(1.1rem,2.2vw,1.4rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-950">
               {formatPrice(vehicle.price)}
               <span className="ml-1 text-[0.6em] font-medium tracking-[0.02em] text-zinc-500">PLN</span>
             </span>
@@ -122,7 +122,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
 
           <Link
             href={`/oferta/${vehicle.slug}`}
-            className="relative inline-flex h-10 items-center justify-center overflow-hidden border border-zinc-950 bg-zinc-950 px-4 text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-white transition-colors duration-300 hover:bg-white hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
+            className="relative inline-flex h-9 items-center justify-center overflow-hidden border border-zinc-950 bg-zinc-950 px-3 text-[0.55rem] font-semibold uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-white hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
           >
             Szczegóły
           </Link>
