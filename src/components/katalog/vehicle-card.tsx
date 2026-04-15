@@ -26,7 +26,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
     <article className="group flex h-full flex-col border border-zinc-200 bg-white">
       {/* ── Image ── */}
       <Link
-        className="relative block aspect-[4/3] overflow-hidden bg-zinc-100"
+        className="relative block aspect-[16/10] overflow-hidden bg-zinc-100"
         href={`/oferta/${vehicle.slug}`}
         tabIndex={-1}
         aria-hidden="true"
@@ -71,7 +71,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
       <div className="flex flex-1 flex-col">
 
         {/* Brand + Model */}
-        <div className="border-b border-zinc-200 px-5 py-5">
+        <div className="border-b border-zinc-200 px-4 py-4">
           <Link href={`/oferta/${vehicle.slug}`} className="block">
             <p className="mb-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-zinc-400">
               {vehicle.make}
@@ -93,15 +93,15 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
             <div
               key={label}
               className={[
-                'grid gap-1 px-4 py-3',
+                'grid gap-0.5 px-3 py-2.5',
                 i % 3 !== 0 ? 'border-l border-zinc-200' : '',
                 i >= 3 ? 'border-t border-zinc-200' : '',
               ].join(' ')}
             >
-              <span className="text-[0.52rem] font-semibold uppercase tracking-[0.2em] text-zinc-400">
+              <span className="text-[0.5rem] font-semibold uppercase tracking-[0.2em] text-zinc-400">
                 {label}
               </span>
-              <span className="text-[0.75rem] font-semibold leading-tight text-zinc-900">
+              <span className="text-[0.7rem] font-semibold leading-tight text-zinc-900">
                 {value}
               </span>
             </div>
@@ -109,7 +109,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         </div>
 
         {/* Price + CTA */}
-        <div className="mt-auto flex items-center justify-between gap-4 px-5 py-4">
+        <div className="mt-auto flex items-center justify-between gap-4 px-4 py-3">
           <div className="grid gap-0.5">
             <span className="text-[0.52rem] font-semibold uppercase tracking-[0.22em] text-zinc-400">
               Cena brutto

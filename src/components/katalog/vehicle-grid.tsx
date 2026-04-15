@@ -26,7 +26,7 @@ export function VehicleGrid({ vehicles }: VehicleGridProps) {
         {vehicles.length > 0 ? (
           <MotionReveal
             amount={0.08}
-            className="grid gap-6 sm:grid-cols-2 lg:gap-7 xl:gap-8"
+            className="grid gap-8 sm:grid-cols-2 lg:gap-10 xl:gap-12"
             stagger={0.08}
           >
             {vehicles.map((vehicle) => (
