@@ -25,7 +25,7 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
         {/* ── Left column ── */}
         <div className="grid min-w-0 gap-4 sm:gap-6">
           <MotionRevealItem>
-            <div className="eyebrow border-zinc-500 text-[0.78rem] text-zinc-400 backdrop-blur-sm bg-white/5 sm:text-[0.7rem]">
+            <div className="eyebrow border-white/40 text-white/90 backdrop-blur-md bg-black/30 sm:text-[0.7rem]">
               Warszawa / wyselekcjonowane egzemplarze / bezkompromisowa jakość
             </div>
           </MotionRevealItem>
@@ -39,7 +39,7 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
           <MotionRevealItem>
             <Link
               href="/oferta"
-              className="hero-btn-secondary inline-flex w-fit gap-2 px-8 backdrop-blur-sm bg-white/5 sm:px-10"
+              className="inline-flex min-h-12 w-fit items-center justify-center gap-2 border border-white/50 bg-black/20 px-8 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white backdrop-blur-md transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-white hover:bg-white hover:text-zinc-950 sm:px-10"
             >
               Zobacz katalog
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

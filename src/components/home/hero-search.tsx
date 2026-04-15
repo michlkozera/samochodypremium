@@ -27,17 +27,17 @@ export function HeroSearch({ buttonLabel = 'Zobacz katalog', buttonHref = '/ofer
         <div className="relative flex-1">
           <div
             className={[
-              'relative flex items-center overflow-hidden border backdrop-blur-sm transition-all duration-300 ease-out',
+              'relative flex items-center overflow-hidden border backdrop-blur-md transition-all duration-300 ease-out',
               isFocused
-                ? 'border-white/50 bg-white/15 shadow-[0_0_30px_rgba(255,255,255,0.1)]'
-                : 'border-white/20 bg-white/10 hover:border-white/30',
+                ? 'border-white/70 bg-black/40 shadow-[0_0_30px_rgba(255,255,255,0.08)]'
+                : 'border-white/40 bg-black/30 hover:border-white/60',
             ].join(' ')}
           >
             {/* Search Icon */}
             <svg
               className={[
                 'ml-4 h-5 w-5 transition-colors duration-200',
-                isFocused ? 'text-white' : 'text-zinc-400',
+                isFocused ? 'text-white' : 'text-white/60',
               ].join(' ')}
               fill="none"
               stroke="currentColor"
@@ -58,7 +58,7 @@ export function HeroSearch({ buttonLabel = 'Zobacz katalog', buttonHref = '/ofer
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
-              className="w-full bg-transparent px-4 py-4 text-[0.9rem] text-white placeholder:text-zinc-400 outline-none"
+              className="w-full bg-transparent px-4 py-4 text-[0.9rem] text-white placeholder:text-white/50 outline-none"
             />
 
             {/* Clear Button */}
@@ -80,16 +80,7 @@ export function HeroSearch({ buttonLabel = 'Zobacz katalog', buttonHref = '/ofer
         {/* Submit Button */}
         <button
           type="submit"
-          className="
-            group relative overflow-hidden
-            min-h-[56px] px-8
-            border border-white bg-white
-            text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-950
-            transition-all duration-300
-            hover:bg-zinc-950 hover:text-white hover:border-white/50
-            active:scale-[0.98]
-            sm:min-h-[56px] sm:px-10 sm:text-[0.75rem] sm:tracking-[0.24em]
-          "
+          className="min-h-[56px] px-8 border border-white/50 bg-black/20 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white backdrop-blur-md transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-white hover:bg-white hover:text-zinc-950 active:scale-[0.98] sm:min-h-[56px] sm:px-10 sm:text-[0.75rem] sm:tracking-[0.24em]"
         >
           {buttonLabel}
         </button>
