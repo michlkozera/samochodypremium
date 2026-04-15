@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import {
   type CatalogVehicle,
   formatMileage,
@@ -12,8 +11,6 @@ import {
 type VehicleCardProps = {
   vehicle: CatalogVehicle;
 };
-
-const ease = [0.16, 1, 0.3, 1] as const;
 
 export function VehicleCard({ vehicle }: VehicleCardProps) {
   const specs = [
@@ -26,11 +23,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
   ];
 
   return (
-    <motion.article
-      className="group relative flex h-full flex-col border border-zinc-200 bg-white transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-zinc-950"
-      whileHover="hovered"
-      initial="idle"
-    >
+    <article className="group flex h-full flex-col border border-zinc-200 bg-white">
       {/* ── Image ── */}
       <Link
         className="relative block aspect-[4/3] overflow-hidden bg-zinc-100"
@@ -39,21 +32,15 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         aria-hidden="true"
       >
         {vehicle.image ? (
-          <motion.div
-            className="absolute inset-0"
-            variants={{
-              idle: { scale: 1 },
-              hovered: { scale: 1.045, transition: { duration: 0.9, ease } },
-            }}
-          >
+          <div className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]">
             <Image
               alt={`${vehicle.make} ${vehicle.model}`}
-              className="h-full w-full object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0"
+              className="h-full w-full object-cover"
               fill
               sizes="(max-width: 640px) 100vw, 50vw"
               src={vehicle.image}
             />
-          </motion.div>
+          </div>
         ) : (
           <div className="flex h-full items-center justify-center">
             <span className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-zinc-400">
@@ -65,7 +52,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.04)_0%,rgba(0,0,0,0.04)_50%,rgba(0,0,0,0.58)_100%)]" />
 
-        {/* Top-left: index dot */}
+        {/* Top-left: status label */}
         <div className="absolute left-0 top-0 border-b border-r border-white/20 bg-black/60 px-3 py-2 backdrop-blur-sm">
           <span className="block text-[0.55rem] font-semibold uppercase tracking-[0.28em] text-white/70">
             {vehicle.statusLabel}
@@ -77,17 +64,6 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
           <span className="text-[clamp(2.4rem,4vw,3.6rem)] font-semibold leading-none tracking-[-0.1em] text-white/20 select-none">
             {vehicle.year}
           </span>
-          <motion.div
-            className="flex h-9 w-9 items-center justify-center border border-white/30 bg-white/10 text-white backdrop-blur-sm"
-            variants={{
-              idle: { opacity: 0, y: 4 },
-              hovered: { opacity: 1, y: 0, transition: { duration: 0.3, ease } },
-            }}
-          >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-            </svg>
-          </motion.div>
         </div>
       </Link>
 
@@ -95,12 +71,12 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
       <div className="flex flex-1 flex-col">
 
         {/* Brand + Model */}
-        <div className="border-b border-zinc-200 px-5 py-5 transition-colors duration-500 group-hover:border-zinc-950/20">
+        <div className="border-b border-zinc-200 px-5 py-5">
           <Link href={`/oferta/${vehicle.slug}`} className="block">
-            <p className="mb-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-zinc-400 transition-colors duration-300 group-hover:text-zinc-500">
+            <p className="mb-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-zinc-400">
               {vehicle.make}
             </p>
-            <h3 className="text-[clamp(1.15rem,2.2vw,1.55rem)] font-semibold uppercase leading-[1.1] tracking-[-0.03em] text-zinc-950 transition-colors duration-300 group-hover:text-zinc-700">
+            <h3 className="text-[clamp(1.15rem,2.2vw,1.55rem)] font-semibold uppercase leading-[1.1] tracking-[-0.03em] text-zinc-950">
               {vehicle.model}
             </h3>
             {vehicle.shortDescription && (
@@ -112,15 +88,14 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         </div>
 
         {/* Specs grid — 3×2 */}
-        <div className="grid grid-cols-3 border-b border-zinc-200 transition-colors duration-500 group-hover:border-zinc-950/20">
+        <div className="grid grid-cols-3 border-b border-zinc-200">
           {specs.map(({ label, value }, i) => (
             <div
               key={label}
               className={[
                 'grid gap-1 px-4 py-3',
-                i % 3 !== 0 ? 'border-l border-zinc-200 group-hover:border-zinc-950/20' : '',
-                i >= 3 ? 'border-t border-zinc-200 group-hover:border-zinc-950/20' : '',
-                'transition-colors duration-500',
+                i % 3 !== 0 ? 'border-l border-zinc-200' : '',
+                i >= 3 ? 'border-t border-zinc-200' : '',
               ].join(' ')}
             >
               <span className="text-[0.52rem] font-semibold uppercase tracking-[0.2em] text-zinc-400">
@@ -155,14 +130,6 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
 
       </div>
 
-      {/* Bottom accent line — appears on hover */}
-      <motion.div
-        className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-zinc-950"
-        variants={{
-          idle: { scaleX: 0, transition: { duration: 0.3, ease: 'easeOut' } },
-          hovered: { scaleX: 1, transition: { duration: 0.5, ease } },
-        }}
-      />
-    </motion.article>
+    </article>
   );
 }
