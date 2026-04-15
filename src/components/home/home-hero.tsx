@@ -25,12 +25,6 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
         {/* ── Left column ── */}
         <div className="grid min-w-0 gap-4 sm:gap-6">
           <MotionRevealItem>
-            <div className="eyebrow border-white/40 text-white/90 backdrop-blur-md bg-black/30 sm:text-[0.7rem]">
-              Warszawa / wyselekcjonowane egzemplarze / bezkompromisowa jakość
-            </div>
-          </MotionRevealItem>
-
-          <MotionRevealItem>
             <h1 className="max-w-[14ch] text-[clamp(1.75rem,8vw,4.4rem)] font-bold uppercase leading-[1.03] tracking-[-0.03em] [overflow-wrap:anywhere] [text-wrap:balance] sm:leading-[1.05]">
               Dealer samochodów klasy premium.
             </h1>
