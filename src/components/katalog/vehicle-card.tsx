@@ -52,17 +52,17 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.04)_0%,rgba(0,0,0,0.04)_50%,rgba(0,0,0,0.58)_100%)]" />
 
-        {/* Top-left: status label */}
-        <div className="absolute left-0 top-0 border-b border-r border-white/20 bg-black/60 px-3 py-2 backdrop-blur-sm">
-          <span className="block text-[0.55rem] font-semibold uppercase tracking-[0.28em] text-white/70">
-            {vehicle.statusLabel}
+        {/* Bottom-left: year */}
+        <div className="absolute left-0 bottom-0 border-r border-t border-white/20 bg-black/60 px-3 py-2 backdrop-blur-sm">
+          <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-white/80">
+            {vehicle.year}
           </span>
         </div>
 
-        {/* Bottom: year */}
-        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between px-4 pb-3">
-          <span className="text-[clamp(2.4rem,4vw,3.6rem)] font-semibold leading-none tracking-[-0.1em] text-white/20 select-none">
-            {vehicle.year}
+        {/* Bottom-right: status label */}
+        <div className="absolute right-0 bottom-0 border-l border-t border-white/20 bg-black/60 px-4 py-3 backdrop-blur-sm">
+          <span className="block text-[0.75rem] font-bold uppercase tracking-[0.2em] text-white">
+            {vehicle.statusLabel}
           </span>
         </div>
       </Link>
