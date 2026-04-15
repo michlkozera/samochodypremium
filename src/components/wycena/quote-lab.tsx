@@ -124,7 +124,7 @@ export function QuoteLab() {
         <div className="grid gap-10 py-10 sm:py-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] lg:items-start lg:gap-16 lg:py-14">
           <div className="grid gap-6" data-reveal="up">
             <p className="eyebrow">Kalkulator odkupu</p>
-            <h2 className="text-[clamp(2.4rem,6.5vw,5.2rem)] font-semibold uppercase leading-[0.86] tracking-[-0.07em] text-zinc-950 [text-wrap:balance]">
+            <h2 className="text-[clamp(2.4rem,6.5vw,5.2rem)] font-bold uppercase leading-[0.86] tracking-[-0.07em] text-zinc-950 [text-wrap:balance]">
               Sprawdź wartość{' '}
               <span className="text-zinc-400">swojego auta.</span>
             </h2>

@@ -33,7 +33,7 @@ export function SiteFooter({ page }: SiteFooterProps) {
         </div>
 
         <div className="grid gap-4">
-          <p className="eyebrow text-zinc-500">Nawigacja</p>
+          <p className="eyebrow border-0 px-0 py-0 text-zinc-500">Nawigacja</p>
           <ul className="grid gap-3 text-sm text-zinc-300">
             {footerNavigation[page].map((link) => (
               <li key={`${page}-${link.href}`}>
@@ -46,7 +46,7 @@ export function SiteFooter({ page }: SiteFooterProps) {
         </div>
 
         <div className="grid gap-4">
-          <p className="eyebrow text-zinc-500">Kontakt</p>
+          <p className="eyebrow border-0 px-0 py-0 text-zinc-500">Kontakt</p>
           <ul className="grid gap-3 text-sm text-zinc-300">
             <li>
               <a className="transition-colors duration-200 hover:text-white" href={contactPhoneHref}>

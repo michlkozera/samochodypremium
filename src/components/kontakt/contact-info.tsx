@@ -67,25 +67,25 @@ export function ContactInfo() {
           <div className="grid gap-px bg-zinc-200/60 sm:grid-cols-2 lg:grid-cols-4">
             {contactCards.map((card) => (
               <MotionRevealItem key={card.index} preset="fade-up">
-                <div className="grid content-between gap-8 bg-white p-6 sm:p-8 lg:min-h-[14rem]">
+                <div className="group/card grid content-between gap-8 bg-white p-6 sm:p-8 lg:min-h-[14rem] transition-colors duration-[400ms] ease-in-out hover:bg-zinc-950">
                   <div className="grid gap-3">
-                    <span className="text-[0.62rem] font-semibold tabular-nums tracking-[0.24em] text-zinc-300">
+                    <span className="text-[0.62rem] font-semibold tabular-nums tracking-[0.24em] text-zinc-300 transition-colors duration-[400ms] ease-in-out group-hover/card:text-zinc-500">
                       {card.index}
                     </span>
-                    <span className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-zinc-400">
+                    <span className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-zinc-400 transition-colors duration-[400ms] ease-in-out group-hover/card:text-zinc-500">
                       {card.label}
                     </span>
                   </div>
 
                   {card.href ? (
                     <a
-                      className="text-[0.95rem] font-semibold leading-7 tracking-[-0.01em] text-zinc-950 transition-colors duration-200 hover:text-zinc-500"
+                      className="text-[0.95rem] font-semibold leading-7 tracking-[-0.01em] text-zinc-950 transition-colors duration-[400ms] ease-in-out group-hover/card:text-white"
                       href={card.href}
                     >
                       {card.value}
                     </a>
                   ) : (
-                    <p className="text-[0.95rem] font-semibold leading-7 tracking-[-0.01em] text-zinc-950">
+                    <p className="text-[0.95rem] font-semibold leading-7 tracking-[-0.01em] text-zinc-950 transition-colors duration-[400ms] ease-in-out group-hover/card:text-white">
                       {card.value}
                     </p>
                   )}

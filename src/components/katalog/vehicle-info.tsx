@@ -39,7 +39,7 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
           </span>
         </div>
 
-        <h1 className="text-[clamp(1.55rem,5vw,2.6rem)] font-semibold uppercase leading-[1.06] tracking-[-0.03em] text-zinc-950">
+        <h1 className="text-[clamp(1.55rem,5vw,2.6rem)] font-bold uppercase leading-[1.06] tracking-[-0.03em] text-zinc-950">
           {vehicle.make} {vehicle.model}
         </h1>
         <p className="text-[0.85rem] leading-[1.8] text-zinc-500 sm:max-w-xl">

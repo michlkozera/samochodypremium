@@ -63,7 +63,7 @@ export function SolutionsCatalog() {
             <MotionRevealItem preset="slide-left">
               <div className="grid gap-4">
                 <p className="eyebrow">Katalog rozwiązań</p>
-                <h2 className="text-[clamp(1.85rem,5vw,3.4rem)] font-semibold uppercase leading-[1.05] tracking-[-0.02em] [text-wrap:balance]">
+                <h2 className="text-[clamp(1.85rem,5vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.02em] [text-wrap:balance]">
                   Pięć filarów jednego systemu zabudów.
                 </h2>
               </div>

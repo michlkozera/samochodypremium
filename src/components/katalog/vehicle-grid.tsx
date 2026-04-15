@@ -13,7 +13,7 @@ export function VehicleGrid({ vehicles }: VehicleGridProps) {
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-8">
           <div className="grid gap-2">
             <p className="eyebrow">Aktualna kolekcja</p>
-            <h2 className="text-[clamp(1.7rem,4vw,2.8rem)] font-semibold uppercase leading-[1.02] tracking-[-0.03em] text-zinc-950">
+            <h2 className="text-[clamp(1.7rem,4vw,2.8rem)] font-bold uppercase leading-[1.02] tracking-[-0.03em] text-zinc-950">
               Oferty gotowe do prezentacji.
             </h2>
           </div>

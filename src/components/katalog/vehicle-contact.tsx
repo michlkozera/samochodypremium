@@ -93,10 +93,10 @@ export function VehicleContact({ vehicle }: VehicleContactProps) {
             className={`contact-field grid gap-5 ${visible ? 'is-visible' : ''}`}
             style={getDelay(0)}
           >
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-zinc-500">
+            <p className="eyebrow border-zinc-600">
               Formularz / zapytanie
             </p>
-            <h2 className="max-w-[14ch] text-[clamp(2rem,5.5vw,3.8rem)] font-semibold uppercase leading-[0.95] tracking-[-0.04em] text-white">
+            <h2 className="section-title text-white">
               Zainteresowany tym autem?
             </h2>
           </div>

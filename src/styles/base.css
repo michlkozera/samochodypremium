@@ -324,15 +324,15 @@
   }
 
   .eyebrow {
-    @apply text-[0.7rem] font-medium uppercase tracking-[0.22em] text-zinc-500;
+    @apply inline-block w-fit border border-zinc-300 px-4 py-1.5 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-zinc-500;
   }
 
   .display-title {
-    @apply max-w-[18ch] text-[clamp(2rem,5.5vw,4.2rem)] font-semibold uppercase leading-[1.1] tracking-[-0.03em] [text-wrap:balance];
+    @apply max-w-[18ch] text-[clamp(2rem,5.5vw,4.2rem)] font-bold uppercase leading-[1.1] tracking-[-0.03em] [text-wrap:balance];
   }
 
   .section-title {
-    @apply max-w-[12ch] text-[clamp(1.85rem,5vw,3.9rem)] font-semibold uppercase leading-[1.1] tracking-[-0.02em] [text-wrap:balance];
+    @apply max-w-[12ch] text-[clamp(1.85rem,5vw,3.9rem)] font-bold uppercase leading-[1.1] tracking-[-0.02em] [text-wrap:balance];
   }
 
   .body-copy {

@@ -28,7 +28,7 @@ const baseSectionClassName =
   'relative isolate h-[100svh] min-h-[600px] overflow-hidden bg-black text-white';
 const baseContentClassName = 'grid min-w-0 max-w-4xl gap-5 sm:gap-6';
 const baseTitleClassName =
-  'max-w-[18ch] text-[clamp(2rem,10vw,5.2rem)] font-semibold uppercase leading-[1.03] tracking-[-0.03em] [overflow-wrap:anywhere] [text-wrap:balance] sm:leading-[1.05]';
+  'max-w-[18ch] text-[clamp(2rem,10vw,5.2rem)] font-bold uppercase leading-[1.03] tracking-[-0.03em] [overflow-wrap:anywhere] [text-wrap:balance] sm:leading-[1.05]';
 const baseDescriptionClassName =
   'max-w-xl text-[0.95rem] leading-[1.78] text-zinc-300 sm:text-base sm:leading-[1.85]';
 
@@ -66,7 +66,7 @@ export function PageHero({
         >
           <div className={[baseContentClassName, contentClassName].filter(Boolean).join(' ')}>
             <MotionRevealItem>
-              <div className="eyebrow text-[0.78rem] text-zinc-400 sm:text-[0.7rem]">{eyebrow}</div>
+              <div className="eyebrow border-zinc-500 text-[0.78rem] text-zinc-400 sm:text-[0.7rem]">{eyebrow}</div>
             </MotionRevealItem>
 
             <MotionRevealItem>

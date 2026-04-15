@@ -45,7 +45,7 @@ export function OnasDlaKogo() {
             <MotionRevealItem preset="slide-left">
               <div className="grid gap-4">
                 <p className="eyebrow">Dla kogo</p>
-                <h2 className="text-[clamp(1.85rem,5vw,3.4rem)] font-semibold uppercase leading-[1.05] tracking-[-0.02em] [text-wrap:balance]">
+                <h2 className="text-[clamp(1.85rem,5vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.02em] [text-wrap:balance]">
                   Salon dla wymagających kierowców.
                 </h2>
               </div>

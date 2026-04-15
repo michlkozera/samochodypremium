@@ -21,7 +21,7 @@ export function OnasManufaktura() {
             </MotionRevealItem>
 
             <MotionRevealItem preset="blur-fade" duration={1}>
-              <h2 className="max-w-[16ch] text-[clamp(1.85rem,5vw,3.4rem)] font-semibold uppercase leading-[1.05] tracking-[-0.02em] [text-wrap:balance]">
+              <h2 className="max-w-[16ch] text-[clamp(1.85rem,5vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.02em] [text-wrap:balance]">
                 Salon zbudowany wokół jednego standardu obsługi.
               </h2>
             </MotionRevealItem>
