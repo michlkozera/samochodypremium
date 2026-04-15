@@ -123,7 +123,7 @@ export function SiteHeader({ page, mode = 'hero' }: SiteHeaderProps) {
 
             <nav
               aria-label="Nawigacja glowna"
-              className="hidden justify-self-end md:flex md:flex-wrap md:justify-end md:gap-2"
+              className="hidden md:col-span-2 md:flex md:flex-wrap md:items-center md:justify-end md:gap-2 md:-mr-3"
             >
               {links.map((link) => (
                 <Link
