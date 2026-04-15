@@ -123,11 +123,11 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         {/* Title + description */}
         <div className="grid gap-2">
           <Link href={`/oferta/${vehicle.slug}`}>
-            <h3 className="text-[1.25rem] font-bold uppercase leading-tight tracking-[-0.03em] text-zinc-950 transition-colors group-hover:text-zinc-700 sm:text-[1.45rem]">
+            <h3 className="text-[1.4rem] font-black uppercase leading-tight tracking-[-0.03em] text-zinc-950 transition-colors group-hover:text-zinc-700 sm:text-[1.6rem]">
               {vehicle.make} {vehicle.model}
             </h3>
           </Link>
-          <p className="line-clamp-2 text-[0.93rem] leading-[1.75] text-zinc-500">
+          <p className="line-clamp-2 text-[0.93rem] font-normal leading-[1.75] text-zinc-500">
             {vehicle.shortDescription}
           </p>
         </div>
@@ -148,23 +148,24 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         </div>
 
         {/* Bottom: price tile + CTA */}
-        <div className="mt-auto flex items-center">
-          <div className="flex flex-1 flex-col justify-center bg-zinc-950 px-5 py-4 transition-colors duration-200 hover:bg-zinc-700">
-            <span className="block text-[0.52rem] font-medium uppercase tracking-[0.2em] text-white/50">
+        <div className="mt-auto flex items-stretch">
+          <div className="flex flex-1 flex-col justify-center gap-1 bg-zinc-950 px-5 py-5 transition-colors duration-200 hover:bg-zinc-800">
+            <span className="block text-[0.5rem] font-semibold uppercase tracking-[0.22em] text-white/40">
               Cena brutto
             </span>
-            <span className="block text-[1.05rem] font-bold tracking-[-0.03em] text-white sm:text-[1.15rem]">
-              {formatPrice(vehicle.price)} PLN
+            <span className="block text-[1.45rem] font-black leading-none tracking-[-0.04em] text-white sm:text-[1.6rem]">
+              {formatPrice(vehicle.price)}
+              <span className="ml-1 text-[0.7em] font-semibold tracking-[0.04em] text-white/60">PLN</span>
             </span>
           </div>
           <Link
-            className="inline-flex shrink-0 items-center gap-1.5 px-4 text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-zinc-950 transition-colors duration-200 hover:text-zinc-500"
+            className="inline-flex shrink-0 flex-col items-center justify-center gap-1 px-5 text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-zinc-950 transition-colors duration-200 hover:text-zinc-500"
             href={`/oferta/${vehicle.slug}`}
           >
-            Szczegóły oferty
-            <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
             </svg>
+            Szczegóły
           </Link>
         </div>
       </div>
