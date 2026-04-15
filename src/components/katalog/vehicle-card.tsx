@@ -60,8 +60,8 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         </div>
 
         {/* Bottom-right: status label */}
-        <div className="absolute right-0 bottom-0 border-l border-t border-white/20 bg-black/60 px-4 py-3 backdrop-blur-sm">
-          <span className="block text-[0.75rem] font-bold uppercase tracking-[0.2em] text-white">
+        <div className="absolute right-0 bottom-0 border-l border-t border-white/20 bg-black/60 px-3 py-2 backdrop-blur-sm">
+          <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-white/80">
             {vehicle.statusLabel}
           </span>
         </div>
