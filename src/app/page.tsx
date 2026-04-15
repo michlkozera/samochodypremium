@@ -1,6 +1,7 @@
 ﻿import type { Metadata } from 'next';
 import { SitePage } from '@/components/layout/site-page';
 import { HomeHero } from '@/components/home/home-hero';
+import { BodyTypeSection } from '@/components/home/body-type-section';
 import { LatestOffers } from '@/components/home/latest-offers';
 import { getCatalogVehicles } from '@/lib/vehicle-catalog';
 
@@ -17,7 +18,10 @@ export default async function HomePage() {
     <SitePage page="home" pageClass="page-home">
       <main className="flex flex-col">
         {/* ── Hero ── */}
-        <HomeHero />
+        <HomeHero vehicleCount={vehicles.length} />
+
+        {/* ── Search by body type ── */}
+        <BodyTypeSection />
 
         {/* ── Latest Offers ── */}
         <LatestOffers vehicles={vehicles} />

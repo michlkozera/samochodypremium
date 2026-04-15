@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 interface HeroSearchProps {
@@ -120,10 +119,10 @@ export function HeroSearch({ buttonLabel = 'Zobacz katalog', buttonHref = '/ofer
           className="
             group relative overflow-hidden
             min-h-[56px] px-8
-            border border-white/20 bg-transparent
-            text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-white/80
+            border border-white bg-white
+            text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-950
             transition-all duration-300
-            hover:border-white/50 hover:bg-white hover:text-zinc-950
+            hover:bg-zinc-950 hover:text-white hover:border-white/50
             sm:min-h-[56px] sm:px-10 sm:text-[0.75rem] sm:tracking-[0.24em]
           "
           whileHover={{ scale: 1.02 }}
@@ -131,27 +130,9 @@ export function HeroSearch({ buttonLabel = 'Zobacz katalog', buttonHref = '/ofer
         >
           <span className="relative z-10 flex items-center justify-center gap-2">
             {buttonLabel}
-            <motion.svg
-              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </motion.svg>
           </span>
         </motion.button>
       </div>
-
-      {/* Helper text */}
-      <motion.p
-        className="mt-3 text-[0.7rem] uppercase tracking-[0.14em] text-zinc-400"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.4 }}
-      >
-        Wpisz np. "Mercedes", "SUV" lub "2020" aby zawężyć wyniki
-      </motion.p>
     </motion.form>
   );
 }

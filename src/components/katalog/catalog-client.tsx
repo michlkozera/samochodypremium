@@ -248,6 +248,7 @@ type CatalogClientProps = {
   vehicles: CatalogVehicle[];
   filterOptions: CatalogFilterOptions;
   initialSearch?: string;
+  initialBody?: string;
 };
 
 type SortOption = 'price-asc' | 'price-desc' | 'year-desc' | 'mileage-asc' | '';
@@ -260,10 +261,11 @@ const SORT_LABELS: Record<SortOption, string> = {
   'mileage-asc': 'Najniższy przebieg',
 };
 
-export function CatalogClient({ vehicles, filterOptions, initialSearch = '' }: CatalogClientProps) {
+export function CatalogClient({ vehicles, filterOptions, initialSearch = '', initialBody = '' }: CatalogClientProps) {
   const [filters, setFilters] = useState<FilterState>({
     ...INITIAL_FILTERS,
     search: initialSearch,
+    body: initialBody,
   });
   const [isExpanded, setIsExpanded] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>('');

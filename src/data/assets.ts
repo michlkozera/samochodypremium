@@ -17,13 +17,14 @@ import Porsche02 from '../../photos/Porsche_02.jpg';
 import Porsche09 from '../../photos/Porsche_09.jpg';
 import Porsche10 from '../../photos/Porsche_10.jpg';
 import Porsche11 from '../../photos/Porsche_11.jpg';
+import HeroImage from '../../photos/hero.jpg';
 
 export type AssetMap = Record<string, StaticImageData>;
 
 const sharedSubpageHero = Mercedes01;
 
 export const assets = {
-  heroMain: Mercedes01,
+  heroMain: HeroImage,
   heroOferta: sharedSubpageHero,
   heroOnas: sharedSubpageHero,
   heroKontakt: sharedSubpageHero,

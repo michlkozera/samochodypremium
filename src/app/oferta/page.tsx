@@ -23,6 +23,7 @@ export default async function OfertaPage({
   ]);
 
   const initialSearch = typeof params.search === 'string' ? params.search : '';
+  const initialBody = typeof params.body === 'string' ? params.body : '';
 
   return (
     <SitePage page="oferta" pageClass="page-oferta">
@@ -32,6 +33,7 @@ export default async function OfertaPage({
           vehicles={vehicles} 
           filterOptions={filterOptions} 
           initialSearch={initialSearch}
+          initialBody={initialBody}
         />
         <CollaborationCTA />
       </main>
