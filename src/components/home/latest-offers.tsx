@@ -48,7 +48,7 @@ export function LatestOffers({ vehicles }: LatestOffersProps) {
 
         <MotionReveal
           amount={0.08}
-          className="grid gap-12 sm:grid-cols-2 lg:gap-16 xl:gap-20"
+          className="grid gap-4"
           stagger={0.08}
           delay={0.1}
         >
