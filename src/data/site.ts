@@ -1,4 +1,4 @@
-export type PageKey = 'home' | 'oferta' | 'onas' | 'kontakt' | 'wycena' | 'finansowanie';
+export type PageKey = 'home' | 'oferta' | 'onas' | 'kontakt' | 'wycena' | 'finansowanie' | 'odkup';
 
 export type NavLink = {
   href: string;
@@ -55,6 +55,12 @@ export const mobileMenuContent = {
     ctaHref: '/kontakt',
     ctaLabel: 'Porozmawiaj z doradcą',
   },
+  odkup: {
+    label: 'Warszawa / odkup samochodów premium',
+    copy: 'Chcesz sprzedać swój samochód? Odkupimy lub pomożemy w sprzedaży — szybko, uczciwie i profesjonalnie.',
+    ctaHref: '/kontakt',
+    ctaLabel: 'Skontaktuj się',
+  },
 } as const;
 
 const defaultFooterLinks: FooterLink[] = [
@@ -72,6 +78,7 @@ export const footerNavigation: Record<PageKey, FooterLink[]> = {
   kontakt: defaultFooterLinks,
   wycena: defaultFooterLinks,
   finansowanie: defaultFooterLinks,
+  odkup: defaultFooterLinks,
 };
 
 export function getHeaderLinks(page: PageKey): NavLink[] {
