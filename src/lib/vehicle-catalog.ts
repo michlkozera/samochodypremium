@@ -52,6 +52,7 @@ export type CatalogVehicleDetail = {
   monthlyRate: number;
   status: VehicleStatus;
   statusLabel: string;
+  vatTypeLabel: string;
   shortDescription: string;
   description: string;
   youtubeUrl: string | null;
@@ -271,6 +272,7 @@ function buildCatalogVehicleDetail(vehicle: Vehicle): CatalogVehicleDetail {
     monthlyRate: estimateMonthlyRate(Number(vehicle.price)),
     status: vehicle.status,
     statusLabel: statusLabel(vehicle.status),
+    vatTypeLabel: vatTypeLabel(vehicle.vatType),
     shortDescription: buildShortDescription(vehicle),
     description:
       vehicle.description ??

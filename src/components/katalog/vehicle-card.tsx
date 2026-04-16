@@ -92,7 +92,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
           <div className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]">
             <Image
               alt={`${vehicle.make} ${vehicle.model}`}
-              className="h-full w-full object-cover"
+              className={`h-full w-full object-cover${vehicle.status === 'RESERVED' ? ' grayscale' : ''}`}
               fill
               sizes="(max-width: 640px) 100vw, 50vw"
               src={vehicle.image}
@@ -118,7 +118,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
 
         {/* Bottom-right: status label */}
         <div className="absolute right-0 bottom-0 border-l border-t border-white/10 bg-white/10 px-3 py-2 backdrop-blur-md backdrop-saturate-150">
-          <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-white drop-shadow-sm">
+          <span className={`block text-[0.6rem] font-semibold uppercase tracking-[0.28em] drop-shadow-sm${vehicle.status === 'RESERVED' ? ' text-orange-400' : ' text-white'}`}>
             {vehicle.statusLabel}
           </span>
         </div>
@@ -196,7 +196,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
 
           <Link
             href={`/oferta/${vehicle.slug}`}
-            className="group/btn flex items-center justify-center gap-1.5 border-l border-zinc-200 bg-zinc-950 px-3 py-3 text-[0.55rem] font-semibold uppercase tracking-[0.2em] text-white transition-colors duration-200 hover:bg-white hover:text-zinc-950"
+            className="group/btn flex items-center justify-center gap-1.5 border-l border-zinc-200 bg-white px-3 py-3 text-[0.55rem] font-semibold uppercase tracking-[0.2em] text-zinc-950 transition-colors duration-200 hover:bg-zinc-950 hover:text-white"
           >
             Szczegóły
             <svg className="h-3 w-3 shrink-0 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">

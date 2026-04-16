@@ -110,10 +110,13 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
             <span className="text-[0.52rem] font-semibold uppercase tracking-[0.2em] text-zinc-400">
               Cena brutto
             </span>
-            <span className="text-[clamp(1.5rem,4.5vw,2.2rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-950">
+            <span className="text-[clamp(1.5rem,3.5vw,2.6rem)] font-bold leading-[1.1] tracking-[-0.02em] text-zinc-950">
               {formatPrice(vehicle.price)}
               <span className="ml-1.5 text-[0.55em] font-medium tracking-[0.02em] text-zinc-500">PLN</span>
             </span>
+            <p className="mt-1 text-[0.52rem] font-semibold uppercase tracking-[0.2em] text-zinc-400">
+              {vehicle.vatTypeLabel}, Do negocjacji
+            </p>
           </div>
 
           <a

@@ -53,6 +53,7 @@ export default async function VehicleDetailPage({ params }: PageProps) {
               alt={`${vehicle.make} ${vehicle.model}`}
               images={vehicle.images}
               statusLabel={vehicle.statusLabel}
+              status={vehicle.status}
             />
             {vehicle.youtubeUrl ? (
               <div className="px-4 pt-4 sm:px-6">
@@ -82,6 +83,7 @@ export default async function VehicleDetailPage({ params }: PageProps) {
                       alt={`${vehicle.make} ${vehicle.model}`}
                       images={vehicle.images}
                       statusLabel={vehicle.statusLabel}
+                      status={vehicle.status}
                     />
                     {vehicle.youtubeUrl ? (
                       <VehicleVideoTile

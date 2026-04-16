@@ -8,13 +8,14 @@ type VehicleGalleryProps = {
   images: string[];
   alt: string;
   statusLabel?: string;
+  status?: string;
 };
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const PLACEHOLDER =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Crect width='1600' height='900' fill='%23f4f4f5'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2371717a' font-family='Arial' font-size='48'%3EBrak zdjecia%3C/text%3E%3C/svg%3E";
 
-export function VehicleGallery({ images, alt, statusLabel }: VehicleGalleryProps) {
+export function VehicleGallery({ images, alt, statusLabel, status }: VehicleGalleryProps) {
   const rm = useReducedMotion();
   const safeImages = images.length > 0 ? images : [PLACEHOLDER];
   const total = safeImages.length;
@@ -187,7 +188,7 @@ export function VehicleGallery({ images, alt, statusLabel }: VehicleGalleryProps
             >
               <Image
                 alt={`${alt} – zdjęcie ${displayed + 1}`}
-                className="h-full w-full object-cover"
+                className={`h-full w-full object-cover${status === 'RESERVED' ? ' grayscale' : ''}`}
                 fill
                 priority={displayed === 0}
                 sizes="(max-width: 1024px) 100vw, 60vw"
@@ -223,7 +224,7 @@ export function VehicleGallery({ images, alt, statusLabel }: VehicleGalleryProps
 
           {statusLabel && (
             <div className="absolute right-0 top-0 z-10 border-b border-l border-white/10 bg-white/10 px-3 py-2 backdrop-blur-md backdrop-saturate-150">
-              <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-white drop-shadow-sm">
+              <span className={`block text-[0.6rem] font-semibold uppercase tracking-[0.28em] drop-shadow-sm${status === 'RESERVED' ? ' text-orange-400' : ' text-white'}`}>
                 {statusLabel}
               </span>
             </div>
@@ -268,7 +269,9 @@ export function VehicleGallery({ images, alt, statusLabel }: VehicleGalleryProps
                   transition-all duration-300 ease-out
                   ${i === displayed
                     ? 'grayscale-0 opacity-100'
-                    : 'grayscale opacity-50 hover:opacity-75 hover:grayscale-[50%]'
+                    : status === 'RESERVED'
+                      ? 'opacity-50 hover:opacity-75'
+                      : 'grayscale opacity-50 hover:opacity-75 hover:grayscale-[50%]'
                   }
                 `}
                 style={{ scrollSnapAlign: 'start' }}
