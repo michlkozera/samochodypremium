@@ -13,7 +13,7 @@ export function VehicleVideoTile({ title, embedUrl, watchUrl }: VehicleVideoTile
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <section className="mt-4 w-full max-w-xl border border-zinc-200 bg-white">
+    <section className="w-full border border-zinc-200 bg-white">
       <div className="flex items-center justify-between gap-3 border-b border-zinc-200 px-4 py-3">
         <p className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-zinc-500">
           Prezentacja video

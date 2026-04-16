@@ -10,6 +10,7 @@ import {
   VEHICLE_TYPES,
   VEHICLE_CONDITIONS,
 } from '@/data/odkup-data';
+import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
 
 /* ── Zod schema ── */
 
@@ -260,62 +261,103 @@ export function OdkupForm() {
 
   return (
     <section className="border-b border-zinc-200 bg-white">
-      {/* ── Dark section header (matches ContactForm) ── */}
-      <div className="border-b border-zinc-200/60 bg-zinc-950 text-white">
-        <div className="site-shell grid gap-8 py-14 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end lg:gap-16 lg:py-20 xl:py-24">
-          <div
-            className={`contact-field grid gap-5 ${visible ? 'is-visible' : ''}`}
-            style={getDelay(0)}
+      {/* ── Light intro section (Współpraca-style animation) ── */}
+      <div className="section-block border-b border-zinc-200/60 bg-white">
+        <div className="site-shell">
+          <MotionReveal
+            className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:gap-16"
+            stagger={0.12}
+            amount={0.2}
           >
-            <p className="eyebrow border-zinc-600">Formularz odkupu</p>
-            <h2 className="section-title text-white">
-              Chcesz sprzedać swój samochód?
-            </h2>
-          </div>
-          <div
-            className={`contact-field grid gap-6 ${visible ? 'is-visible' : ''}`}
-            style={getDelay(1)}
-          >
-            <div className="max-w-md text-[0.94rem] leading-[1.8] text-zinc-400">
-              <p>
-                Z przyjemnością odkupimy lub pomożemy w sprzedaży Państwa samochodu.
-                Jesteśmy zainteresowani odkupem samochodów:
-              </p>
-              <ul className="mt-3 grid gap-1.5 pl-1">
-                <li className="flex items-start gap-2">
-                  <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 bg-white/60" />
-                  <span>pochodzących z polskiego lub japońskiego rynku</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 bg-white/60" />
-                  <span>z udokumentowanym przebiegiem do 100.000 km</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 bg-white/60" />
-                  <span>z bezwypadkową oraz bezkolizyjną przeszłością</span>
-                </li>
-              </ul>
-              <p className="mt-4 text-zinc-500">
-                Nie odkupujemy samochodów bez jasnej, klarownej przeszłości, poszkodowych,
-                w złym stanie.
-              </p>
-              <p className="mt-4">
-                Jeżeli posiadacie Państwo samochód spełniający powyższe kryteria,
-                serdecznie zapraszamy do kontaktu. Odpowiadamy na każde zapytanie i żaden
-                pozostawiony kontakt nie pozostaje bez odpowiedzi.
-              </p>
-              <p className="mt-4 text-zinc-500 text-[0.82rem]">
-                W razie problemów z wypełnieniem formularza prosimy o przesłanie wiadomości
-                bezpośrednio na maila:{' '}
-                <a
-                  href="mailto:kontakt@samochodypremium.pl"
-                  className="font-semibold text-white transition-colors duration-200 hover:text-zinc-300"
-                >
-                  kontakt@samochodypremium.pl
+            {/* Left — header */}
+            <div className="flex flex-col gap-8 lg:sticky lg:top-32 lg:self-start">
+              <MotionRevealItem preset="slide-left">
+                <p className="eyebrow text-zinc-500">Formularz odkupu</p>
+              </MotionRevealItem>
+
+              <MotionRevealItem preset="blur-fade" duration={1}>
+                <h2 className="max-w-[14ch] text-[clamp(1.85rem,5vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.02em] [text-wrap:balance]">
+                  Chcesz sprzedać swój samochód?
+                </h2>
+              </MotionRevealItem>
+
+              <MotionRevealItem preset="fade-up">
+                <p className="body-copy max-w-md">
+                  Odkupimy lub pomożemy w sprzedaży — szybko, uczciwie
+                  i z pełną transparentnością procesu.
+                </p>
+              </MotionRevealItem>
+
+              <MotionRevealItem>
+                <a className="btn-premium w-full sm:w-fit" href="mailto:kontakt@samochodypremium.pl">
+                  Napisz do nas
                 </a>
-              </p>
+              </MotionRevealItem>
             </div>
-          </div>
+
+            {/* Right — criteria cards */}
+            <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-4 scrollbar-hide sm:mx-0 sm:grid sm:gap-px sm:overflow-visible sm:bg-zinc-200/60 sm:px-0 sm:pb-0">
+              <MotionRevealItem className="w-[85vw] flex-shrink-0 snap-start sm:w-auto" preset="slide-right">
+                <div className="grid content-start gap-6 rounded-sm border border-zinc-200/60 bg-white p-6 sm:rounded-none sm:border-0 sm:p-8 lg:p-10">
+                  <div className="grid gap-3">
+                    <span className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-zinc-400">
+                      Kryteria odkupu
+                    </span>
+                    <h3 className="text-xl font-semibold uppercase leading-[1.1] tracking-[-0.02em] text-zinc-950 sm:text-2xl">
+                      Szukamy pojazdów
+                    </h3>
+                    <div className="h-px w-10 bg-zinc-950" />
+                  </div>
+                  <ul className="grid gap-3">
+                    {[
+                      'Z polskiego lub japońskiego rynku',
+                      'Udokumentowany przebieg do 100 000 km',
+                      'Bezwypadkowa, bezkolizyjna przeszłość',
+                      'Kompletna historia serwisowa',
+                    ].map((point) => (
+                      <li
+                        className="flex items-start gap-3 text-[0.86rem] leading-[1.75] text-zinc-500"
+                        key={point}
+                      >
+                        <span className="mt-2.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-300" />
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </MotionRevealItem>
+
+              <MotionRevealItem className="w-[85vw] flex-shrink-0 snap-start sm:w-auto" preset="slide-right">
+                <div className="grid content-start gap-6 rounded-sm border border-zinc-200/60 bg-white p-6 sm:rounded-none sm:border-0 sm:p-8 lg:p-10">
+                  <div className="grid gap-3">
+                    <span className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-zinc-400">
+                      Ważne informacje
+                    </span>
+                    <h3 className="text-xl font-semibold uppercase leading-[1.1] tracking-[-0.02em] text-zinc-950 sm:text-2xl">
+                      Proces odkupu
+                    </h3>
+                    <div className="h-px w-10 bg-zinc-950" />
+                  </div>
+                  <ul className="grid gap-3">
+                    {[
+                      'Odpowiadamy na każde zapytanie',
+                      'Wycena w ciągu 24 godzin',
+                      'Nie odkupujemy aut poszkodowych i w złym stanie',
+                      'Wypełnij formularz poniżej lub napisz na kontakt@samochodypremium.pl',
+                    ].map((point) => (
+                      <li
+                        className="flex items-start gap-3 text-[0.86rem] leading-[1.75] text-zinc-500"
+                        key={point}
+                      >
+                        <span className="mt-2.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-300" />
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </MotionRevealItem>
+            </div>
+          </MotionReveal>
         </div>
       </div>
 

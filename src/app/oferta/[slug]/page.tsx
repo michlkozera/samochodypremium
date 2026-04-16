@@ -56,13 +56,11 @@ export default async function VehicleDetailPage({ params }: PageProps) {
               status={vehicle.status}
             />
             {vehicle.youtubeUrl ? (
-              <div className="px-4 pt-4 sm:px-6">
-                <VehicleVideoTile
-                  title={`${vehicle.make} ${vehicle.model}`}
-                  embedUrl={vehicle.youtubeEmbedUrl}
-                  watchUrl={vehicle.youtubeUrl}
-                />
-              </div>
+              <VehicleVideoTile
+                title={`${vehicle.make} ${vehicle.model}`}
+                embedUrl={vehicle.youtubeEmbedUrl}
+                watchUrl={vehicle.youtubeUrl}
+              />
             ) : null}
             <div className="px-4 py-6 sm:px-6">
               <VehicleInfo vehicle={vehicle} />

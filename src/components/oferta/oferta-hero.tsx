@@ -7,7 +7,7 @@ import { PageHero } from '@/components/layout/page-hero';
 export function OfertaHero() {
   return (
     <PageHero
-      imageSrc={assets.heroMain}
+      imageSrc={assets.heroOferta}
       sectionClassName="!min-h-[58svh] lg:!min-h-[64svh]"
       eyebrow={
         <>
