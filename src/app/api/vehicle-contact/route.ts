@@ -39,7 +39,9 @@ export async function POST(request: Request) {
       vehicleSlug: vehicleSlug || '',
     };
 
-    const { error } = await resend.emails.send({
+    console.log('[VehicleContact API] Sending email:', { to: recipientEmail, subject, replyTo: email });
+
+    const { data: resendData, error } = await resend.emails.send({
       from: 'Samochody Premium <onboarding@resend.dev>',
       to: [recipientEmail],
       replyTo: email,
@@ -49,13 +51,14 @@ export async function POST(request: Request) {
     });
 
     if (error) {
-      console.error('[VehicleContact API] Resend error:', error);
+      console.error('[VehicleContact API] Resend error:', JSON.stringify(error));
       return NextResponse.json(
         { error: 'Nie udało się wysłać wiadomości. Spróbuj ponownie.' },
         { status: 500 },
       );
     }
 
+    console.log('[VehicleContact API] Email sent successfully, id:', resendData?.id);
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error('[VehicleContact API] Unexpected error:', err);

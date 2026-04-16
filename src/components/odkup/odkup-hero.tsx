@@ -8,6 +8,7 @@ export function OdkupHero() {
   return (
     <PageHero
       imageSrc={assets.heroOdkup}
+      sectionClassName="!min-h-[58svh] lg:!min-h-[64svh]"
       eyebrow={
         <>
           <Link href="/" className="transition-colors duration-200 hover:text-white">
@@ -16,9 +17,10 @@ export function OdkupHero() {
           / Odkup
         </>
       }
-      title="Chcesz sprzedać swój samochód?"
-      description="Odkupimy lub pomożemy w sprzedaży Twojego auta — szybko, uczciwie i z pełną transparentnością procesu."
-      actions={[{ href: '/kontakt', label: 'Skontaktuj się' }]}
+      title="Odkup pojazdu."
+      description="Szybka wycena, uczciwa oferta i sprawna realizacja — sprzedaj swoje auto bez zbędnych formalności."
+      actions={[{ href: '/kontakt', label: 'Skontaktuj się z doradcą' }]}
+      titleClassName="text-[clamp(2rem,7vw,4.6rem)]"
     />
   );
 }

@@ -8,6 +8,7 @@ export function KontaktHero() {
   return (
     <PageHero
       imageSrc={assets.heroKontakt}
+      sectionClassName="!min-h-[58svh] lg:!min-h-[64svh]"
       eyebrow={
         <>
           <Link href="/" className="transition-colors duration-200 hover:text-white">
@@ -16,9 +17,10 @@ export function KontaktHero() {
           / Kontakt
         </>
       }
-      title="Rozmowa, której efektem jest Twoje nowe auto."
-      description="Zaczynamy od konkretu — Twoich preferencji, budżetu i oczekiwań. Po pierwszym kontakcie otrzymasz spersonalizowaną propozycję."
-      actions={[{ href: '/wycena', label: 'Sprawdź wycenę' }]}
+      title="Skontaktuj się z nami."
+      description="Preferencje, budżet, oczekiwania — napisz, a przygotujemy spersonalizowaną propozycję."
+      actions={[{ href: '/oferta', label: 'Przeglądaj ofertę' }]}
+      titleClassName="text-[clamp(2rem,7vw,4.6rem)]"
     />
   );
 }
