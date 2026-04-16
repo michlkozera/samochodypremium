@@ -5,6 +5,21 @@ import type { CatalogVehicle, CatalogFilterOptions } from '@/lib/vehicle-catalog
 import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
 import { VehicleCard } from './vehicle-card';
 import Link from 'next/link';
+import {
+  Car,
+  Fuel,
+  Gauge,
+  Settings2,
+  Calendar,
+  TrendingUp,
+  Wallet,
+  Search,
+  X,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  SlidersHorizontal,
+} from 'lucide-react';
 
 export type FilterState = {
   brand: string;
@@ -40,15 +55,17 @@ type SelectFieldProps = {
   options: string[];
   value: string;
   onChange: (value: string) => void;
+  icon?: React.ReactNode;
 };
 
-function SelectField({ id, label, options, value, onChange }: SelectFieldProps) {
+function SelectField({ id, label, options, value, onChange, icon }: SelectFieldProps) {
   return (
     <div className="grid gap-2">
       <label
-        className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-zinc-500"
+        className="flex items-center gap-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-zinc-500"
         htmlFor={id}
       >
+        {icon && <span className="text-zinc-400">{icon}</span>}
         {label}
       </label>
       <div className="relative">
@@ -65,16 +82,7 @@ function SelectField({ id, label, options, value, onChange }: SelectFieldProps) 
             </option>
           ))}
         </select>
-        <svg
-          aria-hidden="true"
-          className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={1.8}
-          viewBox="0 0 24 24"
-        >
-          <path d="M19 9l-7 7-7-7" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
       </div>
     </div>
   );
@@ -89,6 +97,7 @@ type RangeFieldProps = {
   valueTo: string;
   onChangeFrom: (value: string) => void;
   onChangeTo: (value: string) => void;
+  icon?: React.ReactNode;
 };
 
 function RangeField({
@@ -100,10 +109,12 @@ function RangeField({
   valueTo,
   onChangeFrom,
   onChangeTo,
+  icon,
 }: RangeFieldProps) {
   return (
     <div className="grid gap-2">
-      <span className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-zinc-500">
+      <span className="flex items-center gap-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-zinc-500">
+        {icon && <span className="text-zinc-400">{icon}</span>}
         {label}
       </span>
       <div className="grid grid-cols-2 gap-2">
@@ -180,9 +191,7 @@ function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageC
           className="flex h-10 w-10 items-center justify-center border border-zinc-200 bg-white text-zinc-700 transition-all duration-200 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-zinc-200 disabled:hover:bg-white disabled:hover:text-zinc-700"
           aria-label="Poprzednia strona"
         >
-          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
-          </svg>
+          <ChevronLeft className="h-4 w-4" />
         </button>
 
         {getVisiblePages().map((page, index) => (
@@ -213,9 +222,7 @@ function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageC
           className="flex h-10 w-10 items-center justify-center border border-zinc-200 bg-white text-zinc-700 transition-all duration-200 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-zinc-200 disabled:hover:bg-white disabled:hover:text-zinc-700"
           aria-label="Następna strona"
         >
-          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-          </svg>
+          <ChevronRight className="h-4 w-4" />
         </button>
       </div>
     </div>
@@ -372,14 +379,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
             {/* ── Search ── */}
             <div className="border-b border-zinc-200 px-5 sm:px-6 lg:px-8">
               <div className="relative flex items-center gap-3">
-                <svg
-                  className="pointer-events-none h-4 w-4 shrink-0 text-zinc-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+                <Search className="pointer-events-none h-4 w-4 shrink-0 text-zinc-400" />
                 <input
                   type="text"
                   placeholder="Wyszukaj markę, model, rok lub typ nadwozia..."
@@ -393,9 +393,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                     onClick={() => setFilter('search', '')}
                     className="shrink-0 p-1 text-zinc-400 transition-colors hover:text-zinc-950"
                   >
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                    <X className="h-4 w-4" />
                   </button>
                 )}
               </div>
@@ -409,6 +407,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                 options={filterOptions.brands}
                 value={filters.brand}
                 onChange={(v) => setFilter('brand', v)}
+                icon={<Car className="h-3.5 w-3.5" />}
               />
               <SelectField
                 id="filter-body"
@@ -416,6 +415,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                 options={filterOptions.bodies}
                 value={filters.body}
                 onChange={(v) => setFilter('body', v)}
+                icon={<Settings2 className="h-3.5 w-3.5" />}
               />
               <SelectField
                 id="filter-fuel"
@@ -423,6 +423,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                 options={filterOptions.fuels}
                 value={filters.fuel}
                 onChange={(v) => setFilter('fuel', v)}
+                icon={<Fuel className="h-3.5 w-3.5" />}
               />
               <SelectField
                 id="filter-gearbox"
@@ -430,6 +431,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                 options={filterOptions.gearboxes}
                 value={filters.gearbox}
                 onChange={(v) => setFilter('gearbox', v)}
+                icon={<Gauge className="h-3.5 w-3.5" />}
               />
             </div>
 
@@ -443,20 +445,16 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                 onClick={() => setIsExpanded((v) => !v)}
                 type="button"
               >
-                <span className="text-[0.68rem] font-semibold uppercase tracking-[0.22em]">
+                <span className="flex items-center gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.22em]">
+                  <SlidersHorizontal className="h-3.5 w-3.5" />
                   {isExpanded ? 'Ukryj dodatkowe filtry' : 'Zaawansowane filtry — rok, przebieg, cena'}
                 </span>
-                <svg
+                <ChevronDown
                   className={[
                     'h-4 w-4 shrink-0 transition-transform duration-300',
                     isExpanded ? 'rotate-180' : '',
                   ].join(' ')}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
-                </svg>
+                />
               </button>
 
               {/* Extended filters panel */}
@@ -475,6 +473,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                       valueTo={filters.yearTo}
                       onChangeFrom={(v) => setFilter('yearFrom', v)}
                       onChangeTo={(v) => setFilter('yearTo', v)}
+                      icon={<Calendar className="h-3.5 w-3.5" />}
                     />
                     <RangeField
                       id="filter-mileage"
@@ -485,6 +484,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                       valueTo={filters.mileageTo}
                       onChangeFrom={(v) => setFilter('mileageFrom', v)}
                       onChangeTo={(v) => setFilter('mileageTo', v)}
+                      icon={<TrendingUp className="h-3.5 w-3.5" />}
                     />
                     <RangeField
                       id="filter-price"
@@ -495,6 +495,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                       valueTo={filters.priceTo}
                       onChangeFrom={(v) => setFilter('priceFrom', v)}
                       onChangeTo={(v) => setFilter('priceTo', v)}
+                      icon={<Wallet className="h-3.5 w-3.5" />}
                     />
                   </div>
                 </div>
@@ -544,17 +545,10 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                     <option key={value} value={value}>{label}</option>
                   ))}
                 </select>
-                <svg
-                  className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
               </div>
-              <span className="inline-flex h-11 items-center border border-zinc-200 bg-white px-4 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-zinc-500">
+              <span className="inline-flex h-11 items-center gap-1.5 border border-zinc-200 bg-white px-4 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-zinc-500">
+                <Car className="h-3.5 w-3.5" />
                 {filteredVehicles.length} ofert
               </span>
             </div>

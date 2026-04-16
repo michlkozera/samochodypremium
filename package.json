@@ -19,6 +19,7 @@
     "@tailwindcss/postcss": "^4.2.2",
     "dotenv": "^17.4.1",
     "framer-motion": "^12.38.0",
+    "lucide-react": "^1.8.0",
     "next": "latest",
     "next-auth": "^4.24.13",
     "next-cloudinary": "^6.17.5",
