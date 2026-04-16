@@ -192,11 +192,56 @@ export function OdkupForm() {
     },
   });
 
+  const [serverError, setServerError] = useState('');
+
   const onSubmit = async (data: OdkupFormValues) => {
     try {
-      console.log('Odkup form data:', data);
+      setServerError('');
+
+      const formData = new FormData();
+
+      // Text fields
+      formData.append('firstName', data.firstName);
+      formData.append('lastName', data.lastName);
+      formData.append('email', data.email);
+      formData.append('phone', data.phone);
+      if (data.vehicleType) formData.append('vehicleType', data.vehicleType);
+      if (data.brand) formData.append('brand', data.brand);
+      if (data.model) formData.append('model', data.model);
+      if (data.trim) formData.append('trim', data.trim);
+      if (data.year) formData.append('year', data.year);
+      if (data.country) formData.append('country', data.country);
+      if (data.condition) formData.append('condition', data.condition);
+      formData.append('mileage', data.mileage);
+      if (data.price) formData.append('price', data.price);
+      if (data.vin) formData.append('vin', data.vin);
+      formData.append('vatInvoice', String(!!data.vatInvoice));
+      formData.append('bodyRepairs', String(!!data.bodyRepairs));
+      if (data.message) formData.append('message', data.message);
+
+      // Photo files
+      for (const key of ['photo1', 'photo2', 'photo3', 'photo4'] as const) {
+        const fileList = data[key] as FileList | undefined;
+        if (fileList && fileList.length > 0 && fileList[0]) {
+          formData.append(key, fileList[0]);
+        }
+      }
+
+      const res = await fetch('/api/odkup', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'Nie udało się wysłać formularza.');
+      }
+
       setSubmitStatus('success');
-    } catch {
+    } catch (err) {
+      setServerError(
+        err instanceof Error ? err.message : 'Wystąpił nieoczekiwany błąd.',
+      );
       setSubmitStatus('error');
     }
   };
@@ -263,10 +308,10 @@ export function OdkupForm() {
                 W razie problemów z wypełnieniem formularza prosimy o przesłanie wiadomości
                 bezpośrednio na maila:{' '}
                 <a
-                  href="mailto:biuro@samochodyzklasa.pl"
+                  href="mailto:kontakt@samochodypremium.pl"
                   className="font-semibold text-white transition-colors duration-200 hover:text-zinc-300"
                 >
-                  biuro@samochodyzklasa.pl
+                  kontakt@samochodypremium.pl
                 </a>
               </p>
             </div>
@@ -775,11 +820,11 @@ export function OdkupForm() {
             >
               <div className="max-w-4xl space-y-3 text-xs leading-5 text-zinc-500">
                 <p>
-                  Administratorem Pani/Pana danych osobowych jest SAMOCHODY Z KLASĄ SPÓŁKA
-                  Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA (dalej: „Administrator"),
+                  Administratorem Pani/Pana danych osobowych jest SAMOCHODY PREMIUM SPÓŁKA
+                  Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ (dalej: „Administrator"),
                   z siedzibą przy ul. podanej w danych rejestrowych spółki. Z Administratorem
                   można się kontaktować pisemnie, za pomocą poczty tradycyjnej na adres
-                  siedziby lub drogą e-mailową pod adresem: biuro@samochodyzklasa.pl.
+                  siedziby lub drogą e-mailową pod adresem: kontakt@samochodypremium.pl.
                 </p>
                 <p>
                   Pani/Pana dane osobowe są przetwarzane na podstawie art. 6 ust. 1 lit. a)
@@ -832,7 +877,7 @@ export function OdkupForm() {
                 </button>
                 <a
                   className="button-secondary min-h-14 w-full px-10 sm:w-fit"
-                  href="mailto:biuro@samochodyzklasa.pl"
+                  href="mailto:kontakt@samochodypremium.pl"
                 >
                   Napisz e-mail
                 </a>
@@ -841,8 +886,11 @@ export function OdkupForm() {
 
             {submitStatus === 'error' && (
               <p className="mt-4 text-[0.82rem] font-medium text-red-600">
-                Wystąpił błąd podczas wysyłania formularza. Spróbuj ponownie lub napisz
-                bezpośrednio na adres biuro@samochodyzklasa.pl.
+                {serverError || 'Wystąpił błąd podczas wysyłania formularza.'}{' '}
+                Spróbuj ponownie lub napisz bezpośrednio na adres{' '}
+                <a href="mailto:kontakt@samochodypremium.pl" className="underline">
+                  kontakt@samochodypremium.pl
+                </a>.
               </p>
             )}
           </form>
