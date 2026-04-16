@@ -6,7 +6,7 @@ import { OdkupForm } from '@/components/odkup/odkup-form';
 export const metadata: Metadata = {
   title: 'Odkup samochodu | Samochody Premium',
   description:
-    'Chcesz sprzedać swój samochód? Odkupimy lub pomożemy w sprzedaży — szybko, uczciwie i z pełną transparentnością. Wypełnij formularz zgłoszeniowy.',
+    'Sprzedaj samochód bez stresu. Oferujemy uczciwą wycenę, jasne warunki i sprawną realizację odkupu lub sprzedaży komisowej.',
 };
 
 export default function OdkupPage() {

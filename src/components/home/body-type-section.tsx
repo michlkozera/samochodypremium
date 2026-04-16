@@ -23,7 +23,7 @@ export function BodyTypeSection() {
               </MotionRevealItem>
               <MotionRevealItem preset="blur-fade" duration={1}>
                 <h2 className="section-title">
-                  Szukaj według typu nadwozia
+                  Wybierz typ nadwozia
                 </h2>
               </MotionRevealItem>
             </div>
@@ -32,7 +32,7 @@ export function BodyTypeSection() {
                 href="/oferta"
                 className="hidden sm:inline-flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-zinc-950 hover:text-zinc-600 transition-colors"
               >
-                Zobacz całą ofertę
+                Zobacz pełną ofertę
                 <svg
                   className="w-4 h-4"
                   fill="none"
@@ -72,7 +72,7 @@ export function BodyTypeSection() {
             href="/oferta"
             className="btn-premium h-12 w-full"
           >
-            Zobacz całą ofertę
+            Zobacz pełną ofertę
           </Link>
         </div>
       </div>

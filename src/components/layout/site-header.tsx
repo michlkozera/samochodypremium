@@ -109,7 +109,7 @@ export function SiteHeader({ page, mode = 'hero' }: SiteHeaderProps) {
         <div className="site-shell">
           <div className="grid h-14 grid-cols-[auto_1fr_auto] items-center gap-3 sm:h-16">
             <Link
-              aria-label="Samochody Premium - strona glowna"
+              aria-label="Samochody Premium - strona główna"
               className={[
                 'inline-flex items-center text-[0.82rem] font-semibold uppercase tracking-[0.28em] transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2',
                 isTransparent || isMenuOpen
@@ -122,7 +122,7 @@ export function SiteHeader({ page, mode = 'hero' }: SiteHeaderProps) {
             </Link>
 
             <nav
-              aria-label="Nawigacja glowna"
+              aria-label="Nawigacja główna"
               className="hidden md:col-span-2 md:flex md:flex-wrap md:items-center md:justify-end md:gap-2 md:-mr-3"
             >
               {links.map((link) => (
@@ -140,7 +140,7 @@ export function SiteHeader({ page, mode = 'hero' }: SiteHeaderProps) {
             <button
               aria-controls="mobnav"
               aria-expanded={isMenuOpen}
-              aria-label={isMenuOpen ? 'Zamknij menu' : 'Otworz menu'}
+              aria-label={isMenuOpen ? 'Zamknij menu' : 'Otwórz menu'}
               className={[
                 'relative col-end-4 ml-auto inline-flex h-10 w-10 items-center justify-center border transition duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 md:hidden',
                 isTransparent || isMenuOpen
@@ -192,7 +192,7 @@ export function SiteHeader({ page, mode = 'hero' }: SiteHeaderProps) {
               <Link
                 aria-current={link.current ? 'page' : undefined}
                 className={[
-                  'border-b border-white/10 px-0 py-5 text-[clamp(1.35rem,6vw,2.2rem)] font-semibold uppercase tracking-[-0.04em] transition-colors duration-200 ease-out',
+                  'border-b border-white/10 px-0 py-5 text-[clamp(1.15rem,5vw,1.8rem)] font-semibold uppercase tracking-[-0.03em] transition-colors duration-200 ease-out',
                   link.current ? 'text-white/40' : 'text-white hover:text-white/60',
                 ].join(' ')}
                 href={link.href}

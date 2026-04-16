@@ -276,15 +276,15 @@ export function OdkupForm() {
               </MotionRevealItem>
 
               <MotionRevealItem preset="blur-fade" duration={1}>
-                <h2 className="max-w-[14ch] text-[clamp(1.85rem,5vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.02em] [text-wrap:balance]">
+                <h2 className="section-title max-w-[14ch]">
                   Chcesz sprzedać swój samochód?
                 </h2>
               </MotionRevealItem>
 
               <MotionRevealItem preset="fade-up">
                 <p className="body-copy max-w-md">
-                  Odkupimy lub pomożemy w sprzedaży — szybko, uczciwie
-                  i z pełną transparentnością procesu.
+                  Odkupimy auto lub pomożemy w sprzedaży komisowej.
+                  Szybko, transparentnie i na jasnych warunkach.
                 </p>
               </MotionRevealItem>
 
@@ -310,10 +310,10 @@ export function OdkupForm() {
                   </div>
                   <ul className="grid gap-3">
                     {[
-                      'Z polskiego lub japońskiego rynku',
-                      'Udokumentowany przebieg do 100 000 km',
-                      'Bezwypadkowa, bezkolizyjna przeszłość',
-                      'Kompletna historia serwisowa',
+                      'Z polskiego lub europejskiego rynku',
+                      'Udokumentowany przebieg',
+                      'Bez poważnych szkód strukturalnych',
+                      'Kompletna dokumentacja pojazdu',
                     ].map((point) => (
                       <li
                         className="flex items-start gap-3 text-[0.86rem] leading-[1.75] text-zinc-500"
@@ -340,10 +340,10 @@ export function OdkupForm() {
                   </div>
                   <ul className="grid gap-3">
                     {[
-                      'Odpowiadamy na każde zapytanie',
-                      'Wycena w ciągu 24 godzin',
-                      'Nie odkupujemy aut poszkodowych i w złym stanie',
-                      'Wypełnij formularz poniżej lub napisz na kontakt@samochodypremium.pl',
+                      'Odpowiadamy na każde zgłoszenie',
+                      'Wstępna wycena w ciągu 24 godzin',
+                      'Oferta końcowa po weryfikacji auta',
+                      'Formularz online lub kontakt: kontakt@samochodypremium.pl',
                     ].map((point) => (
                       <li
                         className="flex items-start gap-3 text-[0.86rem] leading-[1.75] text-zinc-500"
@@ -370,7 +370,7 @@ export function OdkupForm() {
               Dziękujemy za przesłanie formularza.
             </p>
             <p className="mt-2 text-sm leading-7 text-zinc-500">
-              Skontaktujemy się z Państwem najszybciej jak to możliwe.
+              Skontaktujemy się z Tobą najszybciej jak to możliwe.
             </p>
           </div>
         ) : (
@@ -906,8 +906,8 @@ export function OdkupForm() {
               style={nextDelay()}
             >
               <p className="max-w-sm text-[0.82rem] leading-7 text-zinc-400">
-                Odpowiadamy na każde zapytanie — żaden pozostawiony kontakt nie pozostaje
-                bez odpowiedzi.
+                Odpowiadamy na każde zgłoszenie. Każdy pozostawiony kontakt
+                otrzymuje odpowiedź.
               </p>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <button

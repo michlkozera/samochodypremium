@@ -17,39 +17,39 @@ const steps: Step[] = [
     index: '01',
     title: 'Rozmowa i weryfikacja preferencji',
     description:
-      'Analizujemy Twoje oczekiwania — markę, budżet, przeznaczenie. Określamy kryteria wyszukiwania, zanim rozpoczniemy selekcję.',
+      'Analizujemy oczekiwania, budżet i sposób użytkowania auta. Na tej podstawie ustalamy kryteria selekcji.',
   },
   {
     index: '02',
     title: 'Selekcja i inspekcja pojazdu',
     description:
-      'Każdy samochód przechodzi ponad 150 punktów kontroli technicznej. Weryfikujemy historię serwisową, bazę VIN i stan lakieru.',
+      'Każdy samochód przechodzi ponad 150 punktów kontroli. Sprawdzamy historię serwisową, VIN i stan lakieru.',
     image: assets.service,
   },
   {
     index: '03',
     title: 'Detailing i przygotowanie',
     description:
-      'Pojazd przechodzi profesjonalny detailing, korektę lakieru i czyszczenie wnętrza. Prezentujemy auto w stanie showroomowym.',
+      'Pojazd przechodzi detailing, korektę lakieru i przygotowanie wnętrza. Auto prezentujemy w standardzie showroomowym.',
   },
   {
     index: '04',
     title: 'Jazda testowa i prezentacja',
     description:
-      'Organizujemy indywidualną jazdę testową. Omawiamy szczegóły techniczne, historię i stan pojazdu — bez pośpiechu.',
+      'Organizujemy indywidualną jazdę testową i omawiamy szczegóły techniczne bez pośpiechu.',
     image: assets.sport01,
   },
   {
     index: '05',
     title: 'Finansowanie i formalności',
     description:
-      'Pomagamy dobrać najlepsze finansowanie — gotówka, leasing, kredyt. Załatwiamy ubezpieczenie i rejestrację w jednym miejscu.',
+      'Dobieramy finansowanie i prowadzimy formalności. Ubezpieczenie oraz rejestrację realizujemy w jednym miejscu.',
   },
   {
     index: '06',
     title: 'Wydanie pojazdu',
     description:
-      'Auto przekazujemy z pełną dokumentacją, gwarancją i pakietem powitalnym. Relacja nie kończy się na sprzedaży.',
+      'Auto przekazujemy z kompletem dokumentów i gwarancją. Wsparcie klienta trwa również po sprzedaży.',
     image: assets.handover,
   },
 ];
@@ -64,7 +64,7 @@ export function OnasProces() {
             <div className="grid gap-4">
               <p className="eyebrow">Proces</p>
               <h2 className="section-title">
-                Jak prowadzimy zakup od A do Z.
+                Jak prowadzimy zakup krok po kroku.
               </h2>
             </div>
           </MotionRevealItem>
@@ -89,7 +89,7 @@ export function OnasProces() {
                   )}
 
                   <div className="flex flex-1 flex-col gap-3 p-6 sm:p-7">
-                    <span className="text-[clamp(1.4rem,2.5vw,1.8rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-300">
+                    <span className="text-[clamp(1.2rem,2vw,1.55rem)] font-bold leading-none tracking-[-0.03em] text-zinc-300">
                       {step.index}
                     </span>
                     <h3 className="text-[0.8rem] font-semibold uppercase leading-6 tracking-[0.03em] text-zinc-950">

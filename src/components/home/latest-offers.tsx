@@ -22,7 +22,7 @@ export function LatestOffers({ vehicles }: LatestOffersProps) {
               </MotionRevealItem>
               <MotionRevealItem preset="blur-fade" duration={1}>
                 <h2 className="section-title">
-                  Najnowsze oferty
+                  Najnowsze auta
                 </h2>
               </MotionRevealItem>
             </div>
@@ -31,7 +31,7 @@ export function LatestOffers({ vehicles }: LatestOffersProps) {
                 href="/oferta"
                 className="hidden sm:inline-flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-zinc-950 hover:text-zinc-600 transition-colors"
               >
-                Zobacz wszystkie
+                Zobacz wszystkie oferty
                 <svg
                   className="w-4 h-4"
                   fill="none"

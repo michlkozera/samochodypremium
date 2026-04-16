@@ -12,7 +12,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Samochody Premium',
   description:
-    'Wyselekcjonowane samochody klasy premium w Warszawie. Pełna historia serwisowa, gwarancja pochodzenia i bezkompromisowa jakość obsługi.',
+    'Wyselekcjonowane samochody klasy premium w Warszawie. Pełna historia serwisowa, gwarancja pochodzenia i profesjonalna obsługa.',
 };
 
 export const viewport: Viewport = {

@@ -25,11 +25,11 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
         {/* ── Left column ── */}
         <div className="grid min-w-0 gap-4 sm:gap-6">
           <MotionRevealItem>
-            <div className="eyebrow border-white/30 bg-white/10 text-[0.78rem] text-white/80 backdrop-blur-xl backdrop-saturate-150 sm:text-[0.7rem]">Kraków</div>
+            <div className="eyebrow border-white/30 bg-white/10 text-[0.72rem] text-white/80 backdrop-blur-xl backdrop-saturate-150">Warszawa</div>
           </MotionRevealItem>
           <MotionRevealItem>
-            <h1 className="max-w-[14ch] text-[clamp(1.75rem,8vw,4.4rem)] font-bold uppercase leading-[1.03] tracking-[-0.03em] [overflow-wrap:anywhere] [text-wrap:balance] sm:leading-[1.05]">
-              Dealer samochodów klasy premium.
+            <h1 className="max-w-[14ch] text-[clamp(1.8rem,6.8vw,3.85rem)] font-bold uppercase leading-[1.05] tracking-[-0.03em] [overflow-wrap:anywhere] [text-wrap:balance]">
+              Samochody premium z pewnego źródła.
             </h1>
           </MotionRevealItem>
 
@@ -49,8 +49,8 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
         {/* ── Right column ── */}
         <div className="grid min-w-0 gap-4 sm:gap-6">
           <MotionRevealItem>
-            <p className="text-[0.95rem] font-medium leading-[1.5] text-white/70 sm:text-[1.15rem] sm:text-white/80">
-              Wyszukaj swój wymarzony samochód
+            <p className="text-[0.95rem] font-medium leading-[1.5] text-white/75 sm:text-[1.05rem]">
+              Znajdź model dopasowany do Twoich oczekiwań
             </p>
           </MotionRevealItem>
 
@@ -81,7 +81,7 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
                   <CountUp value={100} delay={0.4} />%
                 </span>
                 <span className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">
-                  zadowolenia klientów
+                  satysfakcji klientów
                 </span>
               </div>
             </div>

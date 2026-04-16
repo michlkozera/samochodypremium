@@ -19,7 +19,7 @@ export function VehicleSpecs({ specs }: VehicleSpecsProps) {
                 </h2>
               </div>
               <p className="body-copy max-w-md">
-                Pełna dokumentacja techniczna pojazdu. Wszystkie dane zweryfikowane na podstawie dokumentów fabrycznych i historii serwisowej.
+                Pełna dokumentacja techniczna pojazdu. Dane zweryfikowane na podstawie dokumentów i historii serwisowej.
               </p>
             </div>
           </MotionRevealItem>

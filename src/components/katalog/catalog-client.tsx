@@ -182,7 +182,7 @@ function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageC
   return (
     <div className="mt-10 flex flex-col items-center gap-4 sm:mt-12">
       <p className="text-[0.68rem] font-medium uppercase tracking-[0.18em] text-zinc-400">
-        Pokazano {startItem}–{endItem} z {totalItems} ofert
+        Pokazano {startItem}–{endItem} z {totalItems} ogłoszeń
       </p>
       <div className="flex items-center gap-1">
         <button
@@ -239,9 +239,9 @@ type CatalogClientProps = {
 type SortOption = 'price-asc' | 'price-desc' | 'year-desc' | 'mileage-asc' | '';
 
 const SORT_LABELS: Record<SortOption, string> = {
-  '': 'Domyślne',
-  'price-asc': 'Cena: od najniższej',
-  'price-desc': 'Cena: od najwyższej',
+  '': 'Polecane',
+  'price-asc': 'Cena: rosnąco',
+  'price-desc': 'Cena: malejąco',
   'year-desc': 'Najnowsze',
   'mileage-asc': 'Najniższy przebieg',
 };
@@ -345,15 +345,15 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                 </span>
                 {hasActiveFilters && (
                   <span className="inline-flex items-center border border-zinc-950 bg-zinc-950 px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white">
-                    Filtr aktywny — {filteredVehicles.length} wyników
+                    Aktywne filtry: {filteredVehicles.length} wyników
                   </span>
                 )}
               </div>
 
               {/* Title + actions */}
               <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-                <h2 className="text-[clamp(1.45rem,3.2vw,2.2rem)] font-semibold uppercase leading-[1.06] tracking-[-0.03em] text-zinc-950">
-                  Dopasuj styl, segment i budżet.
+                <h2 className="text-[clamp(1.35rem,2.8vw,1.95rem)] font-bold uppercase leading-[1.08] tracking-[-0.02em] text-zinc-950">
+                  Dopasuj markę, segment i budżet.
                 </h2>
 
                 <div className="flex flex-wrap items-center gap-2">
@@ -370,7 +370,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                     className="btn-premium h-11 min-h-0 px-5 text-[0.64rem]"
                     href="/kontakt"
                   >
-                    Porozmawiaj z doradcą
+                    Skontaktuj się z doradcą
                   </Link>
                 </div>
               </div>
@@ -382,7 +382,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                 <Search className="pointer-events-none h-4 w-4 shrink-0 text-zinc-400" />
                 <input
                   type="text"
-                  placeholder="Wyszukaj markę, model, rok lub typ nadwozia..."
+                  placeholder="Wyszukaj markę, model, rocznik lub typ nadwozia..."
                   value={filters.search}
                   onChange={(e) => setFilter('search', e.target.value)}
                   className="h-12 w-full bg-transparent text-[0.88rem] text-zinc-950 outline-none placeholder:text-zinc-400"
@@ -447,7 +447,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
               >
                 <span className="flex items-center gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.22em]">
                   <SlidersHorizontal className="h-3.5 w-3.5" />
-                  {isExpanded ? 'Ukryj dodatkowe filtry' : 'Zaawansowane filtry — rok, przebieg, cena'}
+                  {isExpanded ? 'Ukryj dodatkowe filtry' : 'Dodatkowe filtry: rok, przebieg, cena'}
                 </span>
                 <ChevronDown
                   className={[
@@ -505,7 +505,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
             {/* ── Panel footer ── */}
             <div className="flex flex-col gap-3 border-t border-zinc-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
               <p className="text-[0.78rem] leading-[1.75] text-zinc-400">
-                Wyniki aktualizują się w czasie rzeczywistym po każdej zmianie parametru.
+                Wyniki aktualizują się automatycznie po każdej zmianie parametrów.
               </p>
               <span className="shrink-0 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-zinc-400">
                 {filteredVehicles.length}&thinsp;/&thinsp;{vehicles.length} pojazdów
@@ -526,10 +526,10 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-zinc-200 pb-6 sm:mb-10">
             <div className="grid gap-2">
               <p className="eyebrow">Aktualna kolekcja</p>
-              <h2 className="text-[clamp(1.7rem,4vw,2.6rem)] font-semibold uppercase leading-[1.04] tracking-[-0.03em] text-zinc-950">
+              <h2 className="text-[clamp(1.5rem,3.4vw,2.25rem)] font-bold uppercase leading-[1.06] tracking-[-0.02em] text-zinc-950">
                 {hasActiveFilters
                   ? `Znaleziono ${filteredVehicles.length} ${filteredVehicles.length === 1 ? 'pojazd' : filteredVehicles.length < 5 ? 'pojazdy' : 'pojazdów'}.`
-                  : 'Oferty gotowe do prezentacji.'}
+                  : 'Oferty gotowe do obejrzenia.'}
               </h2>
             </div>
 
@@ -586,7 +586,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                 Brak pojazdów spełniających kryteria.
               </p>
               <p className="mt-2 text-sm leading-7 text-zinc-500">
-                Zmień parametry filtrowania lub wyczyść wszystkie filtry.
+                Zmień zakres filtrów albo wyczyść wszystkie parametry.
               </p>
               <button
                 className="btn-premium mt-6"

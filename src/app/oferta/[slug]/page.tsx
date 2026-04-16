@@ -119,7 +119,7 @@ export default async function VehicleDetailPage({ params }: PageProps) {
             <div className="grid gap-2">
               <p className="eyebrow">Przeglądaj dalej</p>
               <p className="text-[0.94rem] font-semibold uppercase tracking-[-0.02em] text-zinc-950">
-                Wróć do katalogu i odkryj więcej pojazdów.
+                Wróć do katalogu i zobacz kolejne oferty.
               </p>
             </div>
             <Link

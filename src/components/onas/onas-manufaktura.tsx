@@ -21,16 +21,16 @@ export function OnasManufaktura() {
             </MotionRevealItem>
 
             <MotionRevealItem preset="blur-fade" duration={1}>
-              <h2 className="max-w-[16ch] text-[clamp(1.85rem,5vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.02em] [text-wrap:balance]">
-                Salon zbudowany wokół jednego standardu obsługi.
+              <h2 className="section-title max-w-[14ch]">
+                Jeden standard obsługi na każdym etapie.
               </h2>
             </MotionRevealItem>
 
             <MotionRevealItem preset="fade-up">
               <p className="body-copy max-w-lg">
-                Każdy samochód w naszej ofercie przechodzi pełną weryfikację w naszym centrum w Warszawie. Kontrolujemy cały łańcuch — od historii
-                pojazdu, przez inspekcję techniczną i detailing, po przygotowanie dokumentacji. Żaden etap nie
-                wychodzi poza nasz nadzór.
+                Każdy samochód przechodzi pełną weryfikację w naszym centrum w Warszawie.
+                Nadzorujemy cały proces: od historii pojazdu i inspekcji technicznej
+                po detailing i przygotowanie dokumentacji.
               </p>
             </MotionRevealItem>
 
@@ -45,7 +45,7 @@ export function OnasManufaktura() {
                     className="grid gap-2 border-t border-zinc-200/60 py-5 pr-5 sm:first:border-t"
                     key={stat.label}
                   >
-                    <span className="text-[clamp(1.4rem,2.5vw,1.8rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-950">
+                    <span className="text-[clamp(1.2rem,2vw,1.55rem)] font-bold leading-none tracking-[-0.03em] text-zinc-950">
                       {stat.value}
                     </span>
                     <span className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-zinc-400">

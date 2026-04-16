@@ -8,17 +8,19 @@ export function WycenaHero() {
   return (
     <PageHero
       imageSrc={assets.heroOdkup}
+      sectionClassName="!min-h-[58svh] lg:!min-h-[64svh]"
       eyebrow={
         <>
           <Link href="/" className="transition-colors duration-200 hover:text-white">
             Start
           </Link>{' '}
-          / Odkup
+          / Wycena
         </>
       }
-      title="Odkup w trybie decyzji, nie domysłów."
-      description="Wycena Twojego auta, transparentna oferta i szybka realizacja — wszystko w ciągu 48 godzin od pierwszego kontaktu."
+      title="Wycena bez domysłów."
+      description="Sprawdź orientacyjną wartość odkupu i przejdź do procesu sprzedaży auta na jasnych warunkach."
       actions={[{ href: '/kontakt', label: 'Skontaktuj się' }]}
+      titleClassName="text-[clamp(1.8rem,6.2vw,3.6rem)]"
     />
   );
 }

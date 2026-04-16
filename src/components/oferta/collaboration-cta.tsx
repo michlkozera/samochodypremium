@@ -22,15 +22,15 @@ export function CollaborationCTA() {
             </MotionRevealItem>
 
             <MotionRevealItem preset="blur-fade" duration={1}>
-              <h2 className="max-w-[14ch] text-[clamp(1.85rem,5vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.02em] [text-wrap:balance]">
+              <h2 className="section-title max-w-[14ch]">
                 Dwie ścieżki. Jeden standard realizacji.
               </h2>
             </MotionRevealItem>
 
             <MotionRevealItem preset="fade-up">
               <p className="body-copy max-w-md">
-                Niezależnie od ścieżki — realizacja zaczyna się od jednej rozmowy
-                i kończy w jednym standardzie odpowiedzialności.
+                Niezależnie od wybranej ścieżki proces zaczyna się od jednej rozmowy
+                i kończy w tym samym standardzie jakości.
               </p>
             </MotionRevealItem>
 

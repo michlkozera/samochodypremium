@@ -42,7 +42,7 @@ export function VehicleMobileCta({ vehicle }: Props) {
           className="inline-flex min-h-11 shrink-0 items-center justify-center border border-zinc-950 bg-zinc-950 px-5 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-white btn-invert-on-hover active:bg-zinc-800"
           href="#kontakt-oferta"
         >
-          Zapytaj
+          Zapytaj o auto
         </a>
         <a
           aria-label="Zadzwoń teraz"

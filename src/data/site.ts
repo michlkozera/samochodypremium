@@ -16,48 +16,48 @@ export const contactPhoneHref = 'tel:+48221002000';
 export const contactEmail = 'kontakt@samochodypremium.pl';
 export const contactEmailHref = 'mailto:kontakt@samochodypremium.pl';
 export const contactAddress = 'Al. Jerozolimskie 200, Warszawa';
-export const contactSchedule = 'Pon-Pt / 9:00-18:00 · Sob / 10:00-14:00';
+export const contactSchedule = 'Pon.-Pt. / 9:00-18:00 · Sob. / 10:00-14:00';
 
 export const mobileMenuContent = {
   home: {
     label: 'Warszawa / samochody klasy premium',
-    copy: 'Wyselekcjonowane egzemplarze z pełną historią serwisową, gwarancją pochodzenia i bezkompromisową jakością.',
+    copy: 'Wyselekcjonowane egzemplarze z pełną historią serwisową i gwarancją pochodzenia.',
     ctaHref: '/oferta',
-    ctaLabel: 'Przeglądaj ofertę',
+    ctaLabel: 'Przeglądaj katalog',
   },
   oferta: {
     label: 'Warszawa / samochody klasy premium',
-    copy: 'Sedany, SUV-y, sportowe i elektryczne — każdy pojazd w naszej ofercie przeszedł wielopunktową inspekcję.',
+    copy: 'Sedany, SUV-y, modele sportowe i elektryczne po pełnej weryfikacji technicznej.',
     ctaHref: '/kontakt',
     ctaLabel: 'Umów jazdę próbną',
   },
   onas: {
     label: 'Warszawa / salon i serwis',
-    copy: 'Ponad dekada doświadczenia w obrocie samochodami premium. Jakość, zaufanie i transparentność.',
+    copy: 'Ponad dekada doświadczenia, transparentny proces i wysoka jakość obsługi.',
     ctaHref: '/kontakt',
     ctaLabel: 'Umów wizytę',
   },
   kontakt: {
     label: 'Warszawa / salon samochodów premium',
-    copy: 'Odwiedź nasz salon lub skontaktuj się online. Doradzimy w wyborze auta i pomożemy w finansowaniu.',
+    copy: 'Doradzimy w wyborze auta, finansowaniu i formalnościach. Odpowiadamy szybko i konkretnie.',
     ctaHref: '/oferta',
     ctaLabel: 'Zobacz ofertę',
   },
   wycena: {
     label: 'Warszawa / skup i odkup aut premium',
-    copy: 'Sprzedajesz samochód? Otrzymasz uczciwą wycenę i szybką realizację transakcji.',
+    copy: 'Sprzedajesz samochód? Otrzymasz uczciwą wycenę i jasne warunki odkupu.',
     ctaHref: '/kontakt',
     ctaLabel: 'Skontaktuj się',
   },
   finansowanie: {
     label: 'Warszawa / leasing i kredyt premium',
-    copy: 'Przygotowujemy finansowanie skrojone pod samochody klasy premium, z szybką decyzją i wsparciem na każdym etapie.',
+    copy: 'Leasing i kredyt dopasowane do auta, budżetu i formy zakupu.',
     ctaHref: '/kontakt',
     ctaLabel: 'Porozmawiaj z doradcą',
   },
   odkup: {
     label: 'Warszawa / odkup samochodów premium',
-    copy: 'Chcesz sprzedać swój samochód? Odkupimy lub pomożemy w sprzedaży — szybko, uczciwie i profesjonalnie.',
+    copy: 'Odkupimy auto lub poprowadzimy sprzedaż komisową w bezpiecznym modelu rozliczenia.',
     ctaHref: '/kontakt',
     ctaLabel: 'Skontaktuj się',
   },

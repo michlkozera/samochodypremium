@@ -18,9 +18,9 @@ export function OnasHero() {
         </>
       }
       title="Poznaj nasz zespół."
-      description="Doświadczenie, transparentność i pasja do motoryzacji premium — to fundamenty, na których działamy."
+      description="Łączymy doświadczenie, transparentny proces i realne wsparcie przy zakupie samochodów klasy premium."
       actions={[{ href: '/kontakt', label: 'Skontaktuj się z nami' }]}
-      titleClassName="text-[clamp(2rem,7vw,4.6rem)]"
+      titleClassName="text-[clamp(1.8rem,6.2vw,3.6rem)]"
     />
   );
 }

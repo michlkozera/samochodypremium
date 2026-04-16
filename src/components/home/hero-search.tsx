@@ -46,7 +46,7 @@ export function HeroSearch({ buttonLabel = 'Zobacz katalog', buttonHref = '/ofer
 
         <input
           type="text"
-          placeholder="Marka, model, słowo kluczowe..."
+          placeholder="Marka, model lub słowo kluczowe..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}

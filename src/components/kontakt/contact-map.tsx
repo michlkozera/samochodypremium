@@ -26,7 +26,7 @@ export function ContactMap() {
               <p className="body-copy max-w-md lg:ml-auto">
                 Nasz salon i centrum serwisowe znajdziesz pod adresem{' '}
                 <span className="font-semibold text-zinc-950">{contactAddress}</span>.
-                Zapraszamy po wcześniejszym umówieniu wizyty.
+                Dla pełnego komfortu rekomendujemy wcześniejsze umówienie wizyty.
               </p>
             </MotionRevealItem>
           </div>

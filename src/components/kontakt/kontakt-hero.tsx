@@ -18,9 +18,9 @@ export function KontaktHero() {
         </>
       }
       title="Skontaktuj się z nami."
-      description="Preferencje, budżet, oczekiwania — napisz, a przygotujemy spersonalizowaną propozycję."
+      description="Napisz do nas. Doradzimy w wyborze auta, finansowaniu i kolejnych krokach procesu."
       actions={[{ href: '/oferta', label: 'Przeglądaj ofertę' }]}
-      titleClassName="text-[clamp(2rem,7vw,4.6rem)]"
+      titleClassName="text-[clamp(1.8rem,6.2vw,3.6rem)]"
     />
   );
 }

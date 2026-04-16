@@ -3,9 +3,9 @@ import { SitePage } from '@/components/layout/site-page';
 import { WycenaHero } from '@/components/wycena/wycena-hero';
 
 export const metadata: Metadata = {
-  title: 'Odkup | Samochody Premium',
+  title: 'Wycena odkupu | Samochody Premium',
   description:
-    'Sprzedaj swój samochód premium. Interaktywny kalkulator odkupu, transparentna wycena i szybka realizacja w ciągu 48 godzin.',
+    'Sprawdź orientacyjną wartość odkupu samochodu premium. Transparentna wycena i szybkie przejście do procesu sprzedaży.',
 };
 
 export default function WycenaPage() {
