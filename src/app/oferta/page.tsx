@@ -8,7 +8,7 @@ import { getCatalogFilterOptions, getCatalogVehicles } from '@/lib/vehicle-catal
 export const metadata: Metadata = {
   title: 'Oferta | Samochody Premium',
   description:
-    'Przeglądaj aktualną ofertę wyselekcjonowanych samochodów premium. Mercedes-AMG, Porsche, Audi RS, BMW M — każdy egzemplarz z pełną historią serwisową.',
+    'Aktualna oferta wyselekcjonowanych samochodów premium. Każdy egzemplarz po weryfikacji technicznej i z udokumentowaną historią serwisową.',
 };
 
 export default async function OfertaPage({

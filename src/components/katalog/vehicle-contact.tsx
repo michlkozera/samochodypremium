@@ -142,7 +142,7 @@ export function VehicleContact({ vehicle }: VehicleContactProps) {
               Formularz / zapytanie
             </p>
             <h2 className="section-title text-white">
-              Zainteresowany tym autem?
+              Zainteresowany tym modelem?
             </h2>
           </div>
           <div
@@ -154,7 +154,7 @@ export function VehicleContact({ vehicle }: VehicleContactProps) {
               <span className="font-semibold text-white">
                 {vehicle.make} {vehicle.model}
               </span>
-              . Odpowiemy z konkretną propozycją, historią serwisową i opcjami finansowania.
+              . Odpowiemy z konkretną propozycją, historią serwisową i wariantami finansowania.
             </p>
             <div className="flex flex-wrap gap-8 border-t border-white/10 pt-6">
               <div className="grid gap-1">
@@ -193,7 +193,7 @@ export function VehicleContact({ vehicle }: VehicleContactProps) {
               Dziękujemy za zapytanie o {vehicle.make} {vehicle.model}.
             </p>
             <p className="mt-2 text-sm leading-7 text-zinc-500">
-              Odpowiemy najszybciej jak to możliwe — zwykle w ciągu godziny w godzinach pracy salonu.
+              Odpowiemy najszybciej jak to możliwe, zwykle w ciągu godziny w godzinach pracy salonu.
             </p>
           </div>
         ) : (
@@ -271,7 +271,7 @@ export function VehicleContact({ vehicle }: VehicleContactProps) {
                 delay={getDelay(4)}
               >
                 <div className="grid grid-cols-3 gap-2.5 py-2 sm:gap-3">
-                  {['Prezentacja', 'Jazda próbna', 'Finansowanie', 'Trade-in', 'Wycena', 'Inne'].map(
+                  {['Prezentacja', 'Jazda testowa', 'Finansowanie', 'Trade-in', 'Wycena', 'Inne'].map(
                     (scope) => (
                       <label className="contact-chip" key={scope}>
                         <input
@@ -302,7 +302,7 @@ export function VehicleContact({ vehicle }: VehicleContactProps) {
                 className="contact-input contact-input--lg min-h-44 py-3 sm:min-h-48"
                 id="vf-message"
                 name="message"
-                placeholder={`Interesuje mnie ${vehicle.make} ${vehicle.model}. Proszę o kontakt w sprawie…`}
+                placeholder={`Interesuje mnie ${vehicle.make} ${vehicle.model}. Proszę o kontakt w sprawie szczegółów oferty…`}
               />
             </FormField>
 

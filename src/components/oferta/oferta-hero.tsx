@@ -17,10 +17,10 @@ export function OfertaHero() {
           / Oferta
         </>
       }
-      title="Katalog oferty."
-      description="Sedany, SUV-y, sportowe i elektryczne — każdy pojazd przechodzi wieloetapową weryfikację przed włączeniem do oferty."
+      title="Katalog samochodów."
+      description="Sedany, SUV-y, auta sportowe i elektryczne. Każdy pojazd przechodzi pełną weryfikację przed publikacją oferty."
       actions={[{ href: '/kontakt', label: 'Skontaktuj się z doradcą' }]}
-      titleClassName="text-[clamp(2rem,7vw,4.6rem)]"
+      titleClassName="text-[clamp(1.8rem,6.2vw,3.6rem)]"
     />
   );
 }

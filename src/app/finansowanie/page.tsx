@@ -5,7 +5,7 @@ import { SitePage } from '@/components/layout/site-page';
 export const metadata: Metadata = {
   title: 'Finansowanie | Samochody Premium',
   description:
-    'Leasing, kredyt i elastyczne formy finansowania samochodów premium. Otrzymaj wariant dopasowany do Twojego budżetu i sposobu zakupu.',
+    'Leasing, kredyt i finansowanie dopasowane do samochodów premium. Wybierz wariant dopasowany do budżetu i sposobu zakupu.',
 };
 
 export default function FinansowaniePage() {

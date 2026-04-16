@@ -61,7 +61,7 @@ export function VehicleEquipment({ description, features }: VehicleEquipmentProp
             <MotionRevealItem preset="fade-up">
               <div className="border border-zinc-200 bg-white px-5 py-5 sm:px-6 sm:py-6">
                 <p className="text-[0.84rem] text-zinc-500">
-                  Szczegółowa lista wyposażenia dostępna na życzenie. Skontaktuj się z naszym doradcą.
+                  Szczegółowa lista wyposażenia dostępna na życzenie. Skontaktuj się z doradcą.
                 </p>
               </div>
             </MotionRevealItem>

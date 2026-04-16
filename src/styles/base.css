@@ -328,11 +328,11 @@
   }
 
   .display-title {
-    @apply max-w-[18ch] text-[clamp(2rem,5.5vw,4.2rem)] font-bold uppercase leading-[1.1] tracking-[-0.03em] [text-wrap:balance];
+    @apply max-w-[20ch] text-[clamp(1.85rem,5vw,3.7rem)] font-bold uppercase leading-[1.1] tracking-[-0.03em] [text-wrap:balance];
   }
 
   .section-title {
-    @apply max-w-[12ch] text-[clamp(1.85rem,5vw,3.9rem)] font-bold uppercase leading-[1.1] tracking-[-0.02em] [text-wrap:balance];
+    @apply max-w-[14ch] text-[clamp(1.6rem,4.2vw,3.05rem)] font-bold uppercase leading-[1.12] tracking-[-0.02em] [text-wrap:balance];
   }
 
   .body-copy {
@@ -594,9 +594,9 @@
   /* ── O NAS — Manifest section ── */
 
   .manifest-title {
-    font-size: clamp(2.8rem, 8vw, 7rem);
+    font-size: clamp(2.1rem, 6.2vw, 4.8rem);
     font-weight: 700;
-    line-height: 1.0;
+    line-height: 1.04;
     letter-spacing: -0.04em;
     text-transform: uppercase;
     text-wrap: balance;
@@ -606,8 +606,8 @@
   /* ── O NAS — Zespol section ── */
 
   .zespol-name {
-    font-size: clamp(1.4rem, 3.5vw, 2.8rem);
-    font-weight: 600;
+    font-size: clamp(1.25rem, 2.8vw, 2.35rem);
+    font-weight: 700;
     line-height: 1.15;
     letter-spacing: -0.03em;
     text-transform: uppercase;
@@ -632,9 +632,9 @@
   /* ── O NAS — Ewolucja (horizontal scroll) ── */
 
   .ewolucja-year {
-    font-size: clamp(4rem, 10vw, 9rem);
+    font-size: clamp(3.2rem, 8.2vw, 6.8rem);
     font-weight: 700;
-    line-height: 0.95;
+    line-height: 0.98;
     letter-spacing: -0.04em;
     text-transform: uppercase;
   }
@@ -684,7 +684,7 @@
   }
 
   .liczby-value {
-    font-size: clamp(2.4rem, 6vw, 4.8rem);
+    font-size: clamp(2rem, 5.2vw, 4rem);
     font-weight: 700;
     line-height: 0.9;
     letter-spacing: -0.06em;
@@ -701,10 +701,10 @@
   }
 
   .liczby-label {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.18em;
     color: var(--color-graphite-500);
   }
 
@@ -885,13 +885,13 @@
   }
 
   .display-title {
-    font-size: clamp(1.8rem, 4.5vw, 3.6rem);
+    font-size: clamp(1.7rem, 4.2vw, 3.2rem);
     line-height: 1.1;
   }
 
   .section-title {
-    font-size: clamp(1.75rem, 3.4vw, 3rem);
-    line-height: 1.1;
+    font-size: clamp(1.5rem, 3vw, 2.65rem);
+    line-height: 1.12;
   }
 }
 

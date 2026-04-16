@@ -16,7 +16,7 @@ export function VehicleVideoTile({ title, embedUrl, watchUrl }: VehicleVideoTile
     <section className="w-full border border-zinc-200 bg-white">
       <div className="flex items-center justify-between gap-3 border-b border-zinc-200 px-4 py-3">
         <p className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-zinc-500">
-          Prezentacja video
+          Prezentacja wideo
         </p>
         <div className="flex items-center gap-2">
           <button
@@ -25,7 +25,7 @@ export function VehicleVideoTile({ title, embedUrl, watchUrl }: VehicleVideoTile
             onClick={() => setIsExpanded((current) => !current)}
             className="inline-flex items-center border border-zinc-950 bg-zinc-950 px-2.5 py-1 text-[0.56rem] font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-white hover:text-zinc-950"
           >
-            {isExpanded ? 'Zwin film' : 'Rozwin film'}
+            {isExpanded ? 'Zwiń film' : 'Rozwiń film'}
           </button>
           {watchUrl ? (
             <Link
@@ -54,7 +54,7 @@ export function VehicleVideoTile({ title, embedUrl, watchUrl }: VehicleVideoTile
       ) : null}
       {isExpanded && !embedUrl ? (
         <div className="border-t border-zinc-200 px-4 py-4 text-sm text-zinc-600">
-          Nie udalo sie osadzic filmu w tym formacie linku. Otworz film przez przycisk YouTube.
+          Nie udało się osadzić filmu dla tego linku. Otwórz materiał przez przycisk YouTube.
         </div>
       ) : null}
     </section>

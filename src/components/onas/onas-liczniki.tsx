@@ -22,8 +22,8 @@ export function OnasLiczniki() {
             </MotionRevealItem>
             <MotionRevealItem preset="blur-fade">
               <p className="body-copy max-w-lg lg:ml-auto lg:text-right">
-                Każda cyfra to kolejny zadowolony klient, kolejny rok doświadczenia
-                i powtarzalny standard, którego nie negocjujemy.
+                Każda cyfra potwierdza konsekwencję działania, jakość selekcji
+                i standard obsługi, który utrzymujemy od lat.
               </p>
             </MotionRevealItem>
           </div>
@@ -43,7 +43,7 @@ export function OnasLiczniki() {
 
             <MotionRevealItem preset="scale-up">
               <div className="flex aspect-[4/3] flex-col items-center justify-center gap-2 bg-white p-5">
-                <span className="text-[clamp(2.2rem,4vw,3.6rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-950">
+                <span className="text-[clamp(1.9rem,3.6vw,3.1rem)] font-bold leading-none tracking-[-0.03em] text-zinc-950">
                   <CountUp value={12} />
                 </span>
                 <span className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-zinc-400">
@@ -54,7 +54,7 @@ export function OnasLiczniki() {
 
             <MotionRevealItem preset="scale-up">
               <div className="flex aspect-[4/3] flex-col items-center justify-center gap-2 bg-white p-5">
-                <span className="text-[clamp(2.2rem,4vw,3.6rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-950">
+                <span className="text-[clamp(1.9rem,3.6vw,3.1rem)] font-bold leading-none tracking-[-0.03em] text-zinc-950">
                   <CountUp value={800} />+
                 </span>
                 <span className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-zinc-400">
@@ -76,7 +76,7 @@ export function OnasLiczniki() {
             {/* Row 2 */}
             <MotionRevealItem preset="scale-up">
               <div className="flex aspect-[4/3] flex-col items-center justify-center gap-2 bg-white p-5">
-                <span className="text-[clamp(2.2rem,4vw,3.6rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-950">
+                <span className="text-[clamp(1.9rem,3.6vw,3.1rem)] font-bold leading-none tracking-[-0.03em] text-zinc-950">
                   1500 m²
                 </span>
                 <span className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-zinc-400">
@@ -97,7 +97,7 @@ export function OnasLiczniki() {
 
             <MotionRevealItem preset="scale-up">
               <div className="flex aspect-[4/3] flex-col items-center justify-center gap-2 bg-white p-5">
-                <span className="text-[clamp(2.2rem,4vw,3.6rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-950">
+                <span className="text-[clamp(1.9rem,3.6vw,3.1rem)] font-bold leading-none tracking-[-0.03em] text-zinc-950">
                   <CountUp value={98} />%
                 </span>
                 <span className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-zinc-400">
@@ -108,7 +108,7 @@ export function OnasLiczniki() {
 
             <MotionRevealItem preset="scale-up">
               <div className="flex aspect-[4/3] flex-col items-center justify-center gap-2 bg-white p-5">
-                <span className="text-[clamp(2.2rem,4vw,3.6rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-950">
+                <span className="text-[clamp(1.9rem,3.6vw,3.1rem)] font-bold leading-none tracking-[-0.03em] text-zinc-950">
                   <CountUp value={2} />
                 </span>
                 <span className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-zinc-400">

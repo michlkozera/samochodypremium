@@ -50,15 +50,14 @@ export function ContactInfo() {
               </MotionRevealItem>
               <MotionRevealItem preset="blur-fade" duration={1}>
                 <h2 className="section-title">
-                  Masz pytania? Skontaktuj się z nami.
+                  Masz pytania? Jesteśmy do dyspozycji.
                 </h2>
               </MotionRevealItem>
             </div>
             <MotionRevealItem>
               <p className="body-copy max-w-md lg:ml-auto">
-                Chętnie doradzimy i odpowiemy na każde zapytanie.
-                Skontaktuj się z nami w wygodny dla Ciebie sposób — jesteśmy
-                do dyspozycji w godzinach pracy.
+                Doradzimy w wyborze auta, finansowaniu i odkupu.
+                Skontaktuj się z nami w najwygodniejszy dla Ciebie sposób.
               </p>
             </MotionRevealItem>
           </div>

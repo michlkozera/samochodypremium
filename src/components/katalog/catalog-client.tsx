@@ -8,8 +8,8 @@ import Link from 'next/link';
 import {
   Car,
   Fuel,
-  Gauge,
-  Settings2,
+  RotateCw,
+  Box,
   Calendar,
   TrendingUp,
   Wallet,
@@ -182,7 +182,7 @@ function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageC
   return (
     <div className="mt-10 flex flex-col items-center gap-4 sm:mt-12">
       <p className="text-[0.68rem] font-medium uppercase tracking-[0.18em] text-zinc-400">
-        Pokazano {startItem}–{endItem} z {totalItems} ofert
+        Pokazano {startItem}–{endItem} z {totalItems} ogłoszeń
       </p>
       <div className="flex items-center gap-1">
         <button
@@ -239,9 +239,9 @@ type CatalogClientProps = {
 type SortOption = 'price-asc' | 'price-desc' | 'year-desc' | 'mileage-asc' | '';
 
 const SORT_LABELS: Record<SortOption, string> = {
-  '': 'Domyślne',
-  'price-asc': 'Cena: od najniższej',
-  'price-desc': 'Cena: od najwyższej',
+  '': 'Polecane',
+  'price-asc': 'Cena: rosnąco',
+  'price-desc': 'Cena: malejąco',
   'year-desc': 'Najnowsze',
   'mileage-asc': 'Najniższy przebieg',
 };
@@ -331,185 +331,157 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
   return (
     <>
       {/* ── Filters ── */}
-      <section className="border-b border-zinc-200 bg-zinc-50">
-        <div className="site-shell py-8 sm:py-10 lg:py-12" data-reveal="up">
-          <div className="border border-zinc-200 bg-white">
-
-            {/* ── Panel header ── */}
-            <div className="grid gap-6 border-b border-zinc-200 p-5 sm:p-6 lg:p-8">
-              {/* Top row: eyebrow + meta chips */}
-              <div className="flex flex-wrap items-center gap-2">
-                <p className="eyebrow">Filtry kolekcji</p>
-                <span className="inline-flex items-center border border-zinc-200 bg-white px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-zinc-500">
-                  {vehicles.length} pojazdów
-                </span>
-                {hasActiveFilters && (
-                  <span className="inline-flex items-center border border-zinc-950 bg-zinc-950 px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white">
-                    Filtr aktywny — {filteredVehicles.length} wyników
-                  </span>
-                )}
-              </div>
-
-              {/* Title + actions */}
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-                <h2 className="text-[clamp(1.45rem,3.2vw,2.2rem)] font-semibold uppercase leading-[1.06] tracking-[-0.03em] text-zinc-950">
-                  Dopasuj styl, segment i budżet.
-                </h2>
-
-                <div className="flex flex-wrap items-center gap-2">
-                  {hasActiveFilters && (
-                    <button
-                      className="btn-premium-ghost h-11 min-h-0 px-5 text-[0.64rem]"
-                      onClick={resetFilters}
-                      type="button"
-                    >
-                      Wyczyść filtry
-                    </button>
-                  )}
-                  <Link
-                    className="btn-premium h-11 min-h-0 px-5 text-[0.64rem]"
-                    href="/kontakt"
-                  >
-                    Porozmawiaj z doradcą
-                  </Link>
-                </div>
+      <section className="border-b border-zinc-200">
+        {/* Header Bar */}
+        <div className="site-shell">
+          <div className="grid gap-4 py-6 sm:py-8 px-0">
+            <p className="eyebrow">Filtry kolekcji</p>
+            <div className="flex items-end justify-between gap-4">
+              <h2 className="text-[clamp(1.5rem,3.4vw,2.25rem)] font-bold uppercase leading-[1.06] tracking-[-0.02em] text-zinc-950">
+                Dopasuj markę, segment i budżet.
+              </h2>
+              <div className="flex items-end gap-3">
+                <button
+                  className="btn-premium h-11 min-h-0 px-5 text-[0.64rem]"
+                  onClick={() => setIsExpanded((v) => !v)}
+                  type="button"
+                >
+                  {isExpanded ? 'Ukryj' : 'Zobacz filtry'}
+                </button>
               </div>
             </div>
+          </div>
+        </div>
 
-            {/* ── Search ── */}
-            <div className="border-b border-zinc-200 px-5 sm:px-6 lg:px-8">
-              <div className="relative flex items-center gap-3">
-                <Search className="pointer-events-none h-4 w-4 shrink-0 text-zinc-400" />
-                <input
-                  type="text"
-                  placeholder="Wyszukaj markę, model, rok lub typ nadwozia..."
-                  value={filters.search}
-                  onChange={(e) => setFilter('search', e.target.value)}
-                  className="h-12 w-full bg-transparent text-[0.88rem] text-zinc-950 outline-none placeholder:text-zinc-400"
+        {/* Expandable Filters Container */}
+        <div
+          className="overflow-hidden transition-[max-height,opacity] duration-600 ease-out"
+          style={{ maxHeight: isExpanded ? '1400px' : '0px', opacity: isExpanded ? 1 : 0 }}
+        >
+          <div className="site-shell bg-white py-4 sm:py-6 lg:py-8">
+            <div className="mx-auto max-w-5xl space-y-6">
+              {/* ── Search ── */}
+              <div className="border-b border-zinc-200 group px-6 py-6 transition-colors duration-300 focus-within:bg-zinc-950 focus-within:px-6">
+                <div className="relative flex min-h-11 items-center gap-3">
+                  <Search className="pointer-events-none h-4 w-4 shrink-0 text-zinc-400 transition-colors duration-300 group-focus-within:text-white" />
+                  <input
+                    type="text"
+                    placeholder="Wyszukaj samochód"
+                    value={filters.search}
+                    onChange={(e) => setFilter('search', e.target.value)}
+                    className="sm:hidden h-11 w-full bg-transparent text-sm text-zinc-950 outline-none placeholder:text-zinc-500 transition-colors duration-300 group-focus-within:text-white group-focus-within:placeholder:text-white/60"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Wyszukaj markę, model, rocznik lub typ nadwozia..."
+                    value={filters.search}
+                    onChange={(e) => setFilter('search', e.target.value)}
+                    className="hidden sm:block h-11 w-full bg-transparent text-[0.88rem] text-zinc-950 outline-none placeholder:text-zinc-500 transition-colors duration-300 group-focus-within:text-white group-focus-within:placeholder:text-white/60"
+                  />
+                  {filters.search && (
+                    <button
+                      type="button"
+                      onClick={() => setFilter('search', '')}
+                      className="shrink-0 p-1 text-zinc-400 transition-colors hover:text-zinc-950 group-focus-within:text-white group-focus-within:hover:text-white/70"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* ── Main selects ── */}
+              <div className="grid gap-4 px-6 sm:grid-cols-2 lg:grid-cols-4">
+                <SelectField
+                  id="filter-brand"
+                  label="Marka"
+                  options={filterOptions.brands}
+                  value={filters.brand}
+                  onChange={(v) => setFilter('brand', v)}
+                  icon={<Car className="h-3.5 w-3.5" />}
                 />
-                {filters.search && (
+                <SelectField
+                  id="filter-body"
+                  label="Nadwozie"
+                  options={filterOptions.bodies}
+                  value={filters.body}
+                  onChange={(v) => setFilter('body', v)}
+                  icon={<Box className="h-3.5 w-3.5" />}
+                />
+                <SelectField
+                  id="filter-fuel"
+                  label="Paliwo"
+                  options={filterOptions.fuels}
+                  value={filters.fuel}
+                  onChange={(v) => setFilter('fuel', v)}
+                  icon={<Fuel className="h-3.5 w-3.5" />}
+                />
+                <SelectField
+                  id="filter-gearbox"
+                  label="Skrzynia"
+                  options={filterOptions.gearboxes}
+                  value={filters.gearbox}
+                  onChange={(v) => setFilter('gearbox', v)}
+                  icon={<RotateCw className="h-3.5 w-3.5" />}
+                />
+              </div>
+
+              {/* ── Extended filters ── */}
+              <div className="border-t border-zinc-200 px-6 pt-6">
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  <RangeField
+                    id="filter-year"
+                    label="Rok produkcji"
+                    minPlaceholder="od 2015"
+                    maxPlaceholder="do 2025"
+                    valueFrom={filters.yearFrom}
+                    valueTo={filters.yearTo}
+                    onChangeFrom={(v) => setFilter('yearFrom', v)}
+                    onChangeTo={(v) => setFilter('yearTo', v)}
+                    icon={<Calendar className="h-3.5 w-3.5" />}
+                  />
+                  <RangeField
+                    id="filter-mileage"
+                    label="Przebieg (km)"
+                    minPlaceholder="od 0"
+                    maxPlaceholder="do 200 000"
+                    valueFrom={filters.mileageFrom}
+                    valueTo={filters.mileageTo}
+                    onChangeFrom={(v) => setFilter('mileageFrom', v)}
+                    onChangeTo={(v) => setFilter('mileageTo', v)}
+                    icon={<TrendingUp className="h-3.5 w-3.5" />}
+                  />
+                  <RangeField
+                    id="filter-price"
+                    label="Cena (PLN)"
+                    minPlaceholder="od 100 000"
+                    maxPlaceholder="do 2 000 000"
+                    valueFrom={filters.priceFrom}
+                    valueTo={filters.priceTo}
+                    onChangeFrom={(v) => setFilter('priceFrom', v)}
+                    onChangeTo={(v) => setFilter('priceTo', v)}
+                    icon={<Wallet className="h-3.5 w-3.5" />}
+                  />
+                </div>
+              </div>
+
+              {/* ── Actions ── */}
+              <div className="flex flex-wrap items-center gap-3 border-t border-zinc-200 px-6 pt-6">
+                {hasActiveFilters && (
                   <button
+                    className="btn-premium-ghost h-11 min-h-0 px-5 text-[0.64rem]"
+                    onClick={resetFilters}
                     type="button"
-                    onClick={() => setFilter('search', '')}
-                    className="shrink-0 p-1 text-zinc-400 transition-colors hover:text-zinc-950"
                   >
-                    <X className="h-4 w-4" />
+                    Wyczyść filtry
                   </button>
                 )}
               </div>
-            </div>
 
-            {/* ── Main selects ── */}
-            <div className="grid gap-4 p-5 sm:grid-cols-2 sm:p-6 lg:grid-cols-4 lg:p-8">
-              <SelectField
-                id="filter-brand"
-                label="Marka"
-                options={filterOptions.brands}
-                value={filters.brand}
-                onChange={(v) => setFilter('brand', v)}
-                icon={<Car className="h-3.5 w-3.5" />}
-              />
-              <SelectField
-                id="filter-body"
-                label="Nadwozie"
-                options={filterOptions.bodies}
-                value={filters.body}
-                onChange={(v) => setFilter('body', v)}
-                icon={<Settings2 className="h-3.5 w-3.5" />}
-              />
-              <SelectField
-                id="filter-fuel"
-                label="Paliwo"
-                options={filterOptions.fuels}
-                value={filters.fuel}
-                onChange={(v) => setFilter('fuel', v)}
-                icon={<Fuel className="h-3.5 w-3.5" />}
-              />
-              <SelectField
-                id="filter-gearbox"
-                label="Skrzynia"
-                options={filterOptions.gearboxes}
-                value={filters.gearbox}
-                onChange={(v) => setFilter('gearbox', v)}
-                icon={<Gauge className="h-3.5 w-3.5" />}
-              />
-            </div>
-
-            {/* ── Toggle extended filters ── */}
-            <div className="border-t border-zinc-200">
-              <button
-                className={[
-                  'flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors duration-200 sm:px-6 lg:px-8',
-                  isExpanded ? 'bg-zinc-950 text-white' : 'bg-white text-zinc-950 hover:bg-zinc-50',
-                ].join(' ')}
-                onClick={() => setIsExpanded((v) => !v)}
-                type="button"
-              >
-                <span className="flex items-center gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.22em]">
-                  <SlidersHorizontal className="h-3.5 w-3.5" />
-                  {isExpanded ? 'Ukryj dodatkowe filtry' : 'Zaawansowane filtry — rok, przebieg, cena'}
-                </span>
-                <ChevronDown
-                  className={[
-                    'h-4 w-4 shrink-0 transition-transform duration-300',
-                    isExpanded ? 'rotate-180' : '',
-                  ].join(' ')}
-                />
-              </button>
-
-              {/* Extended filters panel */}
-              <div
-                className="grid overflow-hidden transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                style={{ gridTemplateRows: isExpanded ? '1fr' : '0fr' }}
-              >
-                <div className="overflow-hidden">
-                  <div className="grid gap-4 border-t border-zinc-200 p-5 sm:grid-cols-2 sm:p-6 lg:grid-cols-3 lg:p-8 xl:grid-cols-3">
-                    <RangeField
-                      id="filter-year"
-                      label="Rok produkcji"
-                      minPlaceholder="od 2015"
-                      maxPlaceholder="do 2025"
-                      valueFrom={filters.yearFrom}
-                      valueTo={filters.yearTo}
-                      onChangeFrom={(v) => setFilter('yearFrom', v)}
-                      onChangeTo={(v) => setFilter('yearTo', v)}
-                      icon={<Calendar className="h-3.5 w-3.5" />}
-                    />
-                    <RangeField
-                      id="filter-mileage"
-                      label="Przebieg (km)"
-                      minPlaceholder="od 0"
-                      maxPlaceholder="do 200 000"
-                      valueFrom={filters.mileageFrom}
-                      valueTo={filters.mileageTo}
-                      onChangeFrom={(v) => setFilter('mileageFrom', v)}
-                      onChangeTo={(v) => setFilter('mileageTo', v)}
-                      icon={<TrendingUp className="h-3.5 w-3.5" />}
-                    />
-                    <RangeField
-                      id="filter-price"
-                      label="Cena (PLN)"
-                      minPlaceholder="od 100 000"
-                      maxPlaceholder="do 2 000 000"
-                      valueFrom={filters.priceFrom}
-                      valueTo={filters.priceTo}
-                      onChangeFrom={(v) => setFilter('priceFrom', v)}
-                      onChangeTo={(v) => setFilter('priceTo', v)}
-                      icon={<Wallet className="h-3.5 w-3.5" />}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* ── Panel footer ── */}
-            <div className="flex flex-col gap-3 border-t border-zinc-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-              <p className="text-[0.78rem] leading-[1.75] text-zinc-400">
-                Wyniki aktualizują się w czasie rzeczywistym po każdej zmianie parametru.
+              {/* ── Info text ── */}
+              <p className="px-6 text-[0.78rem] leading-[1.75] text-zinc-400">
+                Wyniki aktualizują się automatycznie po każdej zmianie parametrów.
               </p>
-              <span className="shrink-0 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-zinc-400">
-                {filteredVehicles.length}&thinsp;/&thinsp;{vehicles.length} pojazdów
-              </span>
             </div>
           </div>
         </div>
@@ -526,10 +498,10 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-zinc-200 pb-6 sm:mb-10">
             <div className="grid gap-2">
               <p className="eyebrow">Aktualna kolekcja</p>
-              <h2 className="text-[clamp(1.7rem,4vw,2.6rem)] font-semibold uppercase leading-[1.04] tracking-[-0.03em] text-zinc-950">
+              <h2 className="text-[clamp(1.5rem,3.4vw,2.25rem)] font-bold uppercase leading-[1.06] tracking-[-0.02em] text-zinc-950">
                 {hasActiveFilters
                   ? `Znaleziono ${filteredVehicles.length} ${filteredVehicles.length === 1 ? 'pojazd' : filteredVehicles.length < 5 ? 'pojazdy' : 'pojazdów'}.`
-                  : 'Oferty gotowe do prezentacji.'}
+                  : 'Oferty gotowe do obejrzenia.'}
               </h2>
             </div>
 
@@ -586,7 +558,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                 Brak pojazdów spełniających kryteria.
               </p>
               <p className="mt-2 text-sm leading-7 text-zinc-500">
-                Zmień parametry filtrowania lub wyczyść wszystkie filtry.
+                Zmień zakres filtrów albo wyczyść wszystkie parametry.
               </p>
               <button
                 className="btn-premium mt-6"

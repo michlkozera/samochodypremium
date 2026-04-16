@@ -134,7 +134,7 @@ export function ContactForm() {
               Formularz / 02
             </p>
             <h2 className="section-title text-white">
-            Twój samochód zaczyna się tutaj.
+              Twoja rozmowa zaczyna się tutaj.
             </h2>
           </div>
           <div
@@ -142,8 +142,8 @@ export function ContactForm() {
             style={getDelay(1)}
           >
             <p className="max-w-md text-[0.94rem] leading-[1.8] text-zinc-400">
-              Skontaktuj się w sprawie zakupu lub odkupu — napisz do nas,
-              a odpowiemy z konkretnym planem rozmowy i dalszego procesu.
+              Napisz do nas w sprawie zakupu, odkupu lub finansowania.
+              Otrzymasz konkretną odpowiedź i jasny plan kolejnych kroków.
             </p>
             <div className="flex flex-wrap gap-8">
               <div className="grid gap-1">
@@ -178,7 +178,7 @@ export function ContactForm() {
               Dziękujemy za wiadomość.
             </p>
             <p className="mt-2 text-sm leading-7 text-zinc-500">
-              Odpowiemy najszybciej jak to możliwe — zwykle w ciągu godziny w godzinach pracy salonu.
+              Odpowiemy najszybciej jak to możliwe, zwykle w ciągu godziny w godzinach pracy salonu.
             </p>
           </div>
         ) : (
@@ -186,7 +186,7 @@ export function ContactForm() {
 
             {/* Two-column row: name + email */}
             <div className="grid gap-0 lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
-              <FormField id="cf-name" index="01" label="Imie i nazwisko" visible={visible} delay={getDelay(1)}>
+              <FormField id="cf-name" index="01" label="Imię i nazwisko" visible={visible} delay={getDelay(1)}>
                 <input
                   autoComplete="name"
                   className="contact-input contact-input--lg"
@@ -237,7 +237,7 @@ export function ContactForm() {
             </div>
 
             {/* Full-width textarea */}
-            <FormField id="cf-details" index="05" label="Szczegoly" visible={visible} delay={getDelay(5)}>
+            <FormField id="cf-details" index="05" label="Szczegóły" visible={visible} delay={getDelay(5)}>
               <textarea
                 className="contact-input contact-input--lg min-h-44 py-3 sm:min-h-52"
                 id="cf-details"
@@ -257,10 +257,10 @@ export function ContactForm() {
               </p>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <button className="button-primary min-h-14 w-full px-10 sm:w-fit" type="submit" disabled={status === 'sending'}>
-                  {status === 'sending' ? 'Wysyłanie…' : 'Wyslij zapytanie'}
+                  {status === 'sending' ? 'Wysyłanie…' : 'Wyślij zapytanie'}
                 </button>
                 <a className="button-secondary min-h-14 w-full px-10 sm:w-fit" href="tel:+48221002000">
-                  Zadzwon teraz
+                  Zadzwoń teraz
                 </a>
               </div>
             </div>

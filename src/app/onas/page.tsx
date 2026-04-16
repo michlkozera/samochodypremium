@@ -9,7 +9,7 @@ import { OnasProces } from '@/components/onas/onas-proces';
 export const metadata: Metadata = {
   title: 'O nas | Samochody Premium',
   description:
-    'Poznaj Samochody Premium — zespół ekspertów motoryzacji, który łączy pasję, doświadczenie i transparentność w obsłudze klientów premium.',
+    'Poznaj zespół Samochody Premium. Łączymy doświadczenie, transparentny proces i realne wsparcie na każdym etapie zakupu auta.',
 };
 
 export default function OnasPage() {

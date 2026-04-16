@@ -5,33 +5,33 @@ import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
 const reasons = [
   {
     index: '01',
-    title: 'Szukasz samochodu premium z gwarancją stanu technicznego',
+    title: 'Szukasz auta premium z potwierdzonym stanem technicznym',
     description:
-      'Każdy pojazd w naszej ofercie przechodzi wieloetapową inspekcję. Nie sprzedajemy aut — sprzedajemy pewność.',
+      'Każdy egzemplarz przechodzi wieloetapową inspekcję. Kupujesz auto z udokumentowanym stanem, nie obietnicę.',
   },
   {
     index: '02',
-    title: 'Zależy Ci na transparentnej historii pojazdu',
+    title: 'Oczekujesz transparentnej historii pojazdu',
     description:
-      'Pełna dokumentacja serwisowa, raport z bazy VIN i niezależna weryfikacja — bez ukrytych niespodzianek po zakupie.',
+      'Udostępniamy dokumentację serwisową, raport VIN i wyniki weryfikacji. Bez ukrytych niespodzianek po zakupie.',
   },
   {
     index: '03',
-    title: 'Cenisz kompleksową obsługę od A do Z',
+    title: 'Cenisz kompleksową obsługę w jednym miejscu',
     description:
-      'Od doboru auta, przez finansowanie i ubezpieczenie, po rejestrację — cały proces zamykamy w jednym punkcie kontaktu.',
+      'Od doboru auta, przez finansowanie i ubezpieczenie, po rejestrację. Jeden opiekun i jeden spójny proces.',
   },
   {
     index: '04',
-    title: 'Prowadzisz firmę i potrzebujesz floty premium',
+    title: 'Prowadzisz firmę i budujesz flotę premium',
     description:
-      'Obsługujemy klientów biznesowych z dedykowanym opiekunem. Leasing, wynajem długoterminowy, obsługa flotowa.',
+      'Obsługujemy klientów biznesowych z dedykowanym opiekunem. Leasing, wynajem długoterminowy i wsparcie flotowe.',
   },
   {
     index: '05',
-    title: 'Chcesz sprzedać swoje auto szybko i uczciwie',
+    title: 'Chcesz szybko i uczciwie sprzedać obecne auto',
     description:
-      'Nasz program odkupu to wycena w 24h, uczciwa oferta i błyskawiczna realizacja. Bez targowania, bez stresu.',
+      'Program odkupu to wycena w 24h, uczciwa oferta i sprawna realizacja. Bez przeciągających się negocjacji.',
   },
 ];
 
@@ -45,15 +45,15 @@ export function OnasDlaKogo() {
             <MotionRevealItem preset="slide-left">
               <div className="grid gap-4">
                 <p className="eyebrow">Dla kogo</p>
-                <h2 className="text-[clamp(1.85rem,5vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.02em] [text-wrap:balance]">
+                <h2 className="section-title">
                   Salon dla wymagających kierowców.
                 </h2>
               </div>
             </MotionRevealItem>
             <MotionRevealItem preset="slide-right">
               <p className="body-copy max-w-xl lg:text-right">
-                Nie pracujemy dla wszystkich. Pracujemy dla tych, którzy traktują samochód
-                jak długoterminową inwestycję w jakość i komfort.
+                Pracujemy dla osób, które oczekują jakości, przewidywalnego procesu
+                i bezpiecznej decyzji zakupowej.
               </p>
             </MotionRevealItem>
           </div>
@@ -63,10 +63,10 @@ export function OnasDlaKogo() {
             {reasons.map((reason) => (
               <MotionRevealItem key={reason.index} className="w-[80vw] flex-shrink-0 snap-start sm:w-auto" preset="scale-up">
                 <article className="flex h-full flex-col gap-4 rounded-sm border border-zinc-200/60 bg-white p-6 sm:rounded-none sm:border-0 sm:p-8">
-                  <span className="text-[clamp(1.6rem,3vw,2.2rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-300">
+                  <span className="text-[clamp(1.35rem,2.2vw,1.85rem)] font-bold leading-none tracking-[-0.03em] text-zinc-300">
                     {reason.index}
                   </span>
-                  <h3 className="text-[0.8rem] font-semibold uppercase leading-6 tracking-[0.03em] text-zinc-950">
+                  <h3 className="text-[0.76rem] font-bold uppercase leading-6 tracking-[0.03em] text-zinc-950">
                     {reason.title}
                   </h3>
                   <p className="mt-auto text-[0.82rem] leading-[1.7] text-zinc-500">

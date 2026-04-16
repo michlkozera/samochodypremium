@@ -17,10 +17,10 @@ export function OdkupHero() {
           / Odkup
         </>
       }
-      title="Odkup pojazdu."
-      description="Szybka wycena, uczciwa oferta i sprawna realizacja — sprzedaj swoje auto bez zbędnych formalności."
+      title="Odkup samochodu."
+      description="Szybka wycena, jasne warunki i sprawna realizacja. Sprzedaj auto bez zbędnych formalności."
       actions={[{ href: '/kontakt', label: 'Skontaktuj się z doradcą' }]}
-      titleClassName="text-[clamp(2rem,7vw,4.6rem)]"
+      titleClassName="text-[clamp(1.8rem,6.2vw,3.6rem)]"
     />
   );
 }

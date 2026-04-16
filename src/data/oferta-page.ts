@@ -204,24 +204,24 @@ export const rawMaterials = [
 export const collaborationPaths = {
   private: {
     eyebrow: 'Klienci Indywidualni',
-    title: 'Zakup samochodu marzeń',
+    title: 'Zakup samochodu premium',
     points: [
-      'Bezpłatna konsultacja i pomoc w wyborze modelu',
-      'Jazda próbna wybranym egzemplarzem',
-      'Elastyczne finansowanie: leasing, kredyt, gotówka',
-      'Pełna obsługa: ubezpieczenie, rejestracja, wydanie',
+      'Bezpłatna konsultacja i dobór modelu',
+      'Jazda testowa wybranym egzemplarzem',
+      'Elastyczne finansowanie: leasing, kredyt lub gotówka',
+      'Pełna obsługa: ubezpieczenie, rejestracja i wydanie auta',
     ],
     cta: 'Umów wizytę w salonie',
     href: '/kontakt',
   },
   architect: {
     eyebrow: 'Klienci Biznesowi i Floty',
-    title: 'Rozwiązania dla firm',
+    title: 'Finansowanie i floty',
     points: [
       'Dedykowane warunki dla zakupów flotowych',
-      'Obsługa leasingu i finansowania korporacyjnego',
-      'Odkup i zamiana aut z floty firmowej',
-      'Indywidualny opiekun klienta biznesowego',
+      'Leasing i finansowanie korporacyjne',
+      'Odkup oraz wymiana aut z floty firmowej',
+      'Dedykowany opiekun klienta biznesowego',
     ],
     cta: 'Zapytaj o ofertę B2B',
     href: '/kontakt',

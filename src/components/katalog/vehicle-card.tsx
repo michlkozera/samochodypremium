@@ -147,7 +147,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
             <p className="mb-0.5 text-[0.55rem] font-semibold uppercase tracking-[0.3em] text-zinc-400">
               {vehicle.make}
             </p>
-            <h3 className="text-[clamp(0.9rem,1.8vw,1.2rem)] font-semibold uppercase leading-[1.1] tracking-[-0.03em] text-zinc-950">
+            <h3 className="text-[clamp(0.88rem,1.6vw,1.1rem)] font-bold uppercase leading-[1.12] tracking-[-0.03em] text-zinc-950">
               {vehicle.model}
             </h3>
           </Link>
@@ -188,7 +188,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
             <span className="text-[0.48rem] font-semibold uppercase tracking-[0.2em] text-zinc-400">
               Cena brutto
             </span>
-            <span className="text-[clamp(1rem,2vw,1.3rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-950">
+            <span className="text-[clamp(0.95rem,1.8vw,1.2rem)] font-bold leading-none tracking-[-0.03em] text-zinc-950">
               {formatPrice(vehicle.price)}
               <span className="ml-1 text-[0.6em] font-medium tracking-[0.02em] text-zinc-500">PLN</span>
             </span>

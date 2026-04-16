@@ -21,7 +21,7 @@ import HeroImage from '../../photos/hero.jpg';
 
 export type AssetMap = Record<string, StaticImageData>;
 
-const sharedSubpageHero = Mercedes01;
+const sharedSubpageHero = HeroImage;
 
 export const assets = {
   heroMain: HeroImage,

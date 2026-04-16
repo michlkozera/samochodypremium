@@ -8,7 +8,7 @@ import { getCatalogVehicles } from '@/lib/vehicle-catalog';
 export const metadata: Metadata = {
   title: 'Samochody Premium | Wyselekcjonowane auta klasy premium w Warszawie',
   description:
-    'Oferujemy starannie wyselekcjonowane samochody klasy premium. Każdy egzemplarz z pełną historią serwisową, gwarancją pochodzenia i bezkompromisową jakością.',
+    'Starannie wyselekcjonowane samochody klasy premium z pełną historią serwisową, gwarancją pochodzenia i kompleksową obsługą.',
 };
 
 export default async function HomePage() {
