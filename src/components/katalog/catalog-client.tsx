@@ -53,7 +53,7 @@ function SelectField({ id, label, options, value, onChange }: SelectFieldProps) 
       </label>
       <div className="relative">
         <select
-          className="h-11 w-full appearance-none border border-zinc-200 bg-white pr-10 pl-3 text-[0.82rem] text-zinc-950 outline-none transition-colors duration-200 focus:border-zinc-950 focus:ring-0"
+          className="h-11 w-full appearance-none border border-zinc-200 bg-white pr-10 pl-3 text-[0.82rem] text-zinc-950 outline-none transition-colors duration-200 focus:border-zinc-950"
           id={id}
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -130,7 +130,6 @@ function RangeField({
   );
 }
 
-// Pagination Component
 type PaginationProps = {
   currentPage: number;
   totalPages: number;
@@ -145,9 +144,7 @@ function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageC
     const showEllipsis = totalPages > 7;
 
     if (!showEllipsis) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
       if (currentPage <= 4) {
         for (let i = 1; i <= 5; i++) pages.push(i);
@@ -165,7 +162,6 @@ function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageC
         pages.push(totalPages);
       }
     }
-
     return pages;
   };
 
@@ -174,24 +170,14 @@ function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageC
 
   return (
     <div className="mt-10 flex flex-col items-center gap-4 sm:mt-12">
-      {/* Info text */}
-      <p className="text-[0.7rem] uppercase tracking-[0.12em] text-zinc-500">
+      <p className="text-[0.68rem] font-medium uppercase tracking-[0.18em] text-zinc-400">
         Pokazano {startItem}–{endItem} z {totalItems} ofert
       </p>
-
-      {/* Page buttons */}
       <div className="flex items-center gap-1">
-        {/* Previous button */}
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="
-            flex h-10 w-10 items-center justify-center
-            border border-zinc-200 bg-white
-            text-zinc-700 transition-all duration-200
-            hover:border-zinc-400 hover:text-zinc-950
-            disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-zinc-200 disabled:hover:text-zinc-700
-          "
+          className="flex h-10 w-10 items-center justify-center border border-zinc-200 bg-white text-zinc-700 transition-all duration-200 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-zinc-200 disabled:hover:bg-white disabled:hover:text-zinc-700"
           aria-label="Poprzednia strona"
         >
           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -199,22 +185,21 @@ function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageC
           </svg>
         </button>
 
-        {/* Page numbers */}
         {getVisiblePages().map((page, index) => (
           <div key={index}>
             {page === '...' ? (
-              <span className="flex h-10 w-10 items-center justify-center text-zinc-400">...</span>
+              <span className="flex h-10 w-10 items-center justify-center text-[0.72rem] text-zinc-400">
+                …
+              </span>
             ) : (
               <button
                 onClick={() => onPageChange(page as number)}
-                className={`
-                  flex h-10 w-10 items-center justify-center
-                  border text-[0.75rem] font-medium transition-all duration-200
-                  ${currentPage === page
+                className={[
+                  'flex h-10 w-10 items-center justify-center border text-[0.72rem] font-semibold uppercase tracking-[0.12em] transition-all duration-200',
+                  currentPage === page
                     ? 'border-zinc-950 bg-zinc-950 text-white'
-                    : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-400 hover:text-zinc-950'
-                  }
-                `}
+                    : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white',
+                ].join(' ')}
               >
                 {page}
               </button>
@@ -222,17 +207,10 @@ function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageC
           </div>
         ))}
 
-        {/* Next button */}
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="
-            flex h-10 w-10 items-center justify-center
-            border border-zinc-200 bg-white
-            text-zinc-700 transition-all duration-200
-            hover:border-zinc-400 hover:text-zinc-950
-            disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-zinc-200 disabled:hover:text-zinc-700
-          "
+          className="flex h-10 w-10 items-center justify-center border border-zinc-200 bg-white text-zinc-700 transition-all duration-200 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-zinc-200 disabled:hover:bg-white disabled:hover:text-zinc-700"
           aria-label="Następna strona"
         >
           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -273,15 +251,12 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
   const ITEMS_PER_PAGE = 10;
   const vehicleGridRef = useRef<HTMLDivElement>(null);
 
-  // Reset page when filters or sort change
   useEffect(() => {
     setCurrentPage(1);
   }, [filters, sortBy]);
 
-  // Handle page change with scroll to top of vehicle grid
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
-    // Scroll to vehicle grid section with smooth animation
     vehicleGridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, []);
 
@@ -299,7 +274,6 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
 
   const filteredVehicles = useMemo(() => {
     let result = vehicles.filter((vehicle) => {
-      // Text search across multiple fields
       if (filters.search) {
         const searchLower = filters.search.toLowerCase();
         const searchFields = [
@@ -310,11 +284,8 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
           vehicle.transmissionLabel,
           vehicle.year.toString(),
         ].filter(Boolean).map(f => f.toLowerCase());
-        
-        const matchesSearch = searchFields.some(field => field.includes(searchLower));
-        if (!matchesSearch) return false;
+        if (!searchFields.some(field => field.includes(searchLower))) return false;
       }
-      
       if (filters.brand && vehicle.make !== filters.brand) return false;
       if (filters.body && vehicle.bodyTypeLabel !== filters.body) return false;
       if (filters.fuel && vehicle.fuelTypeLabel !== filters.fuel) return false;
@@ -328,125 +299,99 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
       return true;
     });
 
-    // Apply sorting
     if (sortBy) {
       result = [...result].sort((a, b) => {
         switch (sortBy) {
-          case 'price-asc':
-            return a.price - b.price;
-          case 'price-desc':
-            return b.price - a.price;
-          case 'year-desc':
-            return b.year - a.year;
-          case 'mileage-asc':
-            return a.mileage - b.mileage;
-          default:
-            return 0;
+          case 'price-asc': return a.price - b.price;
+          case 'price-desc': return b.price - a.price;
+          case 'year-desc': return b.year - a.year;
+          case 'mileage-asc': return a.mileage - b.mileage;
+          default: return 0;
         }
       });
     }
-
     return result;
   }, [vehicles, filters, sortBy]);
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredVehicles.length / ITEMS_PER_PAGE);
   const paginatedVehicles = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     return filteredVehicles.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [filteredVehicles, currentPage]);
 
-  // Key changes when filtered set changes — forces MotionReveal remount
-  // so newly revealed items animate correctly after filter reset
   const gridKey = paginatedVehicles.map((v) => v.id).join(',');
 
   return (
     <>
       {/* ── Filters ── */}
-      <section className="border-b border-zinc-200 bg-zinc-50/70">
-        <div className="site-shell py-6 sm:py-8">
-          <div className="border border-zinc-200 bg-white p-5 sm:p-6 lg:p-7" data-reveal="up">
-            {/* Header row */}
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-              <div className="grid gap-3">
-                <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center border border-zinc-200 bg-white px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-zinc-700">
-                    Selekcja premium
+      <section className="border-b border-zinc-200 bg-zinc-50">
+        <div className="site-shell py-8 sm:py-10 lg:py-12" data-reveal="up">
+          <div className="border border-zinc-200 bg-white">
+
+            {/* ── Panel header ── */}
+            <div className="grid gap-6 border-b border-zinc-200 p-5 sm:p-6 lg:p-8">
+              {/* Top row: eyebrow + meta chips */}
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="eyebrow">Filtry kolekcji</p>
+                <span className="inline-flex items-center border border-zinc-200 bg-white px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                  {vehicles.length} pojazdów
+                </span>
+                {hasActiveFilters && (
+                  <span className="inline-flex items-center border border-zinc-950 bg-zinc-950 px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white">
+                    Filtr aktywny — {filteredVehicles.length} wyników
                   </span>
-                  <span className="inline-flex items-center border border-zinc-200 bg-white px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-zinc-700">
-                    {filteredVehicles.length} z {vehicles.length} aktywnych ofert
-                  </span>
-                  {hasActiveFilters && (
-                    <span className="inline-flex items-center border border-zinc-950 bg-zinc-950 px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white">
-                      Filtry aktywne
-                    </span>
-                  )}
-                </div>
-                <div className="grid gap-2">
-                  <p className="eyebrow">Filtry kolekcji</p>
-                  <h2 className="text-[clamp(1.45rem,3.6vw,2.35rem)] font-semibold uppercase leading-[1.04] tracking-[-0.03em] text-zinc-950">
-                    Dopasuj styl, segment i budżet.
-                  </h2>
-                </div>
+                )}
               </div>
 
-              <div className="flex flex-wrap items-center gap-3">
-                {hasActiveFilters && (
-                  <button
-                    className="inline-flex min-h-11 items-center justify-center border border-zinc-300 bg-transparent px-5 text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-zinc-950 transition-colors duration-200 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white"
-                    onClick={resetFilters}
-                    type="button"
+              {/* Title + actions */}
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                <h2 className="text-[clamp(1.45rem,3.2vw,2.2rem)] font-semibold uppercase leading-[1.06] tracking-[-0.03em] text-zinc-950">
+                  Dopasuj styl, segment i budżet.
+                </h2>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  {hasActiveFilters && (
+                    <button
+                      className="btn-premium-ghost h-11 min-h-0 px-5 text-[0.64rem]"
+                      onClick={resetFilters}
+                      type="button"
+                    >
+                      Wyczyść filtry
+                    </button>
+                  )}
+                  <Link
+                    className="btn-premium h-11 min-h-0 px-5 text-[0.64rem]"
+                    href="/kontakt"
                   >
-                    Wyczyść filtry
-                  </button>
-                )}
-                <Link
-                  className="inline-flex min-h-11 items-center justify-center border border-zinc-950 bg-zinc-950 px-5 text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-white transition-colors duration-200 hover:bg-white hover:text-zinc-950"
-                  href="/kontakt"
-                >
-                  Porozmawiaj z doradcą
-                </Link>
+                    Porozmawiaj z doradcą
+                  </Link>
+                </div>
               </div>
             </div>
 
-            {/* Search field */}
-            <div className="mt-6">
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                  <svg
-                    className="h-5 w-5 text-zinc-400 transition-colors"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                </div>
+            {/* ── Search ── */}
+            <div className="border-b border-zinc-200 px-5 sm:px-6 lg:px-8">
+              <div className="relative flex items-center gap-3">
+                <svg
+                  className="pointer-events-none h-4 w-4 shrink-0 text-zinc-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
                 <input
                   type="text"
                   placeholder="Wyszukaj markę, model, rok lub typ nadwozia..."
                   value={filters.search}
                   onChange={(e) => setFilter('search', e.target.value)}
-                  className="
-                    w-full h-12 pl-12 pr-12
-                    border border-zinc-200 bg-white
-                    text-[0.9rem] text-zinc-950
-                    placeholder:text-zinc-400
-                    outline-none
-                    transition-all duration-200
-                    focus:border-zinc-950 focus:ring-0
-                  "
+                  className="h-12 w-full bg-transparent text-[0.88rem] text-zinc-950 outline-none placeholder:text-zinc-400"
                 />
                 {filters.search && (
                   <button
                     type="button"
                     onClick={() => setFilter('search', '')}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1 text-zinc-400 hover:text-zinc-600 transition-colors"
+                    className="shrink-0 p-1 text-zinc-400 transition-colors hover:text-zinc-950"
                   >
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
@@ -456,8 +401,8 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
               </div>
             </div>
 
-            {/* Main filters */}
-            <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {/* ── Main selects ── */}
+            <div className="grid gap-4 p-5 sm:grid-cols-2 sm:p-6 lg:grid-cols-4 lg:p-8">
               <SelectField
                 id="filter-brand"
                 label="Marka"
@@ -488,75 +433,81 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
               />
             </div>
 
-            {/* Toggle extended filters - simple link below */}
-            <button
-              className="mt-4 flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-zinc-500 transition-colors duration-200 hover:text-zinc-950"
-              onClick={() => setIsExpanded((v) => !v)}
-              type="button"
-            >
-              <span>{isExpanded ? 'Ukryj dodatkowe filtry' : 'Pokaż więcej filtrów'}</span>
-              <svg
-                className={`h-4 w-4 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+            {/* ── Toggle extended filters ── */}
+            <div className="border-t border-zinc-200">
+              <button
+                className={[
+                  'flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors duration-200 sm:px-6 lg:px-8',
+                  isExpanded ? 'bg-zinc-950 text-white' : 'bg-white text-zinc-950 hover:bg-zinc-50',
+                ].join(' ')}
+                onClick={() => setIsExpanded((v) => !v)}
+                type="button"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
+                <span className="text-[0.68rem] font-semibold uppercase tracking-[0.22em]">
+                  {isExpanded ? 'Ukryj dodatkowe filtry' : 'Zaawansowane filtry — rok, przebieg, cena'}
+                </span>
+                <svg
+                  className={[
+                    'h-4 w-4 shrink-0 transition-transform duration-300',
+                    isExpanded ? 'rotate-180' : '',
+                  ].join(' ')}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
 
-            {/* Extended filters */}
-            <div
-              className="grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-              style={{
-                gridTemplateRows: isExpanded ? '1fr' : '0fr',
-                opacity: isExpanded ? 1 : 0,
-                marginTop: isExpanded ? '1rem' : '0',
-              }}
-            >
-              <div className="overflow-hidden">
-                <div className="grid gap-4 border-t border-zinc-200 pt-4 sm:grid-cols-2 xl:grid-cols-3">
-                  <RangeField
-                    id="filter-year"
-                    label="Rok produkcji"
-                    minPlaceholder="od 2015"
-                    maxPlaceholder="do 2025"
-                    valueFrom={filters.yearFrom}
-                    valueTo={filters.yearTo}
-                    onChangeFrom={(v) => setFilter('yearFrom', v)}
-                    onChangeTo={(v) => setFilter('yearTo', v)}
-                  />
-                  <RangeField
-                    id="filter-mileage"
-                    label="Przebieg (km)"
-                    minPlaceholder="od 0"
-                    maxPlaceholder="do 200 000"
-                    valueFrom={filters.mileageFrom}
-                    valueTo={filters.mileageTo}
-                    onChangeFrom={(v) => setFilter('mileageFrom', v)}
-                    onChangeTo={(v) => setFilter('mileageTo', v)}
-                  />
-                  <RangeField
-                    id="filter-price"
-                    label="Cena (PLN)"
-                    minPlaceholder="od 100 000"
-                    maxPlaceholder="do 2 000 000"
-                    valueFrom={filters.priceFrom}
-                    valueTo={filters.priceTo}
-                    onChangeFrom={(v) => setFilter('priceFrom', v)}
-                    onChangeTo={(v) => setFilter('priceTo', v)}
-                  />
+              {/* Extended filters panel */}
+              <div
+                className="grid overflow-hidden transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                style={{ gridTemplateRows: isExpanded ? '1fr' : '0fr' }}
+              >
+                <div className="overflow-hidden">
+                  <div className="grid gap-4 border-t border-zinc-200 p-5 sm:grid-cols-2 sm:p-6 lg:grid-cols-3 lg:p-8 xl:grid-cols-3">
+                    <RangeField
+                      id="filter-year"
+                      label="Rok produkcji"
+                      minPlaceholder="od 2015"
+                      maxPlaceholder="do 2025"
+                      valueFrom={filters.yearFrom}
+                      valueTo={filters.yearTo}
+                      onChangeFrom={(v) => setFilter('yearFrom', v)}
+                      onChangeTo={(v) => setFilter('yearTo', v)}
+                    />
+                    <RangeField
+                      id="filter-mileage"
+                      label="Przebieg (km)"
+                      minPlaceholder="od 0"
+                      maxPlaceholder="do 200 000"
+                      valueFrom={filters.mileageFrom}
+                      valueTo={filters.mileageTo}
+                      onChangeFrom={(v) => setFilter('mileageFrom', v)}
+                      onChangeTo={(v) => setFilter('mileageTo', v)}
+                    />
+                    <RangeField
+                      id="filter-price"
+                      label="Cena (PLN)"
+                      minPlaceholder="od 100 000"
+                      maxPlaceholder="do 2 000 000"
+                      valueFrom={filters.priceFrom}
+                      valueTo={filters.priceTo}
+                      onChangeFrom={(v) => setFilter('priceFrom', v)}
+                      onChangeTo={(v) => setFilter('priceTo', v)}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Footer */}
-            <div className="mt-5 flex flex-col gap-3 border-t border-zinc-200 pt-4 text-[0.78rem] text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
-              <p className="max-w-2xl leading-[1.75]">
-                Filtry działają w czasie rzeczywistym — wyniki aktualizują się natychmiast po zmianie parametrów.
+            {/* ── Panel footer ── */}
+            <div className="flex flex-col gap-3 border-t border-zinc-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+              <p className="text-[0.78rem] leading-[1.75] text-zinc-400">
+                Wyniki aktualizują się w czasie rzeczywistym po każdej zmianie parametru.
               </p>
-              <span className="whitespace-nowrap font-semibold uppercase tracking-[0.18em] text-zinc-400">
-                {filteredVehicles.length} / {vehicles.length} pojazdów
+              <span className="shrink-0 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-zinc-400">
+                {filteredVehicles.length}&thinsp;/&thinsp;{vehicles.length} pojazdów
               </span>
             </div>
           </div>
@@ -564,33 +515,30 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
       </section>
 
       {/* ── Vehicle Grid ── */}
-      <section ref={vehicleGridRef} className="border-b border-zinc-200 bg-[linear-gradient(180deg,rgba(250,250,250,0.94)_0%,rgba(255,255,255,1)_100%)] scroll-mt-20">
+      <section
+        ref={vehicleGridRef}
+        className="border-b border-zinc-200 bg-[linear-gradient(180deg,rgba(250,250,250,0.94)_0%,rgba(255,255,255,1)_100%)] scroll-mt-20"
+      >
         <div className="site-shell py-10 sm:py-12 lg:py-14">
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-8">
+
+          {/* Grid header */}
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-zinc-200 pb-6 sm:mb-10">
             <div className="grid gap-2">
               <p className="eyebrow">Aktualna kolekcja</p>
-              <h2 className="text-[clamp(1.7rem,4vw,2.8rem)] font-semibold uppercase leading-[1.02] tracking-[-0.03em] text-zinc-950">
+              <h2 className="text-[clamp(1.7rem,4vw,2.6rem)] font-semibold uppercase leading-[1.04] tracking-[-0.03em] text-zinc-950">
                 {hasActiveFilters
                   ? `Znaleziono ${filteredVehicles.length} ${filteredVehicles.length === 1 ? 'pojazd' : filteredVehicles.length < 5 ? 'pojazdy' : 'pojazdów'}.`
                   : 'Oferty gotowe do prezentacji.'}
               </h2>
             </div>
-            <div className="flex items-center gap-3">
-              {/* Sort dropdown */}
+
+            {/* Sort + count row */}
+            <div className="flex flex-wrap items-center gap-3">
               <div className="relative">
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as SortOption)}
-                  className="
-                    appearance-none
-                    h-10 pl-4 pr-10
-                    border border-zinc-200 bg-white
-                    text-[0.7rem] font-medium uppercase tracking-[0.12em] text-zinc-700
-                    outline-none cursor-pointer
-                    transition-colors duration-200
-                    hover:border-zinc-400
-                    focus:border-zinc-950
-                  "
+                  className="h-11 appearance-none border border-zinc-200 bg-white pl-4 pr-10 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-zinc-700 outline-none transition-colors duration-200 hover:border-zinc-950 focus:border-zinc-950 cursor-pointer"
                 >
                   {Object.entries(SORT_LABELS).map(([value, label]) => (
                     <option key={value} value={value}>{label}</option>
@@ -606,11 +554,9 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
-
-              <div className="inline-flex items-center gap-2 border border-zinc-200 bg-white px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-zinc-700">
-                <span>{filteredVehicles.length}</span>
-                <span>ofert</span>
-              </div>
+              <span className="inline-flex h-11 items-center border border-zinc-200 bg-white px-4 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-zinc-500">
+                {filteredVehicles.length} ofert
+              </span>
             </div>
           </div>
 
@@ -629,7 +575,6 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
                 ))}
               </MotionReveal>
 
-              {/* Pagination */}
               {totalPages > 1 && (
                 <Pagination
                   currentPage={currentPage}
@@ -642,17 +587,15 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
             </>
           ) : (
             <div className="border border-zinc-200 bg-white px-6 py-16 text-center">
-              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-zinc-400">
-                Brak wyników
-              </p>
-              <p className="mt-3 text-[0.95rem] font-semibold uppercase tracking-[-0.02em] text-zinc-950">
+              <p className="eyebrow mx-auto w-fit text-zinc-400">Brak wyników</p>
+              <p className="mt-4 text-[0.95rem] font-semibold uppercase tracking-[-0.02em] text-zinc-950">
                 Brak pojazdów spełniających kryteria.
               </p>
               <p className="mt-2 text-sm leading-7 text-zinc-500">
-                Zmień parametry filtrowania lub wyczyść filtry, aby zobaczyć wszystkie oferty.
+                Zmień parametry filtrowania lub wyczyść wszystkie filtry.
               </p>
               <button
-                className="mt-6 inline-flex min-h-11 items-center justify-center border border-zinc-950 bg-zinc-950 px-6 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white transition-colors duration-200 hover:bg-white hover:text-zinc-950"
+                className="btn-premium mt-6"
                 onClick={resetFilters}
                 type="button"
               >

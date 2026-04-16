@@ -72,7 +72,7 @@ export function PageHero({
             <div className={[baseContentClassName, contentClassName].filter(Boolean).join(' ')}>
               {eyebrow ? (
                 <MotionRevealItem>
-                  <div className="eyebrow border-zinc-500 text-[0.78rem] text-zinc-400 sm:text-[0.7rem]">{eyebrow}</div>
+                  <div className="eyebrow border-white/30 bg-white/10 text-[0.78rem] text-white/80 backdrop-blur-xl backdrop-saturate-150 sm:text-[0.7rem]">{eyebrow}</div>
                 </MotionRevealItem>
               ) : null}
 

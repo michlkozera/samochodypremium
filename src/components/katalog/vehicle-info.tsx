@@ -46,7 +46,7 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
   return (
     <div className="grid gap-5 lg:gap-6">
       {/* Breadcrumb */}
-      <nav className="hidden items-center gap-1.5 border border-zinc-300 px-4 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-zinc-400 sm:flex sm:flex-wrap">
+      <nav className="eyebrow hidden items-center gap-1.5 sm:flex sm:flex-wrap">
         <Link className="transition-colors duration-200 hover:text-zinc-950" href="/">
           Start
         </Link>
