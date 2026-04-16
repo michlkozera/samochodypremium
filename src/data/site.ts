@@ -67,7 +67,7 @@ const defaultFooterLinks: FooterLink[] = [
   { href: '/', label: 'Start' },
   { href: '/oferta', label: 'Oferta' },
   { href: '/onas', label: 'O nas' },
-  { href: '/wycena', label: 'Odkup' },
+  { href: '/odkup', label: 'Odkup' },
   { href: '/kontakt', label: 'Kontakt' },
 ];
 
@@ -86,7 +86,7 @@ export function getHeaderLinks(page: PageKey): NavLink[] {
     { href: '/', label: 'Start', current: page === 'home' },
     { href: '/oferta', label: 'Oferta', current: page === 'oferta' },
     { href: '/onas', label: 'O nas', current: page === 'onas' },
-    { href: '/wycena', label: 'Odkup', current: page === 'wycena' },
+    { href: '/odkup', label: 'Odkup', current: page === 'odkup' },
     { href: '/kontakt', label: 'Kontakt', current: page === 'kontakt' },
   ];
 }
