@@ -23,35 +23,35 @@ export function VehicleEquipment({ description, features }: VehicleEquipmentProp
             </div>
           </MotionRevealItem>
 
-          {/* Features list */}
+          {/* Features list — bordered card-style cells */}
           {features.length > 0 && (
             <MotionRevealItem preset="fade-up">
-              <div className="border-t border-zinc-200/60 pt-8">
-                <h3 className="mb-6 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-zinc-950">
+              <div className="grid gap-6">
+                <h3 className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-zinc-950">
                   Lista wyposażenia
                 </h3>
-                <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                  {features.map((feature) => (
-                    <li
-                      className="flex items-start gap-2.5 text-[0.84rem] leading-relaxed text-zinc-600"
-                      key={feature}
-                    >
-                      <svg
-                        className="mt-[3px] h-3.5 w-3.5 shrink-0 text-zinc-400"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        viewBox="0 0 24 24"
+                <ul className="grid border-l border-t border-zinc-200 sm:grid-cols-2 lg:grid-cols-3">
+                    {features.map((feature) => (
+                      <li
+                        className="flex items-start gap-2.5 border-b border-r border-zinc-200 bg-white px-4 py-3 text-[0.84rem] leading-relaxed text-zinc-600"
+                        key={feature}
                       >
-                        <path
-                          d="M4.5 12.75l6 6 9-13.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      {feature}
-                    </li>
-                  ))}
+                        <svg
+                          className="mt-[3px] h-3.5 w-3.5 shrink-0 text-zinc-400"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M4.5 12.75l6 6 9-13.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        {feature}
+                      </li>
+                    ))}
                 </ul>
               </div>
             </MotionRevealItem>
@@ -59,7 +59,7 @@ export function VehicleEquipment({ description, features }: VehicleEquipmentProp
 
           {features.length === 0 && (
             <MotionRevealItem preset="fade-up">
-              <div className="border border-zinc-200 bg-white p-5 sm:p-6">
+              <div className="border border-zinc-200 bg-white px-5 py-5 sm:px-6 sm:py-6">
                 <p className="text-[0.84rem] text-zinc-500">
                   Szczegółowa lista wyposażenia dostępna na życzenie. Skontaktuj się z naszym doradcą.
                 </p>

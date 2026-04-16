@@ -15,10 +15,10 @@ export function BodyTypeSection() {
     <section className="section-block border-b border-zinc-200/60 bg-white">
       <div className="site-shell">
         {/* Header row */}
-        <MotionReveal className="mb-10 sm:mb-12" stagger={0.1}>
+        <MotionReveal className="mb-10 sm:mb-12" stagger={0.12} amount={0.1}>
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-16">
             <div className="grid gap-4">
-              <MotionRevealItem>
+              <MotionRevealItem preset="fade-up" duration={0.8}>
                 <p className="eyebrow">Typ nadwozia</p>
               </MotionRevealItem>
               <MotionRevealItem preset="blur-fade" duration={1}>

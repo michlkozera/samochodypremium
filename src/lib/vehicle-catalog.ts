@@ -143,7 +143,7 @@ function buildSpecs(vehicle: Vehicle): [string, string][] {
     ['Stan', conditionLabel(vehicle.condition)],
     ['Status oferty', statusLabel(vehicle.status)],
     ['VAT', vatTypeLabel(vehicle.vatType)],
-    ['VIN', `...${vehicle.vin.slice(-6)}`],
+    ['VIN', vehicle.vin],
   ];
 }
 

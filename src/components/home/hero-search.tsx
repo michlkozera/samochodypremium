@@ -27,8 +27,8 @@ export function HeroSearch({ buttonLabel = 'Zobacz katalog', buttonHref = '/ofer
         className={[
           'flex items-center gap-3 border-b px-1 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]',
           isFocused
-            ? 'border-white bg-zinc-950/90 px-4 backdrop-blur-md'
-            : 'border-white/40 bg-transparent hover:border-white/70',
+            ? 'border-white bg-white/20 px-4 backdrop-blur-xl backdrop-saturate-150'
+            : 'border-white/40 bg-white/10 backdrop-blur-xl backdrop-saturate-150 hover:border-white/70 hover:bg-white/15',
         ].join(' ')}
       >
         {/* Search icon */}
@@ -77,7 +77,7 @@ export function HeroSearch({ buttonLabel = 'Zobacz katalog', buttonHref = '/ofer
       <div className="mt-4">
         <button
           type="submit"
-          className="inline-flex min-h-[3rem] w-full items-center justify-center border border-white/50 bg-black/20 px-8 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white backdrop-blur-md transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-white hover:bg-white hover:text-zinc-950 sm:w-fit sm:tracking-[0.24em]"
+          className="inline-flex min-h-[3rem] w-full items-center justify-center border border-white/40 bg-white/15 px-8 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white backdrop-blur-xl backdrop-saturate-150 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-white hover:bg-white hover:text-zinc-950 sm:w-fit sm:tracking-[0.24em]"
         >
           {buttonLabel}
         </button>

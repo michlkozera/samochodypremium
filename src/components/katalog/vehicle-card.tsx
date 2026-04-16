@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -22,6 +22,22 @@ type VehicleCardProps = {
 
 export function VehicleCard({ vehicle }: VehicleCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [shadow, setShadow] = useState('0 8px 30px rgba(0,0,0,0.08)');
+  const cardRef = useRef<HTMLElement>(null);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    const dx = (x / rect.width) * 28;
+    const dy = (y / rect.height) * 28;
+    setShadow(`${dx}px ${dy + 12}px 40px rgba(0,0,0,0.16), 0 4px 12px rgba(0,0,0,0.08)`);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setShadow('0 8px 30px rgba(0,0,0,0.08)');
+  }, []);
 
   const specs = [
     {
@@ -58,7 +74,13 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
 
   return (
     <>
-    <article className="group flex h-full flex-col border border-zinc-200 bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-shadow duration-300 hover:shadow-[0_16px_48px_rgba(0,0,0,0.14)]">
+    <article
+      ref={cardRef}
+      className="group flex h-full flex-col border border-zinc-200 bg-white"
+      style={{ boxShadow: shadow, transition: 'box-shadow 0.15s ease' }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
       {/* ── Image ── */}
       <Link
         className="relative block aspect-[16/9] overflow-hidden bg-zinc-100"
@@ -119,21 +141,23 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
       {/* ── Content ── */}
       <div className="flex flex-1 flex-col">
 
-        {/* Brand + Model */}
-        <div className="border-b border-zinc-200 px-3.5 py-3">
-          <Link href={`/oferta/${vehicle.slug}`} className="block">
+        {/* Brand + Model | Description */}
+        <div className="grid grid-cols-2 border-b border-zinc-200">
+          <Link href={`/oferta/${vehicle.slug}`} className="block px-3.5 py-3">
             <p className="mb-0.5 text-[0.55rem] font-semibold uppercase tracking-[0.3em] text-zinc-400">
               {vehicle.make}
             </p>
-            <h3 className="text-[clamp(1rem,2vw,1.35rem)] font-semibold uppercase leading-[1.1] tracking-[-0.03em] text-zinc-950">
+            <h3 className="text-[clamp(0.9rem,1.8vw,1.2rem)] font-semibold uppercase leading-[1.1] tracking-[-0.03em] text-zinc-950">
               {vehicle.model}
             </h3>
+          </Link>
+          <div className="flex items-center border-l border-zinc-200 px-3.5 py-3">
             {vehicle.shortDescription && (
-              <p className="mt-1.5 line-clamp-1 text-[0.7rem] leading-[1.5] text-zinc-500">
+              <p className="line-clamp-3 text-[0.65rem] leading-[1.6] text-zinc-500">
                 {vehicle.shortDescription}
               </p>
             )}
-          </Link>
+          </div>
         </div>
 
         {/* Specs grid — 3×2 */}
@@ -158,13 +182,13 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
           ))}
         </div>
 
-        {/* Price + CTA */}
-        <div className="mt-auto flex items-center justify-between gap-3 px-3.5 py-2.5">
-          <div className="grid gap-0.5">
+        {/* Price | CTA */}
+        <div className="mt-auto grid grid-cols-2">
+          <div className="grid gap-0.5 px-3.5 py-3">
             <span className="text-[0.48rem] font-semibold uppercase tracking-[0.2em] text-zinc-400">
               Cena brutto
             </span>
-            <span className="text-[clamp(1.1rem,2.2vw,1.4rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-950">
+            <span className="text-[clamp(1rem,2vw,1.3rem)] font-semibold leading-none tracking-[-0.04em] text-zinc-950">
               {formatPrice(vehicle.price)}
               <span className="ml-1 text-[0.6em] font-medium tracking-[0.02em] text-zinc-500">PLN</span>
             </span>
@@ -172,9 +196,12 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
 
           <Link
             href={`/oferta/${vehicle.slug}`}
-            className="relative inline-flex h-9 items-center justify-center overflow-hidden border border-zinc-950 bg-zinc-950 px-3 text-[0.55rem] font-semibold uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-white hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
+            className="group/btn flex items-center justify-center gap-1.5 border-l border-zinc-200 bg-zinc-950 px-3 py-3 text-[0.55rem] font-semibold uppercase tracking-[0.2em] text-white transition-colors duration-200 hover:bg-white hover:text-zinc-950"
           >
             Szczegóły
+            <svg className="h-3 w-3 shrink-0 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
           </Link>
         </div>
 

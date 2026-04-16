@@ -7,13 +7,14 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 type VehicleGalleryProps = {
   images: string[];
   alt: string;
+  statusLabel?: string;
 };
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const PLACEHOLDER =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Crect width='1600' height='900' fill='%23f4f4f5'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2371717a' font-family='Arial' font-size='48'%3EBrak zdjecia%3C/text%3E%3C/svg%3E";
 
-export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
+export function VehicleGallery({ images, alt, statusLabel }: VehicleGalleryProps) {
   const rm = useReducedMotion();
   const safeImages = images.length > 0 ? images : [PLACEHOLDER];
   const total = safeImages.length;
@@ -143,7 +144,7 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
     <button
       aria-label={dir === 'left' ? 'Poprzednie zdjęcie' : 'Następne zdjęcie'}
       className={[
-        'flex items-center justify-center border border-white/20 bg-black/50 text-white backdrop-blur-sm transition-colors duration-200 hover:bg-black/75 active:bg-black/90',
+        'flex items-center justify-center border border-white/10 bg-white/10 text-white backdrop-blur-md backdrop-saturate-150 transition-colors duration-200 hover:bg-white/25 active:bg-white/30',
         className ?? '',
       ].join(' ')}
       onClick={(e) => {
@@ -198,12 +199,12 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.12)_0%,rgba(0,0,0,0.04)_40%,rgba(0,0,0,0.38)_100%)]" />
 
           <div className="absolute left-0 top-0 z-10 flex items-stretch">
-            <div className="border-b border-r border-white/20 bg-black/55 px-3 py-2 text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-sm">
+            <div className="border-b border-r border-white/10 bg-white/10 px-3 py-2 text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-md backdrop-saturate-150">
               {String(displayed + 1).padStart(2, '0')}&thinsp;/&thinsp;{String(total).padStart(2, '0')}
             </div>
             <button
               aria-label="Powiększ galerię"
-              className="border-b border-white/20 bg-black/55 px-3 py-2 text-white/80 backdrop-blur-sm transition-colors duration-200 active:bg-black/80"
+              className="border-b border-l border-white/10 bg-white/10 px-3 py-2 text-white/90 backdrop-blur-md backdrop-saturate-150 transition-colors duration-200 hover:bg-white/25 active:bg-white/30"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsFullscreen(true);
@@ -219,6 +220,14 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
               </svg>
             </button>
           </div>
+
+          {statusLabel && (
+            <div className="absolute right-0 top-0 z-10 border-b border-l border-white/10 bg-white/10 px-3 py-2 backdrop-blur-md backdrop-saturate-150">
+              <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-white drop-shadow-sm">
+                {statusLabel}
+              </span>
+            </div>
+          )}
 
           {total > 1 && (
             <>
@@ -256,10 +265,10 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
                 className={`
                   relative flex-shrink-0 overflow-hidden
                   w-20 h-14 sm:w-24 sm:h-16
-                  transition-all duration-200 ease-out
+                  transition-all duration-300 ease-out
                   ${i === displayed
-                    ? 'ring-2 ring-zinc-950 ring-offset-1 opacity-100'
-                    : 'opacity-60 hover:opacity-90 hover:ring-1 hover:ring-zinc-400'
+                    ? 'grayscale-0 opacity-100'
+                    : 'grayscale opacity-50 hover:opacity-75 hover:grayscale-[50%]'
                   }
                 `}
                 style={{ scrollSnapAlign: 'start' }}
@@ -304,7 +313,7 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
               </div>
               <button
                 aria-label="Zamknij galerię"
-                className="flex h-10 w-10 items-center justify-center border border-white/20 text-white transition-colors duration-200 hover:border-white hover:bg-white hover:text-zinc-950"
+                className="flex h-10 w-10 items-center justify-center border border-white/10 bg-white/10 text-white backdrop-blur-md backdrop-saturate-150 transition-colors duration-200 hover:bg-white/25"
                 onClick={() => setIsFullscreen(false)}
                 type="button"
               >

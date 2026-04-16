@@ -52,6 +52,7 @@ export default async function VehicleDetailPage({ params }: PageProps) {
             <VehicleGallery
               alt={`${vehicle.make} ${vehicle.model}`}
               images={vehicle.images}
+              statusLabel={vehicle.statusLabel}
             />
             {vehicle.youtubeUrl ? (
               <div className="px-4 pt-4 sm:px-6">
@@ -80,6 +81,7 @@ export default async function VehicleDetailPage({ params }: PageProps) {
                     <VehicleGallery
                       alt={`${vehicle.make} ${vehicle.model}`}
                       images={vehicle.images}
+                      statusLabel={vehicle.statusLabel}
                     />
                     {vehicle.youtubeUrl ? (
                       <VehicleVideoTile
@@ -112,16 +114,16 @@ export default async function VehicleDetailPage({ params }: PageProps) {
         <VehicleContact vehicle={vehicle} />
 
         {/* ── Back to catalog ── */}
-        <section className="border-b border-zinc-200/60 bg-zinc-950 py-10 sm:py-12">
+        <section className="border-b border-zinc-200 bg-white py-10 sm:py-12">
           <div className="site-shell flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="grid gap-2">
-              <p className="eyebrow text-zinc-500">Przeglądaj dalej</p>
-              <p className="text-[0.94rem] font-semibold uppercase tracking-[-0.02em] text-white">
+              <p className="eyebrow">Przeglądaj dalej</p>
+              <p className="text-[0.94rem] font-semibold uppercase tracking-[-0.02em] text-zinc-950">
                 Wróć do katalogu i odkryj więcej pojazdów.
               </p>
             </div>
             <Link
-              className="btn-premium-light w-full sm:w-fit"
+              className="btn-premium w-full sm:w-fit"
               href="/oferta"
             >
               Cały katalog

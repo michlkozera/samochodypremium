@@ -25,6 +25,9 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
         {/* ── Left column ── */}
         <div className="grid min-w-0 gap-4 sm:gap-6">
           <MotionRevealItem>
+            <div className="eyebrow border-white/30 bg-white/10 text-[0.78rem] text-white/80 backdrop-blur-xl backdrop-saturate-150 sm:text-[0.7rem]">Kraków</div>
+          </MotionRevealItem>
+          <MotionRevealItem>
             <h1 className="max-w-[14ch] text-[clamp(1.75rem,8vw,4.4rem)] font-bold uppercase leading-[1.03] tracking-[-0.03em] [overflow-wrap:anywhere] [text-wrap:balance] sm:leading-[1.05]">
               Dealer samochodów klasy premium.
             </h1>
@@ -33,7 +36,7 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
           <MotionRevealItem>
             <Link
               href="/oferta"
-              className="inline-flex min-h-12 w-fit items-center justify-center gap-2 border border-white/50 bg-black/20 px-8 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white backdrop-blur-md transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-white hover:bg-white hover:text-zinc-950 sm:px-10"
+              className="inline-flex min-h-12 w-fit items-center justify-center gap-2 border border-white/40 bg-white/15 px-8 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white backdrop-blur-md backdrop-saturate-150 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-white hover:bg-white hover:text-zinc-950 sm:px-10"
             >
               Zobacz katalog
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
