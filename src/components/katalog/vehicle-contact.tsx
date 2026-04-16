@@ -83,6 +83,51 @@ type VehicleContactProps = {
 export function VehicleContact({ vehicle }: VehicleContactProps) {
   const { advisor } = vehicle;
   const { ref, visible, getDelay } = useStaggerReveal();
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [serverError, setServerError] = useState('');
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = formRef.current;
+    if (!form) return;
+
+    setStatus('sending');
+    setServerError('');
+
+    const fd = new FormData(form);
+    const name = (fd.get('name') as string)?.trim() ?? '';
+    const email = (fd.get('email') as string)?.trim() ?? '';
+    const phone = (fd.get('phone') as string)?.trim() ?? '';
+    const scopes = fd.getAll('scope').map(String);
+    const message = (fd.get('message') as string)?.trim() ?? '';
+    const vehicleName = (fd.get('vehicle_name') as string) ?? '';
+    const vehicleSlug = (fd.get('vehicle_slug') as string) ?? '';
+
+    if (!name || !email) {
+      setServerError('Wypełnij wymagane pola: imię i nazwisko oraz e-mail.');
+      setStatus('error');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/vehicle-contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, scopes, message, vehicleName, vehicleSlug }),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'Nie udało się wysłać formularza.');
+      }
+
+      setStatus('success');
+    } catch (err) {
+      setServerError(err instanceof Error ? err.message : 'Wystąpił nieoczekiwany błąd.');
+      setStatus('error');
+    }
+  };
 
   return (
     <section className="border-b border-zinc-200/60 bg-white" id="kontakt-oferta">
@@ -141,139 +186,160 @@ export function VehicleContact({ vehicle }: VehicleContactProps) {
 
       {/* ── Form area — matches ContactForm form area ── */}
       <div ref={ref} className="site-shell py-12 sm:py-16 lg:py-20 xl:py-24">
-        <form className="mx-auto grid max-w-5xl gap-0">
-          <input type="hidden" name="vehicle_slug" value={vehicle.slug} />
-          <input
-            type="hidden"
-            name="vehicle_name"
-            value={`${vehicle.make} ${vehicle.model}`}
-          />
-
-          {/* Row 1: name + email */}
-          <div className="grid gap-0 lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
-            <FormField
-              id="vf-name"
-              index="01"
-              label="Imię i nazwisko"
-              visible={visible}
-              delay={getDelay(1)}
-            >
-              <input
-                autoComplete="name"
-                className="contact-input contact-input--lg"
-                id="vf-name"
-                name="name"
-                placeholder="Jan Kowalski"
-                required
-                type="text"
-              />
-            </FormField>
-
-            <FormField
-              id="vf-email"
-              index="02"
-              label="Adres e-mail"
-              visible={visible}
-              delay={getDelay(2)}
-            >
-              <input
-                autoComplete="email"
-                className="contact-input contact-input--lg"
-                id="vf-email"
-                name="email"
-                placeholder="adres@firma.pl"
-                required
-                type="email"
-              />
-            </FormField>
-          </div>
-
-          {/* Row 2: phone + scope chips */}
-          <div className="grid gap-0 lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
-            <FormField
-              id="vf-phone"
-              index="03"
-              label="Telefon"
-              visible={visible}
-              delay={getDelay(3)}
-            >
-              <input
-                autoComplete="tel"
-                className="contact-input contact-input--lg"
-                id="vf-phone"
-                name="phone"
-                placeholder="+48 123 456 789"
-                type="tel"
-              />
-            </FormField>
-
-            <FormField
-              id="vf-scope"
-              index="04"
-              label="Zakres rozmowy"
-              visible={visible}
-              delay={getDelay(4)}
-            >
-              <div className="grid grid-cols-3 gap-2.5 py-2 sm:gap-3">
-                {['Prezentacja', 'Jazda próbna', 'Finansowanie', 'Trade-in', 'Wycena', 'Inne'].map(
-                  (scope) => (
-                    <label className="contact-chip" key={scope}>
-                      <input
-                        className="peer sr-only"
-                        name="scope"
-                        type="checkbox"
-                        value={scope.toLowerCase()}
-                      />
-                      <span className="contact-chip-label contact-chip-label--lg">
-                        {scope}
-                      </span>
-                    </label>
-                  ),
-                )}
-              </div>
-            </FormField>
-          </div>
-
-          {/* Message */}
-          <FormField
-            id="vf-message"
-            index="05"
-            label="Wiadomość"
-            visible={visible}
-            delay={getDelay(5)}
-          >
-            <textarea
-              className="contact-input contact-input--lg min-h-44 py-3 sm:min-h-48"
-              id="vf-message"
-              name="message"
-              placeholder={`Interesuje mnie ${vehicle.make} ${vehicle.model}. Proszę o kontakt w sprawie…`}
-            />
-          </FormField>
-
-          {/* Submit row */}
-          <div
-            className={`contact-field flex flex-col gap-6 pt-10 sm:flex-row sm:items-center sm:justify-between lg:pt-12 ${visible ? 'is-visible' : ''}`}
-            style={getDelay(6)}
-          >
-            <p className="max-w-sm text-[0.82rem] leading-7 text-zinc-400">
-              Odpowiadamy zwykle w ciągu godziny w godzinach pracy salonu.
+        {status === 'success' ? (
+          <div className="mx-auto max-w-5xl border border-zinc-200 px-6 py-16 text-center">
+            <p className="eyebrow mx-auto w-fit">Wysłano</p>
+            <p className="mt-4 text-[0.95rem] font-semibold uppercase tracking-[-0.02em] text-zinc-950">
+              Dziękujemy za zapytanie o {vehicle.make} {vehicle.model}.
             </p>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <button
-                className="button-primary min-h-14 w-full px-10 sm:w-fit"
-                type="submit"
-              >
-                Wyślij zapytanie
-              </button>
-              <a
-                className="button-secondary min-h-14 w-full px-10 sm:w-fit"
-                href={advisor.phoneHref}
-              >
-                Zadzwoń teraz
-              </a>
-            </div>
+            <p className="mt-2 text-sm leading-7 text-zinc-500">
+              Odpowiemy najszybciej jak to możliwe — zwykle w ciągu godziny w godzinach pracy salonu.
+            </p>
           </div>
-        </form>
+        ) : (
+          <form ref={formRef} className="mx-auto grid max-w-5xl gap-0" onSubmit={handleSubmit} noValidate>
+            <input type="hidden" name="vehicle_slug" value={vehicle.slug} />
+            <input
+              type="hidden"
+              name="vehicle_name"
+              value={`${vehicle.make} ${vehicle.model}`}
+            />
+
+            {/* Row 1: name + email */}
+            <div className="grid gap-0 lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
+              <FormField
+                id="vf-name"
+                index="01"
+                label="Imię i nazwisko"
+                visible={visible}
+                delay={getDelay(1)}
+              >
+                <input
+                  autoComplete="name"
+                  className="contact-input contact-input--lg"
+                  id="vf-name"
+                  name="name"
+                  placeholder="Jan Kowalski"
+                  required
+                  type="text"
+                />
+              </FormField>
+
+              <FormField
+                id="vf-email"
+                index="02"
+                label="Adres e-mail"
+                visible={visible}
+                delay={getDelay(2)}
+              >
+                <input
+                  autoComplete="email"
+                  className="contact-input contact-input--lg"
+                  id="vf-email"
+                  name="email"
+                  placeholder="adres@firma.pl"
+                  required
+                  type="email"
+                />
+              </FormField>
+            </div>
+
+            {/* Row 2: phone + scope chips */}
+            <div className="grid gap-0 lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
+              <FormField
+                id="vf-phone"
+                index="03"
+                label="Telefon"
+                visible={visible}
+                delay={getDelay(3)}
+              >
+                <input
+                  autoComplete="tel"
+                  className="contact-input contact-input--lg"
+                  id="vf-phone"
+                  name="phone"
+                  placeholder="+48 123 456 789"
+                  type="tel"
+                />
+              </FormField>
+
+              <FormField
+                id="vf-scope"
+                index="04"
+                label="Zakres rozmowy"
+                visible={visible}
+                delay={getDelay(4)}
+              >
+                <div className="grid grid-cols-3 gap-2.5 py-2 sm:gap-3">
+                  {['Prezentacja', 'Jazda próbna', 'Finansowanie', 'Trade-in', 'Wycena', 'Inne'].map(
+                    (scope) => (
+                      <label className="contact-chip" key={scope}>
+                        <input
+                          className="peer sr-only"
+                          name="scope"
+                          type="checkbox"
+                          value={scope.toLowerCase()}
+                        />
+                        <span className="contact-chip-label contact-chip-label--lg">
+                          {scope}
+                        </span>
+                      </label>
+                    ),
+                  )}
+                </div>
+              </FormField>
+            </div>
+
+            {/* Message */}
+            <FormField
+              id="vf-message"
+              index="05"
+              label="Wiadomość"
+              visible={visible}
+              delay={getDelay(5)}
+            >
+              <textarea
+                className="contact-input contact-input--lg min-h-44 py-3 sm:min-h-48"
+                id="vf-message"
+                name="message"
+                placeholder={`Interesuje mnie ${vehicle.make} ${vehicle.model}. Proszę o kontakt w sprawie…`}
+              />
+            </FormField>
+
+            {/* Submit row */}
+            <div
+              className={`contact-field flex flex-col gap-6 pt-10 sm:flex-row sm:items-center sm:justify-between lg:pt-12 ${visible ? 'is-visible' : ''}`}
+              style={getDelay(6)}
+            >
+              <p className="max-w-sm text-[0.82rem] leading-7 text-zinc-400">
+                Odpowiadamy zwykle w ciągu godziny w godzinach pracy salonu.
+              </p>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <button
+                  className="button-primary min-h-14 w-full px-10 sm:w-fit"
+                  type="submit"
+                  disabled={status === 'sending'}
+                >
+                  {status === 'sending' ? 'Wysyłanie…' : 'Wyślij zapytanie'}
+                </button>
+                <a
+                  className="button-secondary min-h-14 w-full px-10 sm:w-fit"
+                  href={advisor.phoneHref}
+                >
+                  Zadzwoń teraz
+                </a>
+              </div>
+            </div>
+
+            {status === 'error' && (
+              <p className="mt-4 text-[0.82rem] font-medium text-red-600">
+                {serverError || 'Wystąpił błąd podczas wysyłania.'}{' '}
+                Spróbuj ponownie lub napisz na{' '}
+                <a href="mailto:kontakt@samochodypremium.pl" className="underline">kontakt@samochodypremium.pl</a>.
+              </p>
+            )}
+          </form>
+        )}
       </div>
     </section>
   );
