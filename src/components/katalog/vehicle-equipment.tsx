@@ -16,8 +16,8 @@ export function VehicleEquipment({ description, features }: VehicleEquipmentProp
           <MotionRevealItem preset="blur-fade">
             <div className="grid gap-6 lg:grid-cols-[minmax(0,0.4fr)_minmax(0,0.6fr)] lg:gap-16">
               <div className="grid gap-4 self-start">
-                <p className="eyebrow">Opis i wyposażenie</p>
-                <h2 className="section-title max-w-[14ch]">
+                <p className="inline-block w-fit bg-white px-4 py-1.5 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-zinc-500" style={{ boxShadow: SHADOW }}>Opis i wyposażenie</p>
+                <h2 className="section-title max-w-[14ch] !font-[200]">
                   Szczegóły oferty.
                 </h2>
               </div>

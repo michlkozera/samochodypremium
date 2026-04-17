@@ -22,7 +22,22 @@ export function VehicleGallery({ images, alt, statusLabel, status }: VehicleGall
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [zoomScale, setZoomScale] = useState(1);
+  const [zoomOrigin, setZoomOrigin] = useState({ x: 50, y: 50 });
   const displayed = Math.min(activeIndex, total - 1);
+
+  const resetZoom = useCallback(() => {
+    setZoomScale(1);
+    setZoomOrigin({ x: 50, y: 50 });
+  }, []);
+
+  const handleFsImageClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    if (zoomScale === 1) { setZoomOrigin({ x, y }); setZoomScale(2.5); }
+    else resetZoom();
+  }, [zoomScale, resetZoom]);
 
   const touch = useRef({ x: 0, y: 0, t: 0 });
 
@@ -53,6 +68,8 @@ export function VehicleGallery({ images, alt, statusLabel, status }: VehicleGall
     return () => document.body.classList.remove('gallery-open');
   }, [isFullscreen]);
 
+  useEffect(() => { resetZoom(); }, [displayed]);
+
   useEffect(() => {
     if (!isFullscreen) return;
 
@@ -67,7 +84,7 @@ export function VehicleGallery({ images, alt, statusLabel, status }: VehicleGall
   }, [isFullscreen, next, prev]);
 
   const src = safeImages[displayed] ?? safeImages[0];
-  const imgTransition = rm ? { duration: 0 } : { duration: 0.38, ease: EASE };
+  const imgTransition = rm ? { duration: 0 } : { duration: 0.15, ease: EASE };
 
   const thumbsRef = useRef<HTMLDivElement | null>(null);
   const pointer = useRef({ down: false, startX: 0, scrollLeft: 0, isDragging: false });
@@ -177,7 +194,7 @@ export function VehicleGallery({ images, alt, statusLabel, status }: VehicleGall
           role="button"
           tabIndex={0}
         >
-          <AnimatePresence initial={false} mode="wait">
+          <AnimatePresence initial={false} mode="sync">
             <motion.div
               key={src}
               animate={rm ? { opacity: 1 } : { opacity: 1, scale: 1 }}
@@ -314,41 +331,72 @@ export function VehicleGallery({ images, alt, statusLabel, status }: VehicleGall
                   {String(displayed + 1).padStart(2, '0')}&thinsp;/&thinsp;{String(total).padStart(2, '0')}
                 </span>
               </div>
-              <button
-                aria-label="Zamknij galerię"
-                className="flex h-10 w-10 items-center justify-center border border-white/10 bg-white/10 text-white backdrop-blur-md backdrop-saturate-150 transition-colors duration-200 hover:bg-white/25"
-                onClick={() => setIsFullscreen(false)}
-                type="button"
-              >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-                  <path d="M6 18 18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  aria-label={zoomScale > 1 ? 'Oddalenie' : 'Przybliżenie'}
+                  className="flex h-10 w-10 items-center justify-center border border-white/10 bg-white/10 text-white backdrop-blur-md backdrop-saturate-150 transition-colors duration-200 hover:bg-white/25"
+                  onClick={() => zoomScale > 1 ? resetZoom() : (setZoomScale(2.5))}
+                  type="button"
+                >
+                  {zoomScale > 1 ? (
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+                      <path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607ZM13.5 10.5h-6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  ) : (
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+                      <path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607ZM10.5 7.5v6m3-3h-6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </button>
+                <button
+                  aria-label="Zamknij galerię"
+                  className="flex h-10 w-10 items-center justify-center border border-white/10 bg-white/10 text-white backdrop-blur-md backdrop-saturate-150 transition-colors duration-200 hover:bg-white/25"
+                  onClick={() => setIsFullscreen(false)}
+                  type="button"
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+                    <path d="M6 18 18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
-            <div className="relative flex-1 overflow-hidden">
-              <AnimatePresence initial={false} mode="wait">
-                <motion.div
-                  key={`fs-${src}`}
-                  animate={{ opacity: 1 }}
-                  className="absolute inset-0"
-                  exit={{ opacity: 0 }}
-                  initial={{ opacity: 0 }}
-                  transition={{ duration: 0.24, ease: EASE }}
-                >
-                  <Image
-                    alt={`${alt} – fullscreen ${displayed + 1}`}
-                    className="h-full w-full object-contain"
-                    fill
-                    priority
-                    sizes="100vw"
-                    src={src}
-                  />
-                </motion.div>
-              </AnimatePresence>
+            <div
+              className="relative flex-1 overflow-hidden"
+              onClick={handleFsImageClick}
+              style={{ cursor: zoomScale > 1 ? 'zoom-out' : 'zoom-in' }}
+            >
+              <div
+                className="absolute inset-0"
+                style={{
+                  transform: `scale(${zoomScale})`,
+                  transformOrigin: `${zoomOrigin.x}% ${zoomOrigin.y}%`,
+                  transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1)',
+                }}
+              >
+                <AnimatePresence initial={false} mode="sync">
+                  <motion.div
+                    key={`fs-${src}`}
+                    animate={{ opacity: 1 }}
+                    className="absolute inset-0"
+                    exit={{ opacity: 0 }}
+                    initial={{ opacity: 0 }}
+                    transition={{ duration: 0.12, ease: EASE }}
+                  >
+                    <Image
+                      alt={`${alt} – fullscreen ${displayed + 1}`}
+                      className="h-full w-full object-contain"
+                      fill
+                      priority
+                      sizes="100vw"
+                      src={src}
+                    />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
 
               {total > 1 && (
-                <>
+                <div onClick={(e) => e.stopPropagation()}>
                   <ArrowBtn
                     className="absolute left-0 top-1/2 z-10 flex h-14 w-10 -translate-y-1/2 border-y border-r sm:h-16 sm:w-12"
                     dir="left"
@@ -359,7 +407,7 @@ export function VehicleGallery({ images, alt, statusLabel, status }: VehicleGall
                     dir="right"
                     onClick={next}
                   />
-                </>
+                </div>
               )}
             </div>
           </motion.div>

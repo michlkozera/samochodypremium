@@ -15,8 +15,8 @@ export function VehicleSpecs({ specs }: VehicleSpecsProps) {
           <MotionRevealItem preset="blur-fade">
             <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] lg:items-end lg:gap-16">
               <div className="grid gap-3">
-                <p className="eyebrow">Specyfikacja</p>
-                <h2 className="section-title max-w-[14ch]">
+                <p className="inline-block w-fit bg-white px-4 py-1.5 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-zinc-500" style={{ boxShadow: SHADOW }}>Specyfikacja</p>
+                <h2 className="section-title max-w-[14ch] !font-[200]">
                   Parametry techniczne.
                 </h2>
               </div>
