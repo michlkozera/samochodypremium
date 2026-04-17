@@ -328,11 +328,11 @@
   }
 
   .display-title {
-    @apply max-w-[20ch] text-[clamp(1.85rem,5vw,3.7rem)] font-bold uppercase leading-[1.1] tracking-[-0.03em] [text-wrap:balance];
+    @apply max-w-[20ch] text-[clamp(1.85rem,5vw,3.7rem)] font-extralight uppercase leading-[1.1] tracking-[-0.02em] [text-wrap:balance];
   }
 
   .section-title {
-    @apply max-w-[14ch] text-[clamp(1.6rem,4.2vw,3.05rem)] font-bold uppercase leading-[1.12] tracking-[-0.02em] [text-wrap:balance];
+    @apply max-w-[14ch] text-[clamp(1.6rem,4.2vw,3.05rem)] font-extralight uppercase leading-[1.12] tracking-[-0.01em] [text-wrap:balance];
   }
 
   .body-copy {
@@ -342,7 +342,7 @@
   /* ── Unified premium buttons ── */
 
   .btn-premium {
-    @apply inline-flex min-h-12 items-center justify-center border border-zinc-950 bg-zinc-950 px-6 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2;
+    @apply inline-flex min-h-12 items-center justify-center border border-zinc-950 bg-zinc-950 px-6 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-white transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2;
   }
 
   /* Utility: invert black buttons on hover (black -> white, text -> black) */
@@ -357,28 +357,28 @@
   }
 
   .btn-premium-light {
-    @apply inline-flex min-h-12 items-center justify-center border border-white bg-white px-6 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-zinc-950 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black;
+    @apply inline-flex min-h-12 items-center justify-center border border-white bg-white px-6 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-zinc-950 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black;
   }
 
   .btn-premium-ghost {
-    @apply inline-flex min-h-12 items-center justify-center border border-zinc-300 bg-transparent px-6 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-zinc-950 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-zinc-950 hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2;
+    @apply inline-flex min-h-12 items-center justify-center border border-zinc-300 bg-transparent px-6 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-zinc-950 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-zinc-950 hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2;
   }
 
   /* Legacy aliases — repeat full utility list (Tailwind v4 cannot @apply custom components) */
   .button-primary {
-    @apply inline-flex min-h-12 items-center justify-center border border-zinc-950 bg-zinc-950 px-6 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2;
+    @apply inline-flex min-h-12 items-center justify-center border border-zinc-950 bg-zinc-950 px-6 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-white transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2;
   }
 
   .button-secondary {
-    @apply inline-flex min-h-12 items-center justify-center border border-zinc-300 bg-transparent px-6 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-zinc-950 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-zinc-950 hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2;
+    @apply inline-flex min-h-12 items-center justify-center border border-zinc-300 bg-transparent px-6 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-zinc-950 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-zinc-950 hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2;
   }
 
   .hero-btn-primary {
-    @apply inline-flex min-h-12 items-center justify-center border border-white bg-white px-6 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-zinc-950 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black;
+    @apply inline-flex min-h-12 items-center justify-center border border-white bg-white px-6 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-zinc-950 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black;
   }
 
   .hero-btn-secondary {
-    @apply inline-flex min-h-12 items-center justify-center border border-white/20 bg-transparent px-6 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white/80 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-white hover:bg-white hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2;
+    @apply inline-flex min-h-12 items-center justify-center border border-white/20 bg-transparent px-6 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-white/80 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-white hover:bg-white hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2;
   }
 
   /* ── O NAS section on home ── */
@@ -393,7 +393,7 @@
   }
 
   .onas-cta {
-    @apply inline-flex min-h-12 items-center justify-center border border-zinc-950 bg-zinc-950 px-6 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2;
+    @apply inline-flex min-h-12 items-center justify-center border border-zinc-950 bg-zinc-950 px-6 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-white transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2;
   }
 
   .surface-panel {
@@ -595,7 +595,7 @@
 
   .manifest-title {
     font-size: clamp(2.1rem, 6.2vw, 4.8rem);
-    font-weight: 700;
+    font-weight: 200;
     line-height: 1.04;
     letter-spacing: -0.04em;
     text-transform: uppercase;
@@ -607,7 +607,7 @@
 
   .zespol-name {
     font-size: clamp(1.25rem, 2.8vw, 2.35rem);
-    font-weight: 700;
+    font-weight: 200;
     line-height: 1.15;
     letter-spacing: -0.03em;
     text-transform: uppercase;
@@ -633,7 +633,7 @@
 
   .ewolucja-year {
     font-size: clamp(3.2rem, 8.2vw, 6.8rem);
-    font-weight: 700;
+    font-weight: 200;
     line-height: 0.98;
     letter-spacing: -0.04em;
     text-transform: uppercase;
@@ -685,7 +685,7 @@
 
   .liczby-value {
     font-size: clamp(2rem, 5.2vw, 4rem);
-    font-weight: 700;
+    font-weight: 300;
     line-height: 0.9;
     letter-spacing: -0.06em;
     color: var(--color-graphite-950);
@@ -886,11 +886,13 @@
 
   .display-title {
     font-size: clamp(1.7rem, 4.2vw, 3.2rem);
+    font-weight: 200;
     line-height: 1.1;
   }
 
   .section-title {
     font-size: clamp(1.5rem, 3vw, 2.65rem);
+    font-weight: 200;
     line-height: 1.12;
   }
 }

@@ -53,6 +53,8 @@ export type CatalogVehicleDetail = {
   status: VehicleStatus;
   statusLabel: string;
   vatTypeLabel: string;
+  accidentFree: boolean;
+  serviceHistory: boolean;
   shortDescription: string;
   description: string;
   youtubeUrl: string | null;
@@ -273,6 +275,8 @@ function buildCatalogVehicleDetail(vehicle: Vehicle): CatalogVehicleDetail {
     status: vehicle.status,
     statusLabel: statusLabel(vehicle.status),
     vatTypeLabel: vatTypeLabel(vehicle.vatType),
+    accidentFree: vehicle.accidentFree,
+    serviceHistory: vehicle.serviceHistory,
     shortDescription: buildShortDescription(vehicle),
     description:
       vehicle.description ??

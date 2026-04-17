@@ -1,10 +1,11 @@
 import type { ReactNode } from 'react';
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Barlow } from 'next/font/google';
 import '@/styles/base.css';
 
-const inter = Inter({
+const barlow = Barlow({
   subsets: ['latin', 'latin-ext'],
+  weight: ['200', '300', '400', '500', '600', '700'],
   variable: '--font-brand-sans',
   display: 'swap',
 });
@@ -27,7 +28,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html className={inter.variable} lang="pl" suppressHydrationWarning>
+    <html className={barlow.variable} lang="pl" suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );

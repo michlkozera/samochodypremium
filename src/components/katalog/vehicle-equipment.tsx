@@ -1,5 +1,7 @@
 import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
 
+const SHADOW = '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)';
+
 type VehicleEquipmentProps = {
   description: string;
   features: string[];
@@ -23,17 +25,18 @@ export function VehicleEquipment({ description, features }: VehicleEquipmentProp
             </div>
           </MotionRevealItem>
 
-          {/* Features list — bordered card-style cells */}
+          {/* Features list — shadow container */}
           {features.length > 0 && (
             <MotionRevealItem preset="fade-up">
               <div className="grid gap-6">
                 <h3 className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-zinc-950">
                   Lista wyposażenia
                 </h3>
-                <ul className="grid border-l border-t border-zinc-200 sm:grid-cols-2 lg:grid-cols-3">
+                <ul className="bg-white" style={{ boxShadow: SHADOW }}>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3">
                     {features.map((feature) => (
                       <li
-                        className="flex items-start gap-2.5 border-b border-r border-zinc-200 bg-white px-4 py-3 text-[0.84rem] leading-relaxed text-zinc-600"
+                        className="flex items-start gap-2.5 border-b border-zinc-100 px-5 py-3.5 text-[0.84rem] leading-relaxed text-zinc-600"
                         key={feature}
                       >
                         <svg
@@ -52,6 +55,7 @@ export function VehicleEquipment({ description, features }: VehicleEquipmentProp
                         {feature}
                       </li>
                     ))}
+                  </div>
                 </ul>
               </div>
             </MotionRevealItem>
@@ -59,7 +63,7 @@ export function VehicleEquipment({ description, features }: VehicleEquipmentProp
 
           {features.length === 0 && (
             <MotionRevealItem preset="fade-up">
-              <div className="border border-zinc-200 bg-white px-5 py-5 sm:px-6 sm:py-6">
+              <div className="bg-white px-5 py-5 sm:px-6 sm:py-6" style={{ boxShadow: SHADOW }}>
                 <p className="text-[0.84rem] text-zinc-500">
                   Szczegółowa lista wyposażenia dostępna na życzenie. Skontaktuj się z doradcą.
                 </p>

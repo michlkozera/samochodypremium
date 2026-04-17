@@ -1,5 +1,7 @@
 import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
 
+const SHADOW = '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)';
+
 type VehicleSpecsProps = {
   specs: [string, string][];
 };
@@ -24,20 +26,20 @@ export function VehicleSpecs({ specs }: VehicleSpecsProps) {
             </div>
           </MotionRevealItem>
 
-          {/* Specs table — bordered card-style cells */}
+          {/* Specs — shadow container */}
           <MotionRevealItem preset="fade-up">
-            <div className="grid border-l border-t border-zinc-200 sm:grid-cols-2">
-              {specs.map(([label, value]) => (
-                <div
-                  className="flex items-baseline justify-between gap-4 border-b border-r border-zinc-200 bg-white px-4 py-3.5 sm:px-5 sm:py-4"
-                  key={label}
-                >
-                  <span className="text-[0.52rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">{label}</span>
-                  <span className="break-all text-right text-[0.85rem] font-semibold text-zinc-900">
-                    {value}
-                  </span>
-                </div>
-              ))}
+            <div className="bg-white" style={{ boxShadow: SHADOW }}>
+              <div className="grid sm:grid-cols-2">
+                {specs.map(([label, value]) => (
+                  <div
+                    className="flex items-baseline justify-between gap-4 border-b border-zinc-100 px-5 py-4 sm:px-6"
+                    key={label}
+                  >
+                    <span className="shrink-0 text-[0.52rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">{label}</span>
+                    <span className="break-all text-right text-[0.85rem] font-semibold text-zinc-900">{value}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </MotionRevealItem>
         </MotionReveal>

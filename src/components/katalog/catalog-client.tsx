@@ -531,7 +531,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
               <MotionReveal
                 key={gridKey}
                 amount={0.08}
-                className="grid gap-4"
+                className="grid gap-6 sm:grid-cols-2"
                 stagger={0.08}
               >
                 {paginatedVehicles.map((vehicle) => (

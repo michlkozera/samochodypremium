@@ -9,7 +9,17 @@ type VehicleInfoProps = {
   vehicle: CatalogVehicleDetail;
 };
 
+const SHADOW = '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)';
+
 export function VehicleInfo({ vehicle }: VehicleInfoProps) {
+  const titleLine = [
+    vehicle.make,
+    vehicle.model,
+    vehicle.engineCapacity ? (vehicle.engineCapacity / 1000).toFixed(1) : null,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   const specs = [
     {
       label: 'Rok',
@@ -44,9 +54,12 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
   ];
 
   return (
-    <div className="grid gap-5 lg:gap-6">
+    <div className="grid gap-4 lg:gap-5">
       {/* Breadcrumb */}
-      <nav className="eyebrow hidden items-center gap-1.5 sm:flex sm:flex-wrap">
+      <nav
+        className="hidden items-center justify-center gap-1.5 px-4 py-2.5 sm:flex sm:flex-wrap bg-white text-[0.7rem] font-medium uppercase tracking-[0.22em] text-zinc-500"
+        style={{ boxShadow: SHADOW }}
+      >
         <Link className="transition-colors duration-200 hover:text-zinc-950" href="/">
           Start
         </Link>
@@ -60,80 +73,69 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
         </span>
       </nav>
 
-      {/* ── Card container ── */}
-      <div className="border border-zinc-200 bg-white">
+      {/* ── Main info card ── */}
+      <div className="bg-white" style={{ boxShadow: SHADOW }}>
 
-        {/* Brand + Model | Description */}
-        <div className="grid grid-cols-1 border-b border-zinc-200 sm:grid-cols-2">
-          <div className="px-4 py-5 sm:px-5 sm:py-6">
-            <p className="mb-1 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-zinc-400">
-              {vehicle.make}
+        {/* Make + Model + Capacity — one line, centered */}
+        <div className="px-4 py-5 text-center sm:px-5 sm:py-6">
+          <h1 className="text-[clamp(1.7rem,3.2vw,2.5rem)] font-bold uppercase tracking-[0.04em] leading-none text-zinc-900">
+            {titleLine}
+          </h1>
+          {(vehicle.accidentFree || vehicle.serviceHistory) && (
+            <p className="mt-3 text-[0.75rem] font-medium uppercase tracking-[0.18em] text-zinc-400">
+              {[vehicle.accidentFree ? 'Bezwypadkowy' : null, vehicle.serviceHistory ? 'Serwisowany w ASO' : null].filter(Boolean).join(', ')}
             </p>
-            <h1 className="section-title">
-              {vehicle.model}
-            </h1>
-          </div>
-          <div className="flex items-center border-t border-zinc-200 px-4 py-5 sm:border-t-0 sm:border-l sm:px-5 sm:py-6">
-            {vehicle.shortDescription && (
-              <p className="text-[0.82rem] leading-[1.8] text-zinc-500">
-                {vehicle.shortDescription}
-              </p>
-            )}
-          </div>
+          )}
         </div>
 
-        {/* Specs grid — 3×2 with icons */}
-        <div className="grid grid-cols-3 border-b border-zinc-200">
-          {specs.map(({ label, value, icon }, i) => (
+        {/* Specs grid — 3×2, no borders */}
+        <div className="grid grid-cols-3">
+          {specs.map(({ label, value, icon }) => (
             <div
               key={label}
-              className={[
-                'grid gap-1 px-3 py-3 sm:px-4 sm:py-4',
-                i % 3 !== 0 ? 'border-l border-zinc-200' : '',
-                i >= 3 ? 'border-t border-zinc-200' : '',
-              ].join(' ')}
+              className="grid gap-1 px-3 py-3 text-center justify-items-center sm:px-4 sm:py-4"
             >
-              <span className="mb-0.5 text-zinc-400">{icon}</span>
-              <span className="text-[0.5rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">
-                {label}
-              </span>
-              <span className="text-[0.75rem] font-semibold leading-tight text-zinc-900 sm:text-[0.88rem]">
+              <div className="flex items-center gap-1 text-zinc-400">
+                {icon}
+                <span className="text-[9px] font-medium uppercase tracking-[0.2em]">{label}</span>
+              </div>
+              <span className="text-sm font-semibold text-zinc-900">
                 {value}
               </span>
             </div>
           ))}
         </div>
 
-        {/* Price | CTA */}
-        <div className="grid grid-cols-1 sm:grid-cols-2">
-          <div className="grid gap-1.5 px-4 py-5 sm:px-5 sm:py-6">
-            <span className="text-[0.52rem] font-semibold uppercase tracking-[0.2em] text-zinc-400">
-              Cena brutto
-            </span>
-            <span className="text-[clamp(1.35rem,3vw,2.2rem)] font-bold leading-[1.1] tracking-[-0.02em] text-zinc-950">
+        {/* Price — centered, label + VAT below */}
+        <div className="flex flex-col items-center gap-1.5 px-4 py-5 sm:px-5 sm:py-6">
+          <div className="flex items-baseline gap-1">
+            <span className="text-[clamp(1.4rem,2.8vw,2.25rem)] font-bold tracking-widest text-black leading-none">
               {formatPrice(vehicle.price)}
-              <span className="ml-1.5 text-[0.55em] font-medium tracking-[0.02em] text-zinc-500">PLN</span>
             </span>
-            <p className="mt-1 text-[0.52rem] font-semibold uppercase tracking-[0.2em] text-zinc-400">
-              {vehicle.vatTypeLabel}, cena do negocjacji
-            </p>
+            <span className="text-xs font-medium text-zinc-400 ml-0.5">PLN</span>
           </div>
-
-          <a
-            href="#kontakt-oferta"
-            className="group/btn flex items-center justify-center gap-2 border-t border-zinc-200 bg-white px-4 py-5 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-zinc-950 transition-colors duration-200 hover:bg-zinc-950 hover:text-white sm:border-t-0 sm:border-l sm:py-6"
-          >
-            <svg className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
-            </svg>
-            Umów jazdę
-          </a>
+          <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-zinc-400">
+            Cena brutto, {vehicle.vatTypeLabel}, cena do negocjacji
+          </p>
         </div>
 
       </div>
 
-      {/* ── Leasing note — separate bordered panel ── */}
-      <div className="border border-zinc-200 bg-white">
+      {/* ── CTA — separate card with shadow ── */}
+      <div className="bg-white" style={{ boxShadow: SHADOW }}>
+        <a
+          href="#kontakt-oferta"
+          className="flex w-full items-center justify-center gap-2 px-4 py-5 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-zinc-950 transition-colors duration-200 hover:bg-zinc-950 hover:text-white sm:py-6"
+        >
+          <svg className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
+          </svg>
+          Umów jazdę
+        </a>
+      </div>
+
+      {/* ── Leasing note ── */}
+      <div className="bg-white" style={{ boxShadow: SHADOW }}>
         <div className="flex items-start gap-3 px-4 py-4 sm:px-5">
           <svg
             className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400"

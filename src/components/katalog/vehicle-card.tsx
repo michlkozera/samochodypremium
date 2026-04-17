@@ -55,80 +55,90 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
   return (
     <article
       ref={cardRef}
-      className="group flex flex-col sm:flex-row border border-zinc-200 bg-white"
+      className="group flex flex-col bg-white"
       style={{
-        transform: hovered ? 'translateY(-3px)' : 'translateY(0)',
-        boxShadow: hovered ? '6px 6px 0 rgba(9,9,11,0.10)' : 'none',
+        transform: hovered ? 'translateY(-5px)' : 'translateY(0)',
+        boxShadow: hovered
+          ? '0 20px 48px rgba(0,0,0,0.16), 0 6px 16px rgba(0,0,0,0.08)'
+          : '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)',
         transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1)',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* ── Image (left) ── */}
-      <Link
-        className="relative block w-full aspect-[3/2] sm:aspect-auto sm:w-[48%] sm:min-h-[16rem] shrink-0 overflow-hidden bg-zinc-100"
-        href={`/oferta/${vehicle.slug}`}
-        tabIndex={-1}
-        aria-hidden="true"
-      >
-        {vehicle.image ? (
-          <div className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]">
-            <Image
-              alt={`${vehicle.make} ${vehicle.model}`}
-              className={`h-full w-full object-cover${isReserved ? ' grayscale' : ''}`}
-              fill
-              sizes="(max-width: 640px) 100vw, 40vw"
-              src={vehicle.image}
-            />
-          </div>
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-zinc-400">
-              Brak zdjęcia
-            </span>
-          </div>
-        )}
+      {/* ── Image ── */}
+      <div className="relative w-full aspect-[16/9] shrink-0 bg-white overflow-hidden">
+        <Link
+          className="absolute inset-0 outline-none"
+          href={`/oferta/${vehicle.slug}`}
+          tabIndex={-1}
+          aria-hidden="true"
+        >
+          {vehicle.image ? (
+            <div className="absolute inset-0">
+              <Image
+                alt={`${vehicle.make} ${vehicle.model}`}
+                className={`h-full w-full object-cover${isReserved ? ' grayscale' : ''}`}
+                fill
+                sizes="(max-width: 640px) 100vw, 50vw"
+                src={vehicle.image}
+              />
+            </div>
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-zinc-400">
+                Brak zdjęcia
+              </span>
+            </div>
+          )}
+        </Link>
 
-        {/* Status badge — top-left */}
-        <div className={`absolute top-0 left-0 px-3 py-1.5 ${isReserved ? 'bg-orange-500' : 'bg-emerald-500'}`}>
-          <span className="block text-[0.6rem] font-medium uppercase tracking-[0.22em] text-white">
+        {/* Status badge — top-right flush, blur */}
+        <div className="absolute top-0 right-0 z-10 border-b border-l border-white/10 bg-white/10 px-3 py-2 backdrop-blur-md backdrop-saturate-150">
+          <span className={`block text-[0.6rem] font-semibold uppercase tracking-[0.28em] drop-shadow-sm ${isReserved ? 'text-orange-400' : 'text-white'}`}>
             {isReserved ? 'ZAREZERWOWANY' : 'DOSTĘPNY'}
           </span>
         </div>
-      </Link>
+
+        {/* SZCZEGÓŁY — wyjeżdża od dołu przy hover */}
+        <Link
+          href={`/oferta/${vehicle.slug}`}
+          style={{ bottom: '-1px' }}
+          className="absolute left-0 right-0 z-10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] bg-white flex items-center justify-center pt-6 pb-5"
+        >
+          <span className="flex items-center gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-900">
+            SZCZEGÓŁY
+            <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+          </span>
+        </Link>
+      </div>
 
       {/* ── Content (right) ── */}
-      <div className="flex flex-1 flex-col border-t border-zinc-200 sm:border-t-0 sm:border-l">
+      <div className="flex flex-1 flex-col -mt-px relative z-10 bg-white">
 
-        {/* Row 1: Make/Model | Trust Badges */}
-        <div className="grid grid-cols-2 border-b border-zinc-200">
-          <Link
-            href={`/oferta/${vehicle.slug}`}
-            className="block p-4 sm:p-5 hover:bg-zinc-50 transition-colors duration-200 flex flex-col justify-center"
-          >
-            <p className="text-xs font-medium uppercase tracking-[0.16em] text-zinc-500 mb-1">
-              {vehicle.make}
-            </p>
-            <h3 className="text-3xl font-semibold tracking-tight leading-tight text-zinc-900">
-              {vehicle.model}
-            </h3>
-          </Link>
-          <div className="border-l border-zinc-200 p-4 sm:p-5 flex items-center">
-            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-500 leading-relaxed">
-              {vehicle.shortDescription}
-            </p>
-          </div>
-        </div>
+        {/* Row 1: Make · Model · Pojemność */}
+        <Link
+          href={`/oferta/${vehicle.slug}`}
+          className="flex items-center justify-center p-4 sm:p-5 hover:bg-zinc-50 transition-colors duration-200 text-center"
+        >
+          <h3 className="text-3xl font-bold uppercase tracking-[0.04em] leading-none text-zinc-900">
+            {vehicle.make}{' '}
+            {vehicle.model}
+            {vehicle.engineCapacity ? (
+              <>{' '}{(vehicle.engineCapacity / 1000).toFixed(1)}</>
+            ) : null}
+          </h3>
+        </Link>
 
         {/* Row 2–3: Specs Grid (3 × 2) */}
-        <div className="grid grid-cols-3 border-b border-zinc-200">
+        <div className="grid grid-cols-3">
           {specs.map(({ label, value, icon }, i) => (
             <div
               key={label}
               className={[
-                'p-3 sm:p-4 grid gap-1',
-                i % 3 !== 0 ? 'border-l border-zinc-200' : '',
-                i >= 3 ? 'border-t border-zinc-200' : '',
+                'p-3 sm:p-4 grid gap-1 text-center justify-items-center',
+                i % 3 !== 0 ? '' : '',
+                i >= 3 ? '' : '',
               ].join(' ')}
             >
               <div className="flex items-center gap-1 text-zinc-400">
@@ -140,27 +150,17 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
           ))}
         </div>
 
-        {/* Row 4: Price | Action */}
-        <div className="grid grid-cols-2 mt-auto">
-          <div className="p-4 sm:p-5 flex flex-col justify-center">
-            <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-zinc-400 mb-1">Cena brutto</p>
-            <div className="flex items-baseline gap-1">
-              <span className="text-[clamp(1.4rem,2.8vw,2.25rem)] font-bold tracking-tighter text-black leading-none">
-                {formatPrice(vehicle.price)}
-              </span>
-              <span className="text-xs font-medium text-zinc-400 ml-0.5">PLN</span>
-            </div>
-            <p className="text-[9px] font-normal uppercase tracking-[0.18em] text-zinc-400 mt-1.5">Cena do negocjacji</p>
-          </div>
-          <Link
-            href={`/oferta/${vehicle.slug}`}
-            className="group/btn border-l border-zinc-200 p-4 sm:p-5 flex flex-col items-center justify-center hover:bg-zinc-50 transition-colors duration-200"
-          >
-            <span className="flex items-center gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-900">
-              SZCZEGÓŁY
-              <span className="transition-transform duration-200 group-hover/btn:translate-x-1">→</span>
+        {/* Row 4: Price */}
+        <div className="mt-auto p-4 sm:p-5 flex flex-col items-center gap-2">
+          <div className="flex items-baseline gap-1">
+            <span className="text-[clamp(1.4rem,2.8vw,2.25rem)] font-bold tracking-widest text-black leading-none">
+              {formatPrice(vehicle.price)}
             </span>
-          </Link>
+            <span className="text-xs font-medium text-zinc-400 ml-0.5">PLN</span>
+          </div>
+          <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-zinc-400">
+            Cena brutto, cena do negocjacji
+          </p>
         </div>
 
       </div>
