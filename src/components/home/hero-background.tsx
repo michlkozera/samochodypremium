@@ -25,8 +25,14 @@ export function useHeroScroll() {
     progressRef.current = raw;
 
     if (bgRef.current) {
-      const scale = 1 + raw * 0.18;
-      bgRef.current.style.transform = `scale(${scale})`;
+      // Only apply scroll-based transform if user has scrolled
+      if (raw > 0) {
+        const scale = 1 + raw * 0.18;
+        bgRef.current.style.transform = `scale(${scale})`;
+      } else {
+        // Allow CSS animation to run on initial load
+        bgRef.current.style.transform = '';
+      }
     }
 
     if (textRef.current) {
@@ -62,8 +68,17 @@ export function HeroBackground({ src, alt, bgRef }: HeroBackgroundProps & { bgRe
     <div
       ref={bgRef}
       className="absolute inset-0 origin-center will-change-transform"
-      style={{ transform: 'scale(1)' }}
+      style={{ 
+        transform: 'scale(1)',
+        animation: 'heroZoom 20s ease-in-out infinite',
+      }}
     >
+      <style>{`
+        @keyframes heroZoom {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.08); }
+        }
+      `}</style>
       <AppImage alt={alt} className="h-full w-full object-cover" priority src={src} />
     </div>
   );

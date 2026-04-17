@@ -25,24 +25,9 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
         {/* ── Left column ── */}
         <div className="grid min-w-0 gap-4 sm:gap-6">
           <MotionRevealItem>
-            <div className="eyebrow border-white/30 bg-white/10 text-[0.72rem] text-white/80 backdrop-blur-xl backdrop-saturate-150">Warszawa</div>
-          </MotionRevealItem>
-          <MotionRevealItem>
-            <h1 className="max-w-[14ch] text-[clamp(1.8rem,6.8vw,3.85rem)] font-bold uppercase leading-[1.05] tracking-[-0.03em] [overflow-wrap:anywhere] [text-wrap:balance]">
-              Samochody premium z pewnego źródła.
+            <h1 className="max-w-[14ch] text-[clamp(1.8rem,6.8vw,3.85rem)] font-extralight uppercase leading-[1.05] tracking-[-0.03em] [overflow-wrap:anywhere] [text-wrap:balance]">
+              Dealer samochodów klasy premium
             </h1>
-          </MotionRevealItem>
-
-          <MotionRevealItem>
-            <Link
-              href="/oferta"
-              className="inline-flex min-h-12 w-fit items-center justify-center gap-2 border border-white/40 bg-white/15 px-8 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white backdrop-blur-md backdrop-saturate-150 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-white hover:bg-white hover:text-zinc-950 sm:px-10"
-            >
-              Zobacz katalog
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
           </MotionRevealItem>
         </div>
 
