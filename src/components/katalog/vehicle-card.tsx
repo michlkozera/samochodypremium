@@ -59,7 +59,7 @@ export function VehicleCard({ vehicle, variant = 'default' }: VehicleCardProps) 
       ref={cardRef}
       className="group flex flex-col bg-white"
       style={{
-        transform: hovered ? 'translateY(-5px)' : 'translateY(0)',
+        transform: isHomeVariant ? 'translateY(0)' : hovered ? 'translateY(-5px)' : 'translateY(0)',
         boxShadow: hovered
           ? '0 20px 48px rgba(0,0,0,0.16), 0 6px 16px rgba(0,0,0,0.08)'
           : '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)',

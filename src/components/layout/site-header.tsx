@@ -80,7 +80,7 @@ export function SiteHeader({ page, mode = 'hero' }: SiteHeaderProps) {
 
   const linkClass = (isCurrent: boolean) =>
     [
-      'inline-flex items-center px-3 py-2 text-[0.72rem] font-medium uppercase tracking-[0.22em] transition-colors duration-300 ease-out',
+      'nav-link-line inline-flex items-center px-3 py-2 text-[0.72rem] font-medium uppercase tracking-[0.22em] transition-colors duration-300 ease-out',
       isTransparent
         ? isCurrent
           ? 'text-white'
@@ -101,7 +101,7 @@ export function SiteHeader({ page, mode = 'hero' }: SiteHeaderProps) {
             : isScrolled
               ? 'border-zinc-200/60 bg-white/95 shadow-[0_12px_32px_rgba(0,0,0,0.04)] backdrop-blur-md'
               : hasHero
-                ? 'border-transparent bg-transparent'
+                ? 'border-b-0 bg-transparent'
                 : 'border-zinc-200/60 bg-white/92 shadow-[0_10px_28px_rgba(0,0,0,0.04)] backdrop-blur-md',
         ].join(' ')}
         id="hdr"
@@ -111,7 +111,7 @@ export function SiteHeader({ page, mode = 'hero' }: SiteHeaderProps) {
             <Link
               aria-label="Samochody Premium - strona główna"
               className={[
-                'inline-flex items-center text-[1.1rem] font-semibold uppercase tracking-[0.28em] transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2',
+                'inline-flex items-center border-0 text-[1.1rem] font-semibold uppercase tracking-[0.28em] transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2',
                 isTransparent || isMenuOpen
                   ? 'text-white hover:text-white/70'
                   : 'text-zinc-950 hover:text-zinc-500',
