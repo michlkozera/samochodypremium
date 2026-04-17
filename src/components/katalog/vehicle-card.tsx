@@ -11,11 +11,13 @@ import {
 
 type VehicleCardProps = {
   vehicle: CatalogVehicle;
+  variant?: 'default' | 'home';
 };
 
-export function VehicleCard({ vehicle }: VehicleCardProps) {
+export function VehicleCard({ vehicle, variant = 'default' }: VehicleCardProps) {
   const [hovered, setHovered] = useState(false);
   const cardRef = useRef<HTMLElement>(null);
+  const isHomeVariant = variant === 'home';
 
   const specs = [
     {
@@ -95,7 +97,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
 
         {/* Status badge — top-right flush, blur */}
         <div className="absolute top-0 right-0 z-10 border-b border-l border-white/10 bg-white/10 px-3 py-2 backdrop-blur-md backdrop-saturate-150">
-          <span className={`block text-[0.6rem] font-semibold uppercase tracking-[0.28em] drop-shadow-sm ${isReserved ? 'text-orange-400' : 'text-white'}`}>
+          <span className={`block text-[0.6rem] ${isHomeVariant ? 'font-medium' : 'font-semibold'} uppercase tracking-[0.28em] drop-shadow-sm ${isReserved ? 'text-orange-400' : 'text-white'}`}>
             {isReserved ? 'ZAREZERWOWANY' : 'DOSTĘPNY'}
           </span>
         </div>
@@ -104,11 +106,17 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         <Link
           href={`/oferta/${vehicle.slug}`}
           style={{ bottom: '-1px' }}
-          className="absolute left-0 right-0 z-10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] bg-white flex items-center justify-center pt-6 pb-5"
+          className={[
+            'absolute left-0 right-0 z-10 translate-y-full group-hover:translate-y-0 bg-white pt-6 pb-5',
+            isHomeVariant
+              ? 'home-cta justify-center text-zinc-900 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]'
+              : 'flex items-center justify-center transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
+          ].join(' ')}
         >
-          <span className="flex items-center gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-900">
+          <span className={`relative flex items-center gap-2 text-[0.68rem] ${isHomeVariant ? 'font-medium' : 'font-semibold'} uppercase tracking-[0.18em] text-zinc-900`}>
             SZCZEGÓŁY
-            <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+            <span className={isHomeVariant ? 'home-cta-arrow' : 'transition-transform duration-200 group-hover:translate-x-1'}>→</span>
+            {isHomeVariant ? <span className="home-cta-line" /> : null}
           </span>
         </Link>
       </div>
@@ -121,7 +129,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
           href={`/oferta/${vehicle.slug}`}
           className="flex items-center justify-center p-4 sm:p-5 hover:bg-zinc-50 transition-colors duration-200 text-center"
         >
-          <h3 className="text-3xl font-bold uppercase tracking-[0.04em] leading-none text-zinc-900">
+          <h3 className={`text-3xl ${isHomeVariant ? 'font-light' : 'font-bold'} uppercase tracking-[0.04em] leading-none text-zinc-900`}>
             {vehicle.make}{' '}
             {vehicle.model}
             {vehicle.engineCapacity ? (
@@ -145,7 +153,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                 {icon}
                 <span className="text-[9px] font-medium uppercase tracking-[0.2em]">{label}</span>
               </div>
-              <span className="text-sm font-semibold text-zinc-900">{value}</span>
+              <span className={`text-sm ${isHomeVariant ? 'font-medium' : 'font-semibold'} text-zinc-900`}>{value}</span>
             </div>
           ))}
         </div>
@@ -153,7 +161,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         {/* Row 4: Price */}
         <div className="mt-auto p-4 sm:p-5 flex flex-col items-center gap-2">
           <div className="flex items-baseline gap-1">
-            <span className="text-[clamp(1.4rem,2.8vw,2.25rem)] font-bold tracking-widest text-black leading-none">
+            <span className={`text-[clamp(1.4rem,2.8vw,2.25rem)] ${isHomeVariant ? 'font-semibold' : 'font-bold'} tracking-widest text-black leading-none`}>
               {formatPrice(vehicle.price)}
             </span>
             <span className="text-xs font-medium text-zinc-400 ml-0.5">PLN</span>

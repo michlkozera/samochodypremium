@@ -14,50 +14,26 @@ export function BodyTypeSection() {
   return (
     <section className="section-block border-b border-zinc-200/60 bg-white">
       <div className="site-shell">
-        {/* Header row */}
+        {/* Header */}
         <MotionReveal className="mb-10 sm:mb-12" stagger={0.12} amount={0.1}>
-          <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-16">
-            <div className="grid gap-4">
-              <MotionRevealItem preset="fade-up" duration={0.8}>
-                <p className="eyebrow">Typ nadwozia</p>
-              </MotionRevealItem>
-              <MotionRevealItem preset="blur-fade" duration={1}>
-                <h2 className="section-title">
-                  Wybierz typ nadwozia
-                </h2>
-              </MotionRevealItem>
-            </div>
-            <MotionRevealItem>
-              <Link
-                href="/oferta"
-                className="hidden sm:inline-flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-zinc-950 hover:text-zinc-600 transition-colors"
-              >
-                Zobacz pełną ofertę
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-                </svg>
-              </Link>
+          <div className="grid justify-items-center text-center">
+            <MotionRevealItem preset="blur-fade" duration={1}>
+              <h2 className="section-title text-center font-light">Wybierz typ nadwozia</h2>
             </MotionRevealItem>
           </div>
         </MotionReveal>
 
         {/* Body type tiles */}
         <MotionReveal stagger={0.06} delay={0.1}>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 sm:gap-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
             {BODY_TYPES.map((type) => (
               <MotionRevealItem key={type.value}>
                 <Link
                   href={`/oferta?body=${encodeURIComponent(type.value)}`}
-                  className="group flex flex-col items-center gap-4 border border-zinc-200 bg-zinc-50/50 p-6 sm:p-8 transition-all duration-300 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white"
+                  className="group flex flex-col items-center gap-4 border border-zinc-200 bg-zinc-50/50 p-6 transition-all duration-300 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white sm:p-8"
                 >
                   <type.icon className="h-10 w-10 text-zinc-400 transition-colors duration-300 group-hover:text-white sm:h-12 sm:w-12" />
-                  <span className="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-zinc-700 transition-colors duration-300 group-hover:text-white">
+                  <span className="text-[0.72rem] font-medium uppercase tracking-[0.18em] text-zinc-700 transition-colors duration-300 group-hover:text-white">
                     {type.label}
                   </span>
                 </Link>
@@ -66,21 +42,27 @@ export function BodyTypeSection() {
           </div>
         </MotionReveal>
 
-        {/* Mobile CTA */}
-        <div className="mt-8 sm:hidden">
-          <Link
-            href="/oferta"
-            className="btn-premium h-12 w-full"
-          >
-            Zobacz pełną ofertę
-          </Link>
-        </div>
+        {/* CTA under tiles */}
+        <MotionReveal className="mt-10 flex justify-center sm:mt-12" stagger={0.08} amount={0.1}>
+          <MotionRevealItem>
+            <Link
+              href="/oferta"
+              className="home-cta text-zinc-950 hover:text-zinc-700"
+            >
+              Zobacz pełną ofertę
+              <svg className="home-cta-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+              </svg>
+              <span className="home-cta-line" />
+            </Link>
+          </MotionRevealItem>
+        </MotionReveal>
       </div>
     </section>
   );
 }
 
-/* ── Minimalist car silhouette icons ── */
+/* Minimalist car silhouette icons */
 
 function SuvIcon({ className }: { className?: string }) {
   return (

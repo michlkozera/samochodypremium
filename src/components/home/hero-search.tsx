@@ -77,9 +77,13 @@ export function HeroSearch({ buttonLabel = 'Zobacz katalog', buttonHref = '/ofer
       <div className="mt-4">
         <button
           type="submit"
-          className="inline-flex min-h-[3rem] w-full items-center justify-center border border-white/40 bg-white/15 px-8 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white backdrop-blur-xl backdrop-saturate-150 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-white hover:bg-white hover:text-zinc-950 sm:w-fit sm:tracking-[0.24em]"
+          className="home-cta min-h-[3rem] w-full justify-center border border-white/40 bg-white/15 px-8 text-white backdrop-blur-xl backdrop-saturate-150 transition-[background-color,color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-white hover:bg-white hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black sm:w-fit"
         >
-          {buttonLabel}
+          <span>{buttonLabel}</span>
+          <svg className="home-cta-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+          </svg>
+          <span className="home-cta-line" />
         </button>
       </div>
     </form>
