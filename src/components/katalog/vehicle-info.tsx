@@ -63,11 +63,15 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
         <Link className="transition-colors duration-200 hover:text-zinc-950" href="/">
           Start
         </Link>
-        <span>/</span>
+        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
         <Link className="transition-colors duration-200 hover:text-zinc-950" href="/oferta">
           Oferta
         </Link>
-        <span>/</span>
+        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
         <span className="text-zinc-600">
           {vehicle.make} {vehicle.model}
         </span>
