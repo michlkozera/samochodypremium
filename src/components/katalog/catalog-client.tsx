@@ -60,7 +60,7 @@ const FILTER_CONTROL_CLASS =
   'h-11 w-full bg-white text-[0.82rem] font-medium text-zinc-900 shadow-[0_14px_34px_rgba(15,23,42,0.1)] outline-none transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus:-translate-y-px focus:shadow-[0_18px_40px_rgba(15,23,42,0.14)]';
 
 const RANGE_FILTER_CONTROL_CLASS =
-  'h-11 w-full bg-zinc-50 text-[0.82rem] font-medium text-zinc-900 outline-none transition-[background-color,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus:-translate-y-px focus:bg-white';
+  'h-11 w-full bg-white text-[0.82rem] font-medium text-zinc-900 shadow-[0_14px_34px_rgba(15,23,42,0.1)] outline-none transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus:-translate-y-px focus:shadow-[0_18px_40px_rgba(15,23,42,0.14)] appearance-none rounded-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [-moz-appearance:textfield]';
 
 function SelectField({ id, label, options, value, onChange, icon }: SelectFieldProps) {
   return (
@@ -235,6 +235,7 @@ function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageC
     </div>
   );
 }
+
 type CatalogClientProps = {
   vehicles: CatalogVehicle[];
   filterOptions: CatalogFilterOptions;
@@ -436,10 +437,10 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
 
             {/* Extended filters */}
             <div
-              className="overflow-hidden transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              className="overflow-hidden transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] -mx-6 px-6"
               style={{ maxHeight: isExpanded ? '900px' : '0px', opacity: isExpanded ? 1 : 0 }}
             >
-              <div className="mt-4 px-1 pt-2 pb-5 sm:mt-5 sm:grid sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+              <div className="mt-4 pt-2 pb-16 sm:mt-5 sm:grid sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
                 <RangeField
                   id="filter-year"
                   label="Rok produkcji"
