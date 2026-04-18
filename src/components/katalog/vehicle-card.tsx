@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -15,7 +15,6 @@ type VehicleCardProps = {
 };
 
 export function VehicleCard({ vehicle, variant = 'default' }: VehicleCardProps) {
-  const [hovered, setHovered] = useState(false);
   const cardRef = useRef<HTMLElement>(null);
   const isHomeVariant = variant === 'home';
 
@@ -59,14 +58,8 @@ export function VehicleCard({ vehicle, variant = 'default' }: VehicleCardProps) 
       ref={cardRef}
       className="group relative z-0 flex flex-col bg-white"
       style={{
-        transform: isHomeVariant ? 'translateY(0)' : hovered ? 'translateY(-5px)' : 'translateY(0)',
-        boxShadow: hovered
-          ? '0 38px 52px -26px rgba(102, 116, 139, 0.5), 0 14px 22px -14px rgba(24, 24, 27, 0.28)'
-          : '0 30px 44px -24px rgba(102, 116, 139, 0.42), 0 10px 18px -12px rgba(24, 24, 27, 0.2)',
-        transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1)',
+        boxShadow: '0 30px 44px -24px rgba(102, 116, 139, 0.42), 0 10px 18px -12px rgba(24, 24, 27, 0.2)',
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
       {/* ── Image ── */}
       <div className="relative w-full aspect-[16/9] shrink-0 bg-white overflow-hidden">
@@ -95,9 +88,12 @@ export function VehicleCard({ vehicle, variant = 'default' }: VehicleCardProps) 
           )}
         </Link>
 
-        {/* Status badge — top-right flush, blur */}
-        <div className="absolute top-0 right-0 z-10 border-b border-l border-white/10 bg-white/10 px-3 py-2 backdrop-blur-md backdrop-saturate-150">
-          <span className={`block text-[0.6rem] ${isHomeVariant ? 'font-medium' : 'font-semibold'} uppercase tracking-[0.28em] drop-shadow-sm ${isReserved ? 'text-orange-400' : 'text-white'}`}>
+        {/* Status badge — floating with margin, no border */}
+        <div
+          className="absolute right-3 top-3 z-10 flex items-center justify-center bg-white/10 px-3 backdrop-blur-md backdrop-saturate-150 sm:right-4 sm:top-4"
+          style={{ height: '28px' }}
+        >
+          <span className={`text-[0.56rem] ${isHomeVariant ? 'font-medium' : 'font-semibold'} uppercase leading-none tracking-[0.2em] drop-shadow-sm ${isReserved ? 'text-orange-400' : 'text-white'}`}>
             {isReserved ? 'ZAREZERWOWANY' : 'DOSTĘPNY'}
           </span>
         </div>
@@ -106,17 +102,11 @@ export function VehicleCard({ vehicle, variant = 'default' }: VehicleCardProps) 
         <Link
           href={`/oferta/${vehicle.slug}`}
           style={{ bottom: '-1px' }}
-          className={[
-            'absolute left-0 right-0 z-10 translate-y-full group-hover:translate-y-0 bg-white pt-6 pb-5',
-            isHomeVariant
-              ? 'home-cta justify-center text-zinc-900 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]'
-              : 'flex items-center justify-center transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
-          ].join(' ')}
+          className="absolute left-0 right-0 z-10 flex translate-y-full items-center justify-center bg-white pt-6 pb-5 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0"
         >
-          <span className={`relative flex items-center gap-2 text-[0.68rem] ${isHomeVariant ? 'font-medium' : 'font-semibold'} uppercase tracking-[0.18em] text-zinc-900`}>
+          <span className={`flex items-center gap-2 text-[0.68rem] ${isHomeVariant ? 'font-medium' : 'font-semibold'} uppercase tracking-[0.18em] text-zinc-900`}>
             SZCZEGÓŁY
-            <span className={isHomeVariant ? 'home-cta-arrow' : 'transition-transform duration-200 group-hover:translate-x-1'}>→</span>
-            {isHomeVariant ? <span className="home-cta-line" /> : null}
+            <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
           </span>
         </Link>
       </div>
@@ -174,13 +164,12 @@ export function VehicleCard({ vehicle, variant = 'default' }: VehicleCardProps) 
         <div className="px-4 pb-4 sm:hidden">
           <Link
             href={`/oferta/${vehicle.slug}`}
-            className="home-cta flex w-full justify-center text-zinc-950 hover:text-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
+            className="group/cta flex w-full items-center justify-center gap-2 text-[0.72rem] font-medium uppercase tracking-[0.12em] text-zinc-950 transition-colors duration-300 hover:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
           >
             Szczegóły
-            <svg className="home-cta-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="h-4 w-4 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cta:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
             </svg>
-            <span className="home-cta-line" />
           </Link>
         </div>
 

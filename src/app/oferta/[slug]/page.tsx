@@ -46,7 +46,7 @@ export default async function VehicleDetailPage({ params }: PageProps) {
       <main className="flex flex-col pb-[4.5rem] lg:pb-0">
 
         {/* ── Hero: gallery + info ── */}
-        <section className="bg-white pt-[var(--site-header-h)]">
+        <section className="bg-white pt-[calc(var(--site-header-h)+0.75rem)] sm:pt-[calc(var(--site-header-h)+1rem)] lg:pt-[var(--site-header-h)]">
           {/* Mobile: gallery full-width, no side padding */}
           <div className="lg:hidden">
             <VehicleGallery

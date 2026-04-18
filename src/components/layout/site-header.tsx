@@ -142,10 +142,10 @@ export function SiteHeader({ page, mode = 'hero' }: SiteHeaderProps) {
               aria-expanded={isMenuOpen}
               aria-label={isMenuOpen ? 'Zamknij menu' : 'Otwórz menu'}
               className={[
-                'relative col-end-4 ml-auto inline-flex h-10 w-10 items-center justify-center border transition duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 md:hidden',
+                'relative col-end-4 ml-auto inline-flex h-10 w-10 items-center justify-center transition duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 md:hidden',
                 isTransparent || isMenuOpen
-                  ? 'border-white/20 bg-transparent text-white hover:border-white hover:bg-white hover:text-zinc-950'
-                  : 'border-zinc-200 bg-white text-zinc-950 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white',
+                  ? 'bg-transparent text-white hover:bg-white hover:text-zinc-950'
+                  : 'bg-transparent text-zinc-950 hover:bg-zinc-950 hover:text-white',
               ].join(' ')}
               id="burg"
               onClick={() => setIsMenuOpen((open) => !open)}

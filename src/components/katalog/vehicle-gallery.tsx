@@ -216,20 +216,28 @@ export function VehicleGallery({ images, alt, statusLabel, status }: VehicleGall
 
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.12)_0%,rgba(0,0,0,0.04)_40%,rgba(0,0,0,0.38)_100%)]" />
 
-          <div className="absolute left-0 top-0 z-10 flex items-stretch">
-            <div className="flex h-10 min-w-[3.25rem] items-center justify-center border-b border-r border-white/10 bg-white/10 px-3 text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-md backdrop-saturate-150 tabular-nums">
-              {String(displayed + 1).padStart(2, '0')}&thinsp;/&thinsp;{String(total).padStart(2, '0')}
+          <div className="absolute left-3 top-3 z-10 flex gap-1.5 sm:left-4 sm:top-4">
+            <div
+              className="flex items-center justify-center bg-white/10 px-3 text-[0.56rem] font-semibold uppercase leading-none tracking-[0.14em] text-white tabular-nums backdrop-blur-md backdrop-saturate-150"
+              style={{ height: '28px' }}
+            >
+              <span className="inline-flex items-center gap-[0.35em]">
+                <span>{String(displayed + 1).padStart(2, '0')}</span>
+                <span className="text-white/60">/</span>
+                <span>{String(total).padStart(2, '0')}</span>
+              </span>
             </div>
             <button
               aria-label="Powiększ galerię"
-              className="flex h-10 w-10 items-center justify-center border-b border-l border-white/10 bg-white/10 text-white/90 backdrop-blur-md backdrop-saturate-150 transition-colors duration-200 hover:bg-white/25 active:bg-white/30"
+              className="flex items-center justify-center bg-white/10 text-white/90 backdrop-blur-md backdrop-saturate-150 transition-colors duration-200 hover:bg-white/25 active:bg-white/30"
+              style={{ height: '28px', width: '28px', minHeight: '28px' }}
               onClick={(e) => {
                 e.stopPropagation();
                 setIsFullscreen(true);
               }}
               type="button"
             >
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+              <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
                 <path
                   d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
                   strokeLinecap="round"
@@ -240,8 +248,11 @@ export function VehicleGallery({ images, alt, statusLabel, status }: VehicleGall
           </div>
 
           {statusLabel && (
-            <div className="absolute right-0 top-0 z-10 flex h-10 items-center justify-center border-b border-l border-white/10 bg-white/10 px-3 backdrop-blur-md backdrop-saturate-150">
-              <span className={`text-[0.6rem] font-semibold uppercase leading-none tracking-[0.28em] drop-shadow-sm${status === 'RESERVED' ? ' text-orange-400' : ' text-white'}`}>
+            <div
+              className="absolute right-3 top-3 z-10 flex items-center justify-center bg-white/10 px-3 backdrop-blur-md backdrop-saturate-150 sm:right-4 sm:top-4"
+              style={{ height: '28px' }}
+            >
+              <span className={`text-[0.56rem] font-semibold uppercase leading-none tracking-[0.2em] drop-shadow-sm${status === 'RESERVED' ? ' text-orange-400' : ' text-white'}`}>
                 {statusLabel}
               </span>
             </div>
@@ -250,12 +261,12 @@ export function VehicleGallery({ images, alt, statusLabel, status }: VehicleGall
           {total > 1 && (
             <>
               <ArrowBtn
-                className="absolute left-0 top-1/2 z-10 flex h-12 w-10 -translate-y-1/2 border-y border-r sm:h-14 sm:w-11"
+                className="absolute left-0 top-1/2 z-10 hidden h-14 w-11 -translate-y-1/2 border-y border-r sm:flex"
                 dir="left"
                 onClick={prev}
               />
               <ArrowBtn
-                className="absolute right-0 top-1/2 z-10 flex h-12 w-10 -translate-y-1/2 border-y border-l sm:h-14 sm:w-11"
+                className="absolute right-0 top-1/2 z-10 hidden h-14 w-11 -translate-y-1/2 border-y border-l sm:flex"
                 dir="right"
                 onClick={next}
               />
