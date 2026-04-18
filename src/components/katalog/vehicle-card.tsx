@@ -102,11 +102,12 @@ export function VehicleCard({ vehicle, variant = 'default' }: VehicleCardProps) 
         <Link
           href={`/oferta/${vehicle.slug}`}
           style={{ bottom: '-1px' }}
-          className="absolute left-0 right-0 z-10 flex translate-y-full items-center justify-center bg-white pt-6 pb-5 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0"
+          className="group/cta absolute left-0 right-0 z-10 flex translate-y-full items-center justify-center bg-white pt-6 pb-5 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0"
         >
-          <span className={`flex items-center gap-2 text-[0.68rem] ${isHomeVariant ? 'font-medium' : 'font-semibold'} uppercase tracking-[0.18em] text-zinc-900`}>
+          <span className={`relative inline-flex items-center gap-2 text-[0.68rem] ${isHomeVariant ? 'font-medium' : 'font-semibold'} uppercase tracking-[0.18em] text-zinc-900`}>
             SZCZEGÓŁY
-            <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+            <span className="transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cta:translate-x-1">→</span>
+            <span className="pointer-events-none absolute -bottom-1 left-0 right-0 border-t border-current opacity-0 transition-opacity duration-[420ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cta:opacity-100" />
           </span>
         </Link>
       </div>
@@ -161,15 +162,16 @@ export function VehicleCard({ vehicle, variant = 'default' }: VehicleCardProps) 
           </p>
         </div>
 
-        <div className="px-4 pb-4 sm:hidden">
+        <div className="flex px-4 pb-4 sm:hidden">
           <Link
             href={`/oferta/${vehicle.slug}`}
-            className="group/cta flex w-full items-center justify-center gap-2 text-[0.72rem] font-medium uppercase tracking-[0.12em] text-zinc-950 transition-colors duration-300 hover:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
+            className="group/cta relative mx-auto inline-flex items-center gap-2 text-[0.72rem] font-medium uppercase tracking-[0.12em] text-zinc-950 transition-colors duration-300 hover:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
           >
             Szczegóły
             <svg className="h-4 w-4 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cta:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
             </svg>
+            <span className="pointer-events-none absolute -bottom-1 left-0 right-0 border-t border-current opacity-0 transition-opacity duration-[420ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cta:opacity-100" />
           </Link>
         </div>
 

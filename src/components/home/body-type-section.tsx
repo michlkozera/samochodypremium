@@ -31,7 +31,7 @@ export function BodyTypeSection() {
                 <Link
                   href={`/oferta?body=${encodeURIComponent(type.value)}`}
                   data-shadow-hover="true"
-                  className="premium-card-shadow group flex flex-col items-center justify-center border border-zinc-200 bg-zinc-50/50 p-6 transition-all duration-300 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white sm:p-8"
+                  className="premium-card-shadow group flex flex-col items-center justify-center bg-white p-6 transition-all duration-300 hover:bg-zinc-950 hover:text-white sm:p-8"
                 >
                   <span className="text-[0.72rem] font-medium uppercase tracking-[0.18em] text-zinc-700 transition-colors duration-300 group-hover:text-white">
                     {type.label}
