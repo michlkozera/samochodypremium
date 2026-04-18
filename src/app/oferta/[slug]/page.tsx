@@ -115,15 +115,10 @@ export default async function VehicleDetailPage({ params }: PageProps) {
 
         {/* ── Back to catalog ── */}
         <section className="bg-[linear-gradient(180deg,rgba(250,250,250,0.94)_0%,rgba(255,255,255,1)_100%)] py-14 sm:py-16 lg:py-20">
-          <div className="site-shell grid gap-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end sm:gap-10">
-            <div className="grid gap-3">
-              <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-zinc-500">
-                Przeglądaj dalej
-              </p>
-              <h2 className="section-title !max-w-none !font-medium">
-                Zobacz pozostałe oferty.
-              </h2>
-            </div>
+          <div className="site-shell grid gap-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-10">
+            <h2 className="section-title !max-w-none !font-medium">
+              Zobacz pozostałe oferty.
+            </h2>
             <Link
               className="home-cta self-start text-zinc-950 hover:text-zinc-500 sm:self-end"
               href="/oferta"

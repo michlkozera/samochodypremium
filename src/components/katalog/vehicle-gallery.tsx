@@ -217,12 +217,12 @@ export function VehicleGallery({ images, alt, statusLabel, status }: VehicleGall
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.12)_0%,rgba(0,0,0,0.04)_40%,rgba(0,0,0,0.38)_100%)]" />
 
           <div className="absolute left-0 top-0 z-10 flex items-stretch">
-            <div className="border-b border-r border-white/10 bg-white/10 px-3 py-2 text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-md backdrop-saturate-150">
+            <div className="flex h-10 min-w-[3.25rem] items-center justify-center border-b border-r border-white/10 bg-white/10 px-3 text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-md backdrop-saturate-150 tabular-nums">
               {String(displayed + 1).padStart(2, '0')}&thinsp;/&thinsp;{String(total).padStart(2, '0')}
             </div>
             <button
               aria-label="Powiększ galerię"
-              className="border-b border-l border-white/10 bg-white/10 px-3 py-2 text-white/90 backdrop-blur-md backdrop-saturate-150 transition-colors duration-200 hover:bg-white/25 active:bg-white/30"
+              className="flex h-10 w-10 items-center justify-center border-b border-l border-white/10 bg-white/10 text-white/90 backdrop-blur-md backdrop-saturate-150 transition-colors duration-200 hover:bg-white/25 active:bg-white/30"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsFullscreen(true);
@@ -240,8 +240,8 @@ export function VehicleGallery({ images, alt, statusLabel, status }: VehicleGall
           </div>
 
           {statusLabel && (
-            <div className="absolute right-0 top-0 z-10 border-b border-l border-white/10 bg-white/10 px-3 py-2 backdrop-blur-md backdrop-saturate-150">
-              <span className={`block text-[0.6rem] font-semibold uppercase tracking-[0.28em] drop-shadow-sm${status === 'RESERVED' ? ' text-orange-400' : ' text-white'}`}>
+            <div className="absolute right-0 top-0 z-10 flex h-10 items-center justify-center border-b border-l border-white/10 bg-white/10 px-3 backdrop-blur-md backdrop-saturate-150">
+              <span className={`text-[0.6rem] font-semibold uppercase leading-none tracking-[0.28em] drop-shadow-sm${status === 'RESERVED' ? ' text-orange-400' : ' text-white'}`}>
                 {statusLabel}
               </span>
             </div>

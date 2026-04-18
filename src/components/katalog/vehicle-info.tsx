@@ -125,10 +125,10 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
 
       </div>
 
-      {/* ── CTA — separate card with shadow, animated arrow ── */}
+      {/* ── CTA — white card with shadow, animated arrow ── */}
       <a
         href="#kontakt-oferta"
-        className="group flex w-full items-center justify-center gap-2.5 bg-zinc-950 px-5 py-5 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-white transition-[background-color,color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white hover:text-zinc-950 sm:py-6"
+        className="group flex w-full items-center justify-center gap-2.5 bg-white px-5 py-5 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-zinc-950 transition-colors duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-zinc-500 sm:py-6"
         style={{ boxShadow: SHADOW }}
       >
         Zapytaj o ten egzemplarz

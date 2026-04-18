@@ -14,15 +14,10 @@ export function VehicleEquipment({ description, features }: VehicleEquipmentProp
         <MotionReveal className="grid gap-10 lg:gap-14" stagger={0.1} amount={0.15}>
           {/* Header */}
           <MotionRevealItem preset="blur-fade">
-            <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] lg:items-end lg:gap-16">
-              <div className="grid gap-3 self-start">
-                <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-zinc-500">
-                  02 / Opis i wyposażenie
-                </p>
-                <h2 className="section-title !max-w-none !font-medium">
-                  Szczegóły oferty.
-                </h2>
-              </div>
+            <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] lg:items-start lg:gap-16">
+              <h2 className="section-title !max-w-none !font-medium self-start">
+                Szczegóły oferty.
+              </h2>
               <p className="body-copy max-w-xl self-start">{description}</p>
             </div>
           </MotionRevealItem>

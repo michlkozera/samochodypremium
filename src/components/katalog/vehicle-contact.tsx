@@ -135,14 +135,11 @@ export function VehicleContact({ vehicle }: VehicleContactProps) {
     <section className="bg-[linear-gradient(180deg,rgba(255,255,255,1)_0%,rgba(250,250,250,0.94)_100%)]" id="kontakt-oferta">
       {/* ── Light header — matches page design language ── */}
       <div className="site-shell pt-14 sm:pt-16 lg:pt-20 xl:pt-24">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:gap-16">
           <div
-            className={`contact-field grid gap-3 ${visible ? 'is-visible' : ''}`}
+            className={`contact-field ${visible ? 'is-visible' : ''}`}
             style={getDelay(0)}
           >
-            <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-zinc-500">
-              03 / Zapytanie
-            </p>
             <h2 className="section-title !max-w-none !font-medium">
               Zainteresowany tym modelem?
             </h2>

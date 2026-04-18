@@ -13,15 +13,10 @@ export function VehicleSpecs({ specs }: VehicleSpecsProps) {
         <MotionReveal className="grid gap-10 lg:gap-12" stagger={0.1} amount={0.15}>
           {/* Header */}
           <MotionRevealItem preset="blur-fade">
-            <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] lg:items-end lg:gap-16">
-              <div className="grid gap-3">
-                <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-zinc-500">
-                  01 / Specyfikacja
-                </p>
-                <h2 className="section-title !max-w-none !font-medium">
-                  Parametry techniczne.
-                </h2>
-              </div>
+            <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] lg:items-start lg:gap-16">
+              <h2 className="section-title !max-w-none !font-medium">
+                Parametry techniczne.
+              </h2>
               <p className="body-copy max-w-xl">
                 Kompletne dane pojazdu zweryfikowane w oparciu o dokumentację i historię serwisową. Bez uproszczeń, bez domysłów.
               </p>
