@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import { useState, useMemo, useCallback, useRef } from 'react';
 import type { CatalogVehicle, CatalogFilterOptions } from '@/lib/vehicle-catalog';
 import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
 import { VehicleCard } from './vehicle-card';
@@ -56,6 +56,12 @@ type SelectFieldProps = {
   icon?: React.ReactNode;
 };
 
+const FILTER_CONTROL_CLASS =
+  'h-11 w-full bg-white text-[0.82rem] font-medium text-zinc-900 shadow-[0_14px_34px_rgba(15,23,42,0.1)] outline-none transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus:-translate-y-px focus:shadow-[0_18px_40px_rgba(15,23,42,0.14)]';
+
+const RANGE_FILTER_CONTROL_CLASS =
+  'h-11 w-full bg-zinc-50 text-[0.82rem] font-medium text-zinc-900 outline-none transition-[background-color,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus:-translate-y-px focus:bg-white';
+
 function SelectField({ id, label, options, value, onChange, icon }: SelectFieldProps) {
   return (
     <div className="grid gap-2">
@@ -68,7 +74,7 @@ function SelectField({ id, label, options, value, onChange, icon }: SelectFieldP
       </label>
       <div className="relative">
         <select
-          className="h-11 w-full appearance-none bg-white pr-10 pl-3 text-[0.82rem] text-zinc-950 shadow-[0_12px_28px_rgba(15,23,42,0.08)] outline-none transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus:translate-y-[-1px] focus:shadow-[0_20px_44px_rgba(15,23,42,0.14)]"
+          className={`${FILTER_CONTROL_CLASS} appearance-none pr-10 pl-3`}
           id={id}
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -115,10 +121,10 @@ function RangeField({
         {icon && <span className="text-zinc-400">{icon}</span>}
         {label}
       </span>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-3">
         <input
           aria-label={`${label} od`}
-          className="h-11 bg-white px-3 text-[0.82rem] text-zinc-950 shadow-[0_12px_28px_rgba(15,23,42,0.08)] outline-none transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] placeholder:text-zinc-400 focus:translate-y-[-1px] focus:shadow-[0_20px_44px_rgba(15,23,42,0.14)]"
+          className={`${RANGE_FILTER_CONTROL_CLASS} px-3 placeholder:text-zinc-400`}
           id={`${id}-from`}
           placeholder={minPlaceholder}
           type="number"
@@ -127,7 +133,7 @@ function RangeField({
         />
         <input
           aria-label={`${label} do`}
-          className="h-11 bg-white px-3 text-[0.82rem] text-zinc-950 shadow-[0_12px_28px_rgba(15,23,42,0.08)] outline-none transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] placeholder:text-zinc-400 focus:translate-y-[-1px] focus:shadow-[0_20px_44px_rgba(15,23,42,0.14)]"
+          className={`${RANGE_FILTER_CONTROL_CLASS} px-3 placeholder:text-zinc-400`}
           id={`${id}-to`}
           placeholder={maxPlaceholder}
           type="number"
@@ -171,6 +177,7 @@ function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageC
         pages.push(totalPages);
       }
     }
+
     return pages;
   };
 
@@ -178,55 +185,56 @@ function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageC
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   return (
-    <div className="mt-10 flex flex-col items-center gap-4 sm:mt-12">
-      <p className="text-[0.68rem] font-medium uppercase tracking-[0.18em] text-zinc-400">
-        Pokazano {startItem}–{endItem} z {totalItems} ogłoszeń
+    <div className="mt-10 flex flex-col items-center gap-5 sm:mt-12">
+      <p className="text-[0.68rem] font-medium uppercase tracking-[0.18em] text-zinc-500">
+        Pokazano {startItem}-{endItem} z {totalItems} ogłoszeń
       </p>
-      <div className="flex items-center gap-1">
+      <div className="flex flex-wrap items-center justify-center gap-4">
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="flex h-10 w-10 items-center justify-center border border-zinc-200 bg-white text-zinc-700 transition-all duration-200 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-zinc-200 disabled:hover:bg-white disabled:hover:text-zinc-700"
+          className="home-cta text-zinc-950 hover:text-zinc-700 disabled:pointer-events-none disabled:opacity-35"
           aria-label="Poprzednia strona"
         >
           <ChevronLeft className="h-4 w-4" />
+          Poprzednia
+          <span className="home-cta-line" />
         </button>
 
-        {getVisiblePages().map((page, index) => (
-          <div key={index}>
-            {page === '...' ? (
-              <span className="flex h-10 w-10 items-center justify-center text-[0.72rem] text-zinc-400">
-                …
-              </span>
-            ) : (
-              <button
-                onClick={() => onPageChange(page as number)}
-                className={[
-                  'flex h-10 w-10 items-center justify-center border text-[0.72rem] font-semibold uppercase tracking-[0.12em] transition-all duration-200',
-                  currentPage === page
-                    ? 'border-zinc-950 bg-zinc-950 text-white'
-                    : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white',
-                ].join(' ')}
-              >
-                {page}
-              </button>
-            )}
-          </div>
-        ))}
+        <div className="flex items-center gap-2">
+          {getVisiblePages().map((page, index) => (
+            <div key={index}>
+              {page === '...' ? (
+                <span className="px-1 text-[0.72rem] text-zinc-400">…</span>
+              ) : (
+                <button
+                  onClick={() => onPageChange(page as number)}
+                  className={[
+                    'px-1.5 text-[0.72rem] font-medium uppercase tracking-[0.12em] transition-colors duration-200',
+                    currentPage === page ? 'text-zinc-950 underline decoration-1 underline-offset-4' : 'text-zinc-500 hover:text-zinc-950',
+                  ].join(' ')}
+                >
+                  {page}
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
 
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="flex h-10 w-10 items-center justify-center border border-zinc-200 bg-white text-zinc-700 transition-all duration-200 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-zinc-200 disabled:hover:bg-white disabled:hover:text-zinc-700"
+          className="home-cta text-zinc-950 hover:text-zinc-700 disabled:pointer-events-none disabled:opacity-35"
           aria-label="Następna strona"
         >
+          Następna
           <ChevronRight className="h-4 w-4" />
+          <span className="home-cta-line" />
         </button>
       </div>
     </div>
   );
 }
-
 type CatalogClientProps = {
   vehicles: CatalogVehicle[];
   filterOptions: CatalogFilterOptions;
@@ -256,20 +264,18 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
   const ITEMS_PER_PAGE = 10;
   const vehicleGridRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [filters, sortBy]);
-
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
     vehicleGridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, []);
 
   const setFilter = useCallback(<K extends keyof FilterState>(key: K, value: FilterState[K]) => {
+    setCurrentPage(1);
     setFilters((prev) => ({ ...prev, [key]: value }));
   }, []);
 
   const resetFilters = useCallback(() => {
+    setCurrentPage(1);
     setFilters(INITIAL_FILTERS);
   }, []);
 
@@ -433,7 +439,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
               className="overflow-hidden transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
               style={{ maxHeight: isExpanded ? '900px' : '0px', opacity: isExpanded ? 1 : 0 }}
             >
-              <div className="mt-6 grid gap-4 pb-1 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-4 px-1 pt-2 pb-5 sm:mt-5 sm:grid sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
                 <RangeField
                   id="filter-year"
                   label="Rok produkcji"
@@ -479,33 +485,36 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
         className="border-b border-zinc-200 bg-[linear-gradient(180deg,rgba(250,250,250,0.94)_0%,rgba(255,255,255,1)_100%)] scroll-mt-20"
       >
         <div className="site-shell py-10 sm:py-12 lg:py-14">
-
           {/* Grid header */}
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-zinc-200 pb-6 sm:mb-10">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4 sm:mb-10">
             <div className="grid gap-2">
-              <p className="eyebrow">Aktualna kolekcja</p>
-              <h2 className="text-[clamp(1.5rem,3.4vw,2.25rem)] font-bold uppercase leading-[1.06] tracking-[-0.02em] text-zinc-950">
+              <h2 className="section-title !max-w-none !font-medium">katalog naszych samochodów</h2>
+              <p className="text-[0.68rem] font-medium uppercase tracking-[0.18em] text-zinc-500">
                 {hasActiveFilters
                   ? `Znaleziono ${filteredVehicles.length} ${filteredVehicles.length === 1 ? 'pojazd' : filteredVehicles.length < 5 ? 'pojazdy' : 'pojazdów'}.`
-                  : 'Oferty gotowe do obejrzenia.'}
-              </h2>
+                  : `${filteredVehicles.length} ofert gotowych do obejrzenia.`}
+              </p>
             </div>
 
             {/* Sort + count row */}
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="relative">
+            <div className="flex flex-wrap items-center gap-5">
+              <label className="relative">
+                <span className="sr-only">Sortowanie ofert</span>
                 <select
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as SortOption)}
-                  className="h-11 appearance-none border border-zinc-200 bg-white pl-4 pr-10 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-zinc-700 outline-none transition-colors duration-200 hover:border-zinc-950 focus:border-zinc-950 cursor-pointer"
+                  onChange={(e) => {
+                    setCurrentPage(1);
+                    setSortBy(e.target.value as SortOption);
+                  }}
+                  className="h-11 appearance-none bg-transparent pl-0 pr-8 text-[0.72rem] font-medium uppercase tracking-[0.12em] text-zinc-950 outline-none transition-colors duration-200 hover:text-zinc-700 cursor-pointer"
                 >
                   {Object.entries(SORT_LABELS).map(([value, label]) => (
                     <option key={value} value={value}>{label}</option>
                   ))}
                 </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
-              </div>
-              <span className="inline-flex h-11 items-center gap-1.5 border border-zinc-200 bg-white px-4 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-zinc-500">
+                <ChevronDown className="pointer-events-none absolute right-1 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+              </label>
+              <span className="inline-flex items-center gap-1.5 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-zinc-500">
                 <Car className="h-3.5 w-3.5" />
                 {filteredVehicles.length} ofert
               </span>
@@ -522,7 +531,7 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
               >
                 {paginatedVehicles.map((vehicle) => (
                   <MotionRevealItem key={vehicle.id}>
-                    <VehicleCard vehicle={vehicle} />
+                    <VehicleCard vehicle={vehicle} variant="home" />
                   </MotionRevealItem>
                 ))}
               </MotionReveal>
