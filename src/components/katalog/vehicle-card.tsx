@@ -57,12 +57,12 @@ export function VehicleCard({ vehicle, variant = 'default' }: VehicleCardProps) 
   return (
     <article
       ref={cardRef}
-      className="group flex flex-col bg-white"
+      className="group relative z-0 flex flex-col bg-white"
       style={{
         transform: isHomeVariant ? 'translateY(0)' : hovered ? 'translateY(-5px)' : 'translateY(0)',
         boxShadow: hovered
-          ? '0 20px 48px rgba(0,0,0,0.16), 0 6px 16px rgba(0,0,0,0.08)'
-          : '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)',
+          ? '0 38px 52px -26px rgba(102, 116, 139, 0.5), 0 14px 22px -14px rgba(24, 24, 27, 0.28)'
+          : '0 30px 44px -24px rgba(102, 116, 139, 0.42), 0 10px 18px -12px rgba(24, 24, 27, 0.2)',
         transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1)',
       }}
       onMouseEnter={() => setHovered(true)}
@@ -129,7 +129,7 @@ export function VehicleCard({ vehicle, variant = 'default' }: VehicleCardProps) 
           href={`/oferta/${vehicle.slug}`}
           className="flex items-center justify-center p-4 sm:p-5 hover:bg-zinc-50 transition-colors duration-200 text-center"
         >
-          <h3 className={`text-3xl ${isHomeVariant ? 'font-light' : 'font-bold'} uppercase tracking-[0.04em] leading-none text-zinc-900`}>
+          <h3 className={`text-3xl ${isHomeVariant ? 'font-medium' : 'font-bold'} uppercase tracking-[0.04em] leading-none text-zinc-900`}>
             {vehicle.make}{' '}
             {vehicle.model}
             {vehicle.engineCapacity ? (
@@ -161,7 +161,7 @@ export function VehicleCard({ vehicle, variant = 'default' }: VehicleCardProps) 
         {/* Row 4: Price */}
         <div className="mt-auto p-4 sm:p-5 flex flex-col items-center gap-2">
           <div className="flex items-baseline gap-1">
-            <span className={`text-[clamp(1.4rem,2.8vw,2.25rem)] ${isHomeVariant ? 'font-semibold' : 'font-bold'} tracking-widest text-black leading-none`}>
+            <span className={`text-[clamp(1.4rem,2.8vw,2.25rem)] ${isHomeVariant ? 'font-medium' : 'font-bold'} tracking-widest text-black leading-none`}>
               {formatPrice(vehicle.price)}
             </span>
             <span className="text-xs font-medium text-zinc-400 ml-0.5">PLN</span>
@@ -169,6 +169,19 @@ export function VehicleCard({ vehicle, variant = 'default' }: VehicleCardProps) 
           <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-zinc-400">
             Cena brutto, cena do negocjacji
           </p>
+        </div>
+
+        <div className="px-4 pb-4 sm:hidden">
+          <Link
+            href={`/oferta/${vehicle.slug}`}
+            className="home-cta flex w-full justify-center text-zinc-950 hover:text-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
+          >
+            Szczegóły
+            <svg className="home-cta-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+            <span className="home-cta-line" />
+          </Link>
         </div>
 
       </div>

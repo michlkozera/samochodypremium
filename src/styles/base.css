@@ -483,6 +483,21 @@
     @apply border border-white/10 bg-zinc-950 text-white shadow-[0_24px_80px_rgba(0,0,0,0.24)];
   }
 
+  .premium-card-shadow {
+    box-shadow:
+      0 30px 44px -24px rgba(102, 116, 139, 0.42),
+      0 10px 18px -12px rgba(24, 24, 27, 0.2);
+    transition:
+      box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .premium-card-shadow[data-shadow-hover='true']:hover {
+    box-shadow:
+      0 38px 52px -26px rgba(102, 116, 139, 0.5),
+      0 14px 22px -14px rgba(24, 24, 27, 0.28);
+  }
+
   .offer-surface {
     position: relative;
     overflow: hidden;

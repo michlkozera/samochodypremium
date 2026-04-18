@@ -41,16 +41,16 @@ export function HomeStatsSection({
       <div className="site-shell">
         <MotionReveal
           className="mx-auto grid max-w-5xl gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6"
-          stagger={0.1}
-          amount={0.2}
+          stagger={0.14}
+          amount={0.12}
         >
           {stats.map((item, index) => (
-            <MotionRevealItem key={item.key}>
-              <article className="grid justify-items-center gap-3 bg-zinc-50/60 p-6 text-center sm:p-7">
-                <span className="inline-flex h-12 w-12 items-center justify-center bg-white text-zinc-700">
+            <MotionRevealItem key={item.key} duration={1.1}>
+              <article className="premium-card-shadow grid justify-items-center gap-3 bg-zinc-50/60 p-6 text-center sm:p-7">
+                <span className="inline-flex h-12 w-12 items-center justify-center text-zinc-700">
                   <item.icon className="h-5 w-5" />
                 </span>
-                <p className="text-[clamp(1.7rem,4vw,2.5rem)] font-semibold leading-none tracking-[-0.02em] text-zinc-950">
+                <p className="text-[clamp(1.7rem,4vw,2.5rem)] font-medium leading-none tracking-[-0.02em] text-zinc-950">
                   <CountUp value={item.value} delay={index * 0.18} />
                   {item.suffix}
                 </p>

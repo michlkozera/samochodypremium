@@ -4,7 +4,6 @@ import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import type { CatalogVehicle, CatalogFilterOptions } from '@/lib/vehicle-catalog';
 import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
 import { VehicleCard } from './vehicle-card';
-import Link from 'next/link';
 import {
   Car,
   Fuel,
@@ -18,7 +17,6 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  SlidersHorizontal,
 } from 'lucide-react';
 
 export type FilterState = {
@@ -70,7 +68,7 @@ function SelectField({ id, label, options, value, onChange, icon }: SelectFieldP
       </label>
       <div className="relative">
         <select
-          className="h-11 w-full appearance-none border border-zinc-200 bg-white pr-10 pl-3 text-[0.82rem] text-zinc-950 outline-none transition-colors duration-200 focus:border-zinc-950"
+          className="h-11 w-full appearance-none bg-white pr-10 pl-3 text-[0.82rem] text-zinc-950 shadow-[0_12px_28px_rgba(15,23,42,0.08)] outline-none transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus:translate-y-[-1px] focus:shadow-[0_20px_44px_rgba(15,23,42,0.14)]"
           id={id}
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -120,7 +118,7 @@ function RangeField({
       <div className="grid grid-cols-2 gap-2">
         <input
           aria-label={`${label} od`}
-          className="h-11 border border-zinc-200 bg-white px-3 text-[0.82rem] text-zinc-950 outline-none transition-colors duration-200 placeholder:text-zinc-400 focus:border-zinc-950"
+          className="h-11 bg-white px-3 text-[0.82rem] text-zinc-950 shadow-[0_12px_28px_rgba(15,23,42,0.08)] outline-none transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] placeholder:text-zinc-400 focus:translate-y-[-1px] focus:shadow-[0_20px_44px_rgba(15,23,42,0.14)]"
           id={`${id}-from`}
           placeholder={minPlaceholder}
           type="number"
@@ -129,7 +127,7 @@ function RangeField({
         />
         <input
           aria-label={`${label} do`}
-          className="h-11 border border-zinc-200 bg-white px-3 text-[0.82rem] text-zinc-950 outline-none transition-colors duration-200 placeholder:text-zinc-400 focus:border-zinc-950"
+          className="h-11 bg-white px-3 text-[0.82rem] text-zinc-950 shadow-[0_12px_28px_rgba(15,23,42,0.08)] outline-none transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] placeholder:text-zinc-400 focus:translate-y-[-1px] focus:shadow-[0_20px_44px_rgba(15,23,42,0.14)]"
           id={`${id}-to`}
           placeholder={maxPlaceholder}
           type="number"
@@ -330,164 +328,152 @@ export function CatalogClient({ vehicles, filterOptions, initialSearch = '', ini
 
   return (
     <>
-      {/* ── Filters ── */}
-      <section className="border-b border-zinc-200">
-        {/* Header Bar */}
-        <div className="site-shell">
-          <div className="grid gap-4 py-6 sm:py-8 px-0">
-            <p className="eyebrow">Filtry kolekcji</p>
-            <div className="flex items-end justify-between gap-4">
-              <h2 className="text-[clamp(1.5rem,3.4vw,2.25rem)] font-bold uppercase leading-[1.06] tracking-[-0.02em] text-zinc-950">
-                Dopasuj markę, segment i budżet.
-              </h2>
-              <div className="flex items-end gap-3">
-                <button
-                  className="btn-premium h-11 min-h-0 px-5 text-[0.64rem]"
-                  onClick={() => setIsExpanded((v) => !v)}
-                  type="button"
-                >
-                  {isExpanded ? 'Ukryj' : 'Zobacz filtry'}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Expandable Filters Container */}
-        <div
-          className="overflow-hidden transition-[max-height,opacity] duration-600 ease-out"
-          style={{ maxHeight: isExpanded ? '1400px' : '0px', opacity: isExpanded ? 1 : 0 }}
-        >
-          <div className="site-shell bg-white py-4 sm:py-6 lg:py-8">
-            <div className="mx-auto max-w-5xl space-y-6">
-              {/* ── Search ── */}
-              <div className="border-b border-zinc-200 group px-6 py-6 transition-colors duration-300 focus-within:bg-zinc-950 focus-within:px-6">
-                <div className="relative flex min-h-11 items-center gap-3">
-                  <Search className="pointer-events-none h-4 w-4 shrink-0 text-zinc-400 transition-colors duration-300 group-focus-within:text-white" />
-                  <input
-                    type="text"
-                    placeholder="Wyszukaj samochód"
-                    value={filters.search}
-                    onChange={(e) => setFilter('search', e.target.value)}
-                    className="sm:hidden h-11 w-full bg-transparent text-sm text-zinc-950 outline-none placeholder:text-zinc-500 transition-colors duration-300 group-focus-within:text-white group-focus-within:placeholder:text-white/60"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Wyszukaj markę, model, rocznik lub typ nadwozia..."
-                    value={filters.search}
-                    onChange={(e) => setFilter('search', e.target.value)}
-                    className="hidden sm:block h-11 w-full bg-transparent text-[0.88rem] text-zinc-950 outline-none placeholder:text-zinc-500 transition-colors duration-300 group-focus-within:text-white group-focus-within:placeholder:text-white/60"
-                  />
-                  {filters.search && (
-                    <button
-                      type="button"
-                      onClick={() => setFilter('search', '')}
-                      className="shrink-0 p-1 text-zinc-400 transition-colors hover:text-zinc-950 group-focus-within:text-white group-focus-within:hover:text-white/70"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* ── Main selects ── */}
-              <div className="grid gap-4 px-6 sm:grid-cols-2 lg:grid-cols-4">
-                <SelectField
-                  id="filter-brand"
-                  label="Marka"
-                  options={filterOptions.brands}
-                  value={filters.brand}
-                  onChange={(v) => setFilter('brand', v)}
-                  icon={<Car className="h-3.5 w-3.5" />}
+      {/* Filters */}
+      <section className="bg-[linear-gradient(180deg,rgba(250,250,250,0.9)_0%,rgba(255,255,255,1)_100%)]">
+        <div className="site-shell py-8 sm:py-10 lg:py-12">
+          <div className="mx-auto max-w-6xl bg-white/96 p-5 shadow-[0_30px_70px_rgba(15,23,42,0.11)] sm:p-6 lg:p-7">
+            {/* Search - always visible first */}
+            <div className="group bg-white px-4 py-4 shadow-[0_14px_34px_rgba(15,23,42,0.1)] sm:px-5">
+              <div className="relative flex min-h-11 items-center gap-3">
+                <Search className="pointer-events-none h-4 w-4 shrink-0 text-zinc-400" />
+                <input
+                  type="text"
+                  placeholder="Wyszukaj samochód"
+                  value={filters.search}
+                  onChange={(e) => setFilter('search', e.target.value)}
+                  className="sm:hidden h-11 w-full bg-transparent text-sm text-zinc-950 outline-none placeholder:text-zinc-500"
                 />
-                <SelectField
-                  id="filter-body"
-                  label="Nadwozie"
-                  options={filterOptions.bodies}
-                  value={filters.body}
-                  onChange={(v) => setFilter('body', v)}
-                  icon={<Box className="h-3.5 w-3.5" />}
+                <input
+                  type="text"
+                  placeholder="Wyszukaj markę, model, rocznik lub typ nadwozia..."
+                  value={filters.search}
+                  onChange={(e) => setFilter('search', e.target.value)}
+                  className="hidden sm:block h-11 w-full bg-transparent text-[0.88rem] text-zinc-950 outline-none placeholder:text-zinc-500"
                 />
-                <SelectField
-                  id="filter-fuel"
-                  label="Paliwo"
-                  options={filterOptions.fuels}
-                  value={filters.fuel}
-                  onChange={(v) => setFilter('fuel', v)}
-                  icon={<Fuel className="h-3.5 w-3.5" />}
-                />
-                <SelectField
-                  id="filter-gearbox"
-                  label="Skrzynia"
-                  options={filterOptions.gearboxes}
-                  value={filters.gearbox}
-                  onChange={(v) => setFilter('gearbox', v)}
-                  icon={<RotateCw className="h-3.5 w-3.5" />}
-                />
-              </div>
-
-              {/* ── Extended filters ── */}
-              <div className="border-t border-zinc-200 px-6 pt-6">
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  <RangeField
-                    id="filter-year"
-                    label="Rok produkcji"
-                    minPlaceholder="od 2015"
-                    maxPlaceholder="do 2025"
-                    valueFrom={filters.yearFrom}
-                    valueTo={filters.yearTo}
-                    onChangeFrom={(v) => setFilter('yearFrom', v)}
-                    onChangeTo={(v) => setFilter('yearTo', v)}
-                    icon={<Calendar className="h-3.5 w-3.5" />}
-                  />
-                  <RangeField
-                    id="filter-mileage"
-                    label="Przebieg (km)"
-                    minPlaceholder="od 0"
-                    maxPlaceholder="do 200 000"
-                    valueFrom={filters.mileageFrom}
-                    valueTo={filters.mileageTo}
-                    onChangeFrom={(v) => setFilter('mileageFrom', v)}
-                    onChangeTo={(v) => setFilter('mileageTo', v)}
-                    icon={<TrendingUp className="h-3.5 w-3.5" />}
-                  />
-                  <RangeField
-                    id="filter-price"
-                    label="Cena (PLN)"
-                    minPlaceholder="od 100 000"
-                    maxPlaceholder="do 2 000 000"
-                    valueFrom={filters.priceFrom}
-                    valueTo={filters.priceTo}
-                    onChangeFrom={(v) => setFilter('priceFrom', v)}
-                    onChangeTo={(v) => setFilter('priceTo', v)}
-                    icon={<Wallet className="h-3.5 w-3.5" />}
-                  />
-                </div>
-              </div>
-
-              {/* ── Actions ── */}
-              <div className="flex flex-wrap items-center gap-3 border-t border-zinc-200 px-6 pt-6">
-                {hasActiveFilters && (
+                {filters.search && (
                   <button
-                    className="btn-premium-ghost h-11 min-h-0 px-5 text-[0.64rem]"
-                    onClick={resetFilters}
                     type="button"
+                    onClick={() => setFilter('search', '')}
+                    className="shrink-0 p-1 text-zinc-400 transition-colors hover:text-zinc-950"
+                    aria-label="Wyczyść wyszukiwarkę"
                   >
-                    Wyczyść filtry
+                    <X className="h-4 w-4" />
                   </button>
                 )}
               </div>
+            </div>
 
-              {/* ── Info text ── */}
-              <p className="px-6 text-[0.78rem] leading-[1.75] text-zinc-400">
-                Wyniki aktualizują się automatycznie po każdej zmianie parametrów.
-              </p>
+            {/* Basic filters */}
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <SelectField
+                id="filter-brand"
+                label="Marka"
+                options={filterOptions.brands}
+                value={filters.brand}
+                onChange={(v) => setFilter('brand', v)}
+                icon={<Car className="h-3.5 w-3.5" />}
+              />
+              <SelectField
+                id="filter-body"
+                label="Nadwozie"
+                options={filterOptions.bodies}
+                value={filters.body}
+                onChange={(v) => setFilter('body', v)}
+                icon={<Box className="h-3.5 w-3.5" />}
+              />
+              <SelectField
+                id="filter-fuel"
+                label="Paliwo"
+                options={filterOptions.fuels}
+                value={filters.fuel}
+                onChange={(v) => setFilter('fuel', v)}
+                icon={<Fuel className="h-3.5 w-3.5" />}
+              />
+              <SelectField
+                id="filter-gearbox"
+                label="Skrzynia"
+                options={filterOptions.gearboxes}
+                value={filters.gearbox}
+                onChange={(v) => setFilter('gearbox', v)}
+                icon={<RotateCw className="h-3.5 w-3.5" />}
+              />
+            </div>
+
+            {/* Actions */}
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+              <button
+                className="home-cta text-zinc-950 hover:text-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
+                onClick={() => setIsExpanded((v) => !v)}
+                type="button"
+              >
+                {isExpanded ? 'Ukryj dodatkowe filtry' : 'Zobacz więcej filtrów'}
+                <svg className="home-cta-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                </svg>
+                <span className="home-cta-line" />
+              </button>
+
+              {hasActiveFilters && (
+                <button
+                  className="home-cta text-zinc-950 hover:text-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
+                  onClick={resetFilters}
+                  type="button"
+                >
+                  Wyczyść filtry
+                  <svg className="home-cta-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                  </svg>
+                  <span className="home-cta-line" />
+                </button>
+              )}
+            </div>
+
+            {/* Extended filters */}
+            <div
+              className="overflow-hidden transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              style={{ maxHeight: isExpanded ? '900px' : '0px', opacity: isExpanded ? 1 : 0 }}
+            >
+              <div className="mt-6 grid gap-4 pb-1 sm:grid-cols-2 lg:grid-cols-3">
+                <RangeField
+                  id="filter-year"
+                  label="Rok produkcji"
+                  minPlaceholder="od 2015"
+                  maxPlaceholder="do 2025"
+                  valueFrom={filters.yearFrom}
+                  valueTo={filters.yearTo}
+                  onChangeFrom={(v) => setFilter('yearFrom', v)}
+                  onChangeTo={(v) => setFilter('yearTo', v)}
+                  icon={<Calendar className="h-3.5 w-3.5" />}
+                />
+                <RangeField
+                  id="filter-mileage"
+                  label="Przebieg (km)"
+                  minPlaceholder="od 0"
+                  maxPlaceholder="do 200 000"
+                  valueFrom={filters.mileageFrom}
+                  valueTo={filters.mileageTo}
+                  onChangeFrom={(v) => setFilter('mileageFrom', v)}
+                  onChangeTo={(v) => setFilter('mileageTo', v)}
+                  icon={<TrendingUp className="h-3.5 w-3.5" />}
+                />
+                <RangeField
+                  id="filter-price"
+                  label="Cena (PLN)"
+                  minPlaceholder="od 100 000"
+                  maxPlaceholder="do 2 000 000"
+                  valueFrom={filters.priceFrom}
+                  valueTo={filters.priceTo}
+                  onChangeFrom={(v) => setFilter('priceFrom', v)}
+                  onChangeTo={(v) => setFilter('priceTo', v)}
+                  icon={<Wallet className="h-3.5 w-3.5" />}
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Vehicle Grid ── */}
+      {/* Vehicle Grid */}
       <section
         ref={vehicleGridRef}
         className="border-b border-zinc-200 bg-[linear-gradient(180deg,rgba(250,250,250,0.94)_0%,rgba(255,255,255,1)_100%)] scroll-mt-20"

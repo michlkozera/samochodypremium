@@ -21,7 +21,7 @@ export function SiteFooter({ page }: SiteFooterProps) {
         <div className="grid gap-5">
           <Link
             aria-label="Samochody Premium - strona główna"
-            className="inline-flex w-fit items-center border border-zinc-200 px-4 py-3 text-[0.76rem] font-semibold uppercase tracking-[0.24em] text-zinc-950 transition duration-200 ease-out hover:-translate-y-0.5 hover:border-zinc-950"
+            className="inline-flex w-fit items-center border-0 text-[1.1rem] font-semibold uppercase tracking-[0.28em] text-zinc-950 transition-colors duration-300 ease-out hover:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
             href="/"
           >
             Samochody Premium

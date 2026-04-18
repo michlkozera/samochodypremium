@@ -2,12 +2,12 @@ import Link from 'next/link';
 import { MotionReveal, MotionRevealItem } from '@/components/ui/motion-reveal';
 
 const BODY_TYPES = [
-  { label: 'SUV', value: 'SUV', icon: SuvIcon },
-  { label: 'Sedan', value: 'Sedan', icon: SedanIcon },
-  { label: 'Coupe', value: 'Coupe', icon: CoupeIcon },
-  { label: 'Kombi', value: 'Kombi', icon: KombiIcon },
-  { label: 'Hatchback', value: 'Hatchback', icon: HatchbackIcon },
-  { label: 'Kabriolet', value: 'Kabriolet', icon: KabrioletIcon },
+  { label: 'SUV', value: 'SUV' },
+  { label: 'Sedan', value: 'Sedan' },
+  { label: 'Coupe', value: 'Coupe' },
+  { label: 'Kombi', value: 'Kombi' },
+  { label: 'Hatchback', value: 'Hatchback' },
+  { label: 'Kabriolet', value: 'Kabriolet' },
 ] as const;
 
 export function BodyTypeSection() {
@@ -15,24 +15,24 @@ export function BodyTypeSection() {
     <section className="section-block border-b border-zinc-200/60 bg-white">
       <div className="site-shell">
         {/* Header */}
-        <MotionReveal className="mb-10 sm:mb-12" stagger={0.12} amount={0.1}>
+        <MotionReveal className="mb-10 sm:mb-12" stagger={0.14} amount={0.12}>
           <div className="grid justify-items-center text-center">
-            <MotionRevealItem preset="blur-fade" duration={1}>
-              <h2 className="section-title text-center font-light">Wybierz typ nadwozia</h2>
+            <MotionRevealItem duration={1.1}>
+              <h2 className="section-title text-center !font-medium">Wybierz typ nadwozia</h2>
             </MotionRevealItem>
           </div>
         </MotionReveal>
 
         {/* Body type tiles */}
-        <MotionReveal stagger={0.06} delay={0.1}>
+        <MotionReveal stagger={0.14} delay={0.08} amount={0.12}>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
             {BODY_TYPES.map((type) => (
-              <MotionRevealItem key={type.value}>
+              <MotionRevealItem key={type.value} duration={1.1}>
                 <Link
                   href={`/oferta?body=${encodeURIComponent(type.value)}`}
-                  className="group flex flex-col items-center gap-4 border border-zinc-200 bg-zinc-50/50 p-6 transition-all duration-300 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white sm:p-8"
+                  data-shadow-hover="true"
+                  className="premium-card-shadow group flex flex-col items-center justify-center border border-zinc-200 bg-zinc-50/50 p-6 transition-all duration-300 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white sm:p-8"
                 >
-                  <type.icon className="h-10 w-10 text-zinc-400 transition-colors duration-300 group-hover:text-white sm:h-12 sm:w-12" />
                   <span className="text-[0.72rem] font-medium uppercase tracking-[0.18em] text-zinc-700 transition-colors duration-300 group-hover:text-white">
                     {type.label}
                   </span>
@@ -43,8 +43,8 @@ export function BodyTypeSection() {
         </MotionReveal>
 
         {/* CTA under tiles */}
-        <MotionReveal className="mt-10 flex justify-center sm:mt-12" stagger={0.08} amount={0.1}>
-          <MotionRevealItem>
+        <MotionReveal className="mt-10 flex justify-center sm:mt-12" stagger={0.14} amount={0.12}>
+          <MotionRevealItem duration={1.1}>
             <Link
               href="/oferta"
               className="home-cta text-zinc-950 hover:text-zinc-700"
@@ -59,68 +59,5 @@ export function BodyTypeSection() {
         </MotionReveal>
       </div>
     </section>
-  );
-}
-
-/* Minimalist car silhouette icons */
-
-function SuvIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 64 32" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 24h4m48 0h4M12 24a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm32 0a4 4 0 1 0 8 0 4 4 0 0 0-8 0z" />
-      <path d="M8 24h4m40 0h-4M20 24h24" />
-      <path d="M6 24v-8l4-6h12l10-4h18l8 10v8" />
-    </svg>
-  );
-}
-
-function SedanIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 64 32" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 24h4m48 0h4M12 24a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm32 0a4 4 0 1 0 8 0 4 4 0 0 0-8 0z" />
-      <path d="M8 24h4m40 0h-4M20 24h24" />
-      <path d="M4 24v-6h8l6-8h20l8-2h12l2 4v12" />
-    </svg>
-  );
-}
-
-function CoupeIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 64 32" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 24h4m48 0h4M12 24a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm32 0a4 4 0 1 0 8 0 4 4 0 0 0-8 0z" />
-      <path d="M8 24h4m40 0h-4M20 24h24" />
-      <path d="M4 24v-5h6l8-10h24l12-1h6v16" />
-    </svg>
-  );
-}
-
-function KombiIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 64 32" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 24h4m48 0h4M12 24a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm32 0a4 4 0 1 0 8 0 4 4 0 0 0-8 0z" />
-      <path d="M8 24h4m40 0h-4M20 24h24" />
-      <path d="M4 24v-6h8l6-8h22v-2h18l2 4v12" />
-    </svg>
-  );
-}
-
-function HatchbackIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 64 32" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 24h4m48 0h4M12 24a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm32 0a4 4 0 1 0 8 0 4 4 0 0 0-8 0z" />
-      <path d="M8 24h4m40 0h-4M20 24h24" />
-      <path d="M4 24v-5h6l6-9h20l14-2h8l2 4v12" />
-    </svg>
-  );
-}
-
-function KabrioletIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 64 32" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 24h4m48 0h4M12 24a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm32 0a4 4 0 1 0 8 0 4 4 0 0 0-8 0z" />
-      <path d="M8 24h4m40 0h-4M20 24h24" />
-      <path d="M4 24v-5h6l6-7h14M46 12h12l2 4v8" />
-      <path d="M30 12c4-2 10-2 16 0" strokeDasharray="2 3" />
-    </svg>
   );
 }

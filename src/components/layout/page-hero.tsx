@@ -23,6 +23,7 @@ type PageHeroProps = {
   contentClassName?: string;
   titleClassName?: string;
   descriptionClassName?: string;
+  disableTextScrollEffect?: boolean;
 };
 
 const baseSectionClassName =
@@ -45,6 +46,7 @@ export function PageHero({
   contentClassName,
   titleClassName,
   descriptionClassName,
+  disableTextScrollEffect = false,
 }: PageHeroProps) {
   const { textRef, bgRef } = useHeroScroll();
 
@@ -57,9 +59,9 @@ export function PageHero({
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.15)_40%,rgba(0,0,0,0.45)_70%,rgba(0,0,0,0.82)_100%)]" />
 
       <div
-        ref={textRef}
+        ref={disableTextScrollEffect ? undefined : textRef}
         className="site-shell relative z-10 flex min-h-full w-full flex-1 flex-col justify-end pb-10 pt-[calc(var(--site-header-h)+1.5rem)] sm:pb-14 lg:pb-16"
-        style={{ willChange: 'transform, opacity' }}
+        style={disableTextScrollEffect ? undefined : { willChange: 'transform, opacity' }}
       >
         {children ? (
           children
