@@ -46,7 +46,7 @@ export default async function VehicleDetailPage({ params }: PageProps) {
       <main className="flex flex-col pb-[4.5rem] lg:pb-0">
 
         {/* ── Hero: gallery + info ── */}
-        <section className="border-b border-zinc-200/60 bg-white pt-[var(--site-header-h)]">
+        <section className="bg-white pt-[var(--site-header-h)]">
           {/* Mobile: gallery full-width, no side padding */}
           <div className="lg:hidden">
             <VehicleGallery
@@ -114,19 +114,25 @@ export default async function VehicleDetailPage({ params }: PageProps) {
         <VehicleContact vehicle={vehicle} />
 
         {/* ── Back to catalog ── */}
-        <section className="border-b border-zinc-200 bg-white py-10 sm:py-12">
-          <div className="site-shell flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="grid gap-2">
-              <p className="eyebrow">Przeglądaj dalej</p>
-              <p className="text-[0.94rem] font-semibold uppercase tracking-[-0.02em] text-zinc-950">
-                Wróć do katalogu i zobacz kolejne oferty.
+        <section className="bg-[linear-gradient(180deg,rgba(250,250,250,0.94)_0%,rgba(255,255,255,1)_100%)] py-14 sm:py-16 lg:py-20">
+          <div className="site-shell grid gap-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end sm:gap-10">
+            <div className="grid gap-3">
+              <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-zinc-500">
+                Przeglądaj dalej
               </p>
+              <h2 className="section-title !max-w-none !font-medium">
+                Zobacz pozostałe oferty.
+              </h2>
             </div>
             <Link
-              className="btn-premium w-full sm:w-fit"
+              className="home-cta self-start text-zinc-950 hover:text-zinc-500 sm:self-end"
               href="/oferta"
             >
-              Cały katalog
+              Wróć do katalogu
+              <svg className="home-cta-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+              </svg>
+              <span className="home-cta-line" />
             </Link>
           </div>
         </section>

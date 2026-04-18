@@ -3,6 +3,8 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { type CatalogVehicleDetail } from '@/lib/vehicle-catalog';
 
+const SHADOW = '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)';
+
 /* ── Stagger-reveal hook ── */
 function useStaggerReveal(baseDelay = 130) {
   const ref = useRef<HTMLDivElement>(null);
@@ -130,18 +132,18 @@ export function VehicleContact({ vehicle }: VehicleContactProps) {
   };
 
   return (
-    <section className="border-b border-zinc-200/60 bg-white" id="kontakt-oferta">
-      {/* ── Dark header — matches ContactForm header style ── */}
-      <div className="border-b border-zinc-200/60 bg-zinc-950 text-white">
-        <div className="site-shell grid gap-8 py-14 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end lg:gap-16 lg:py-20 xl:py-24">
+    <section className="bg-[linear-gradient(180deg,rgba(255,255,255,1)_0%,rgba(250,250,250,0.94)_100%)]" id="kontakt-oferta">
+      {/* ── Light header — matches page design language ── */}
+      <div className="site-shell pt-14 sm:pt-16 lg:pt-20 xl:pt-24">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
           <div
-            className={`contact-field grid gap-5 ${visible ? 'is-visible' : ''}`}
+            className={`contact-field grid gap-3 ${visible ? 'is-visible' : ''}`}
             style={getDelay(0)}
           >
-            <p className="eyebrow border-zinc-600">
-              Formularz / zapytanie
+            <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-zinc-500">
+              03 / Zapytanie
             </p>
-            <h2 className="section-title text-white">
+            <h2 className="section-title !max-w-none !font-medium">
               Zainteresowany tym modelem?
             </h2>
           </div>
@@ -149,31 +151,34 @@ export function VehicleContact({ vehicle }: VehicleContactProps) {
             className={`contact-field grid gap-6 ${visible ? 'is-visible' : ''}`}
             style={getDelay(1)}
           >
-            <p className="max-w-md text-[0.94rem] leading-[1.8] text-zinc-400">
-              Napisz do nas w sprawie{' '}
-              <span className="font-semibold text-white">
+            <p className="body-copy max-w-xl">
+              Napisz w sprawie{' '}
+              <span className="font-semibold text-zinc-950">
                 {vehicle.make} {vehicle.model}
               </span>
               . Odpowiemy z konkretną propozycją, historią serwisową i wariantami finansowania.
             </p>
-            <div className="flex flex-wrap gap-8 border-t border-white/10 pt-6">
-              <div className="grid gap-1">
-                <span className="text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-zinc-500">
+            <div
+              className="grid grid-cols-1 bg-white sm:grid-cols-2"
+              style={{ boxShadow: SHADOW }}
+            >
+              <div className="grid gap-1.5 px-5 py-4 sm:px-6 sm:py-5">
+                <span className="text-[0.6rem] font-medium uppercase tracking-[0.22em] text-zinc-500">
                   Telefon
                 </span>
                 <a
-                  className="text-sm font-semibold tracking-[-0.02em] text-white transition-colors duration-200 hover:text-zinc-300"
+                  className="text-[0.95rem] font-medium tracking-[-0.02em] text-zinc-950 transition-colors duration-200 hover:text-zinc-500"
                   href={advisor.phoneHref}
                 >
                   {advisor.phone}
                 </a>
               </div>
-              <div className="grid gap-1">
-                <span className="text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-zinc-500">
+              <div className="grid gap-1.5 border-t border-zinc-100 px-5 py-4 sm:border-l sm:border-t-0 sm:px-6 sm:py-5">
+                <span className="text-[0.6rem] font-medium uppercase tracking-[0.22em] text-zinc-500">
                   Email
                 </span>
                 <a
-                  className="text-sm font-semibold tracking-[-0.02em] text-white transition-colors duration-200 hover:text-zinc-300"
+                  className="text-[0.95rem] font-medium tracking-[-0.02em] text-zinc-950 transition-colors duration-200 hover:text-zinc-500"
                   href={advisor.emailHref}
                 >
                   {advisor.email}
@@ -187,12 +192,17 @@ export function VehicleContact({ vehicle }: VehicleContactProps) {
       {/* ── Form area — matches ContactForm form area ── */}
       <div ref={ref} className="site-shell py-12 sm:py-16 lg:py-20 xl:py-24">
         {status === 'success' ? (
-          <div className="mx-auto max-w-5xl border border-zinc-200 px-6 py-16 text-center">
-            <p className="eyebrow mx-auto w-fit">Wysłano</p>
-            <p className="mt-4 text-[0.95rem] font-semibold uppercase tracking-[-0.02em] text-zinc-950">
+          <div
+            className="mx-auto max-w-5xl bg-white px-6 py-16 text-center"
+            style={{ boxShadow: SHADOW }}
+          >
+            <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-zinc-500">
+              Wysłano
+            </p>
+            <p className="mt-4 text-[clamp(1.05rem,2.1vw,1.35rem)] font-medium uppercase tracking-[-0.01em] text-zinc-950">
               Dziękujemy za zapytanie o {vehicle.make} {vehicle.model}.
             </p>
-            <p className="mt-2 text-sm leading-7 text-zinc-500">
+            <p className="body-copy mx-auto mt-3 max-w-md">
               Odpowiemy najszybciej jak to możliwe, zwykle w ciągu godziny w godzinach pracy salonu.
             </p>
           </div>

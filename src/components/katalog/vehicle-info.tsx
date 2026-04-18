@@ -81,29 +81,29 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
       <div className="bg-white" style={{ boxShadow: SHADOW }}>
 
         {/* Make + Model + Capacity — one line, centered */}
-        <div className="px-4 py-5 text-center sm:px-5 sm:py-6">
-          <h1 className="text-[clamp(1.7rem,3.2vw,2.5rem)] font-bold uppercase tracking-[0.04em] leading-none text-zinc-900">
+        <div className="px-5 py-6 text-center sm:px-6 sm:py-8">
+          <h1 className="text-[clamp(1.7rem,3.2vw,2.5rem)] font-medium uppercase tracking-[-0.01em] leading-[1.05] text-zinc-950">
             {titleLine}
           </h1>
           {(vehicle.accidentFree || vehicle.serviceHistory) && (
-            <p className="mt-3 text-[0.75rem] font-medium uppercase tracking-[0.18em] text-zinc-400">
-              {[vehicle.accidentFree ? 'Bezwypadkowy' : null, vehicle.serviceHistory ? 'Serwisowany w ASO' : null].filter(Boolean).join(', ')}
+            <p className="mt-3 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-zinc-500">
+              {[vehicle.accidentFree ? 'Bezwypadkowy' : null, vehicle.serviceHistory ? 'Serwisowany w ASO' : null].filter(Boolean).join(' · ')}
             </p>
           )}
         </div>
 
         {/* Specs grid — 3×2, no borders */}
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-3 border-t border-zinc-100">
           {specs.map(({ label, value, icon }) => (
             <div
               key={label}
-              className="grid gap-1 px-3 py-3 text-center justify-items-center sm:px-4 sm:py-4"
+              className="grid gap-1.5 px-3 py-4 text-center justify-items-center sm:px-4 sm:py-5"
             >
-              <div className="flex items-center gap-1 text-zinc-400">
+              <div className="flex items-center gap-1 text-zinc-500">
                 {icon}
-                <span className="text-[9px] font-medium uppercase tracking-[0.2em]">{label}</span>
+                <span className="text-[0.58rem] font-medium uppercase tracking-[0.22em]">{label}</span>
               </div>
-              <span className="text-sm font-semibold text-zinc-900">
+              <span className="text-[0.88rem] font-medium tracking-[-0.01em] text-zinc-950">
                 {value}
               </span>
             </div>
@@ -111,38 +111,43 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
         </div>
 
         {/* Price — centered, label + VAT below */}
-        <div className="flex flex-col items-center gap-1.5 px-4 py-5 sm:px-5 sm:py-6">
-          <div className="flex items-baseline gap-1">
-            <span className="text-[clamp(1.4rem,2.8vw,2.25rem)] font-bold tracking-widest text-black leading-none">
+        <div className="flex flex-col items-center gap-2 border-t border-zinc-100 px-5 py-6 sm:px-6 sm:py-8">
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-[clamp(1.5rem,3vw,2.4rem)] font-medium tracking-[-0.02em] text-zinc-950 leading-none">
               {formatPrice(vehicle.price)}
             </span>
-            <span className="text-xs font-medium text-zinc-400 ml-0.5">PLN</span>
+            <span className="text-[0.72rem] font-medium uppercase tracking-[0.2em] text-zinc-500">PLN</span>
           </div>
-          <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-zinc-400">
-            Cena brutto, {vehicle.vatTypeLabel}, cena do negocjacji
+          <p className="text-[0.6rem] font-medium uppercase tracking-[0.22em] text-zinc-500">
+            Cena brutto · {vehicle.vatTypeLabel} · do negocjacji
           </p>
         </div>
 
       </div>
 
-      {/* ── CTA — separate card with shadow ── */}
-      <div className="bg-white" style={{ boxShadow: SHADOW }}>
-        <a
-          href="#kontakt-oferta"
-          className="flex w-full items-center justify-center gap-2 px-4 py-5 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-zinc-950 transition-colors duration-200 hover:bg-zinc-950 hover:text-white sm:py-6"
+      {/* ── CTA — separate card with shadow, animated arrow ── */}
+      <a
+        href="#kontakt-oferta"
+        className="group flex w-full items-center justify-center gap-2.5 bg-zinc-950 px-5 py-5 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-white transition-[background-color,color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white hover:text-zinc-950 sm:py-6"
+        style={{ boxShadow: SHADOW }}
+      >
+        Zapytaj o ten egzemplarz
+        <svg
+          className="h-4 w-4 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
         >
-          <svg className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
-          </svg>
-          Umów jazdę
-        </a>
-      </div>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+        </svg>
+      </a>
 
       {/* ── Leasing note ── */}
       <div className="bg-white" style={{ boxShadow: SHADOW }}>
-        <div className="flex items-start gap-3 px-4 py-4 sm:px-5">
+        <div className="flex items-start gap-3 px-5 py-5 sm:px-6">
           <svg
-            className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400"
+            className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500"
             fill="none"
             stroke="currentColor"
             strokeWidth={1.5}
@@ -154,19 +159,22 @@ export function VehicleInfo({ vehicle }: VehicleInfoProps) {
               strokeLinejoin="round"
             />
           </svg>
-          <p className="text-[0.78rem] leading-[1.75] text-zinc-500">
+          <p className="text-[0.82rem] leading-[1.7] text-zinc-600">
             Szacunkowa rata leasingu od{' '}
             <strong className="font-semibold text-zinc-950">
               {formatPrice(vehicle.monthlyRate)}&nbsp;PLN
             </strong>{' '}
             miesięcznie.{' '}
             <Link
-              className="font-semibold text-zinc-950 underline decoration-zinc-300 underline-offset-4 transition-colors duration-200 hover:text-zinc-600 hover:decoration-zinc-500"
+              className="home-cta !text-[0.7rem] text-zinc-950 hover:text-zinc-500"
               href="/finansowanie"
             >
-              Sprawdź szczegóły finansowania
+              Poznaj finansowanie
+              <svg className="home-cta-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+              </svg>
+              <span className="home-cta-line" />
             </Link>
-            .
           </p>
         </div>
       </div>

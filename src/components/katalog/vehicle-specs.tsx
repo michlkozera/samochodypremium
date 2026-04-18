@@ -8,20 +8,22 @@ type VehicleSpecsProps = {
 
 export function VehicleSpecs({ specs }: VehicleSpecsProps) {
   return (
-    <section className="border-b border-zinc-200/60 bg-white">
+    <section className="bg-[linear-gradient(180deg,rgba(255,255,255,1)_0%,rgba(250,250,250,0.94)_100%)]">
       <div className="site-shell section-block">
-        <MotionReveal className="grid gap-8 lg:gap-10" stagger={0.1} amount={0.15}>
+        <MotionReveal className="grid gap-10 lg:gap-12" stagger={0.1} amount={0.15}>
           {/* Header */}
           <MotionRevealItem preset="blur-fade">
-            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] lg:items-end lg:gap-16">
+            <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] lg:items-end lg:gap-16">
               <div className="grid gap-3">
-                <p className="inline-block w-fit bg-white px-4 py-1.5 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-zinc-500" style={{ boxShadow: SHADOW }}>Specyfikacja</p>
-                <h2 className="section-title max-w-[14ch] !font-[200]">
+                <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-zinc-500">
+                  01 / Specyfikacja
+                </p>
+                <h2 className="section-title !max-w-none !font-medium">
                   Parametry techniczne.
                 </h2>
               </div>
-              <p className="body-copy max-w-md">
-                Pełna dokumentacja techniczna pojazdu. Dane zweryfikowane na podstawie dokumentów i historii serwisowej.
+              <p className="body-copy max-w-xl">
+                Kompletne dane pojazdu zweryfikowane w oparciu o dokumentację i historię serwisową. Bez uproszczeń, bez domysłów.
               </p>
             </div>
           </MotionRevealItem>
@@ -32,11 +34,11 @@ export function VehicleSpecs({ specs }: VehicleSpecsProps) {
               <div className="grid sm:grid-cols-2">
                 {specs.map(([label, value]) => (
                   <div
-                    className="flex items-baseline justify-between gap-4 border-b border-zinc-100 px-5 py-4 sm:px-6"
+                    className="flex items-baseline justify-between gap-4 border-b border-zinc-100 px-5 py-4 last:border-b-0 sm:px-6 sm:py-5"
                     key={label}
                   >
-                    <span className="shrink-0 text-[0.52rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">{label}</span>
-                    <span className="break-all text-right text-[0.85rem] font-semibold text-zinc-900">{value}</span>
+                    <span className="shrink-0 text-[0.62rem] font-medium uppercase tracking-[0.2em] text-zinc-500">{label}</span>
+                    <span className="break-all text-right text-[0.88rem] font-medium tracking-[-0.01em] text-zinc-950">{value}</span>
                   </div>
                 ))}
               </div>

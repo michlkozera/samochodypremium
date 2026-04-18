@@ -9,63 +9,60 @@ type VehicleEquipmentProps = {
 
 export function VehicleEquipment({ description, features }: VehicleEquipmentProps) {
   return (
-    <section className="border-b border-zinc-200/60 bg-zinc-50">
+    <section className="bg-[linear-gradient(180deg,rgba(250,250,250,0.94)_0%,rgba(255,255,255,1)_100%)]">
       <div className="site-shell section-block">
-        <MotionReveal className="grid gap-10 lg:gap-16" stagger={0.1} amount={0.15}>
+        <MotionReveal className="grid gap-10 lg:gap-14" stagger={0.1} amount={0.15}>
           {/* Header */}
           <MotionRevealItem preset="blur-fade">
-            <div className="grid gap-6 lg:grid-cols-[minmax(0,0.4fr)_minmax(0,0.6fr)] lg:gap-16">
-              <div className="grid gap-4 self-start">
-                <p className="inline-block w-fit bg-white px-4 py-1.5 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-zinc-500" style={{ boxShadow: SHADOW }}>Opis i wyposażenie</p>
-                <h2 className="section-title max-w-[14ch] !font-[200]">
+            <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] lg:items-end lg:gap-16">
+              <div className="grid gap-3 self-start">
+                <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-zinc-500">
+                  02 / Opis i wyposażenie
+                </p>
+                <h2 className="section-title !max-w-none !font-medium">
                   Szczegóły oferty.
                 </h2>
               </div>
-              <p className="body-copy max-w-2xl self-start">{description}</p>
+              <p className="body-copy max-w-xl self-start">{description}</p>
             </div>
           </MotionRevealItem>
 
           {/* Features list — shadow container */}
           {features.length > 0 && (
             <MotionRevealItem preset="fade-up">
-              <div className="grid gap-6">
-                <h3 className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-zinc-950">
-                  Lista wyposażenia
-                </h3>
-                <ul className="bg-white" style={{ boxShadow: SHADOW }}>
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3">
-                    {features.map((feature) => (
-                      <li
-                        className="flex items-start gap-2.5 border-b border-zinc-100 px-5 py-3.5 text-[0.84rem] leading-relaxed text-zinc-600"
-                        key={feature}
+              <ul className="bg-white" style={{ boxShadow: SHADOW }}>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3">
+                  {features.map((feature) => (
+                    <li
+                      className="flex items-start gap-3 border-b border-zinc-100 px-5 py-4 text-[0.86rem] leading-relaxed text-zinc-700 sm:px-6"
+                      key={feature}
+                    >
+                      <svg
+                        className="mt-[3px] h-3.5 w-3.5 shrink-0 text-zinc-950"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        viewBox="0 0 24 24"
                       >
-                        <svg
-                          className="mt-[3px] h-3.5 w-3.5 shrink-0 text-zinc-400"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M4.5 12.75l6 6 9-13.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        {feature}
-                      </li>
-                    ))}
-                  </div>
-                </ul>
-              </div>
+                        <path
+                          d="M4.5 12.75l6 6 9-13.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
+                </div>
+              </ul>
             </MotionRevealItem>
           )}
 
           {features.length === 0 && (
             <MotionRevealItem preset="fade-up">
-              <div className="bg-white px-5 py-5 sm:px-6 sm:py-6" style={{ boxShadow: SHADOW }}>
-                <p className="text-[0.84rem] text-zinc-500">
-                  Szczegółowa lista wyposażenia dostępna na życzenie. Skontaktuj się z doradcą.
+              <div className="bg-white px-6 py-6 sm:px-8 sm:py-8" style={{ boxShadow: SHADOW }}>
+                <p className="body-copy max-w-xl">
+                  Pełną listę wyposażenia przygotujemy indywidualnie. Skontaktuj się z doradcą — odpowiemy z kompletną specyfikacją egzemplarza.
                 </p>
               </div>
             </MotionRevealItem>
